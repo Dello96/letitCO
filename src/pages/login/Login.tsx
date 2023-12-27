@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
 import { FaUnlockAlt } from 'react-icons/fa';
 import { IoCheckmarkSharp } from 'react-icons/io5';
+import Swal from 'sweetalert2';
 const Login = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
@@ -15,10 +16,12 @@ const Login = () => {
   // useMemo, useCallback 사용하기
   // ant design
   // prefix
+  // sweetalert
   useEffect(() => {
     console.log(email);
     console.log(password);
-  }, [email, password]);
+    console.log(passwordCheck);
+  }, [email, password, passwordCheck]);
   const onEmailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -31,6 +34,7 @@ const Login = () => {
     setPasswordCheck(e.target.value);
   };
 
+  // 회원가입
   const signUpHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -41,15 +45,22 @@ const Login = () => {
       console.log(data);
       if (error) {
         console.error(error);
-        alert('다시 확인해주삼');
+        alert('아이디와 비밀번호를 확인해주세요');
       } else {
-        alert('회원가입 완료');
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '회원가입에 성공하였습니다!',
+          showConfirmButton: false,
+          timer: 1500
+        });
       }
     } catch (error) {
       console.error(error);
     }
   };
 
+  // 이메일 로그인
   const signInHandler = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -62,13 +73,21 @@ const Login = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        alert('로그인에 성공하였습니다');
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '로그인에 성공하였습니다!',
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate('/');
       }
     } catch (error) {
       console.error(error);
     }
   };
+
+  // 구글 로그인
   const signInGoogle = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -86,15 +105,19 @@ const Login = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        alert('로그인에 성공하였습니다');
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '로그인에 성공하였습니다!',
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate('/');
       }
     } catch (error) {
       console.error(error);
     }
   };
-
-  // const regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
 
   return (
     <div>
@@ -122,7 +145,7 @@ const Login = () => {
         {isLogin ? (
           <>
             <StLoginButton onClick={signInHandler}>Login</StLoginButton>
-            <StLoginButton onClick={signInGoogle}>google</StLoginButton>
+            <StLoginButton onClick={signInGoogle}>google로 로그인</StLoginButton>
           </>
         ) : (
           <StSignUpButton onClick={signUpHandler}>Register</StSignUpButton>

@@ -1,3 +1,5 @@
 export const QUERY_KEYS = {
-  //   BOOKS: 'books',
+    BOOKS: 'books',
+    SEARCH: 'search',
+    DETAIL: 'detail'
 };

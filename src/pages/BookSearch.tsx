@@ -25,4 +25,5 @@ const StBody = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
 export default BookSearch;

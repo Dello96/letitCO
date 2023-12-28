@@ -13,7 +13,6 @@ const getSearchData = async ({ queryKey }: { queryKey: string[] }): Promise<Book
 
 const getItemData = async (id: string): Promise<Detail[]> => {
   const url = `https://river-spring-april.glitch.me/lookup/book`;
-  // console.log(queryKey);
   // ItemId=[여기에isbn 넣어줘야함]
   const resp = await axios.get(`${url}?ISBN13=${id}`);
   const data = resp.data;

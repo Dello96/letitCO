@@ -4,6 +4,7 @@ import Home from '../pages/Home';
 import Login from '../pages/Login';
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
+import Detail from '../pages/detail';
 
 const Router = () => {
   return (
@@ -13,6 +14,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
+        <Route path="/detail" element={<Detail />} />
       </Routes>
     </BrowserRouter>
   );

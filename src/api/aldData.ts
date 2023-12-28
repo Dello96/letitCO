@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Book } from '../types/global.d';
+import { Book, Detail } from '../types/global.d';
 
 const getSearchData = async ({ queryKey }: { queryKey: string[] }): Promise<Book[]> => {
   const url = `https://river-spring-april.glitch.me/search/book`;
@@ -11,13 +11,14 @@ const getSearchData = async ({ queryKey }: { queryKey: string[] }): Promise<Book
   return data;
 };
 
-const getItemData = async ({ queryKey }: { queryKey: string[] }): Promise<Book[]> => {
+const getItemData = async (id: string): Promise<Detail[]> => {
   const url = `https://river-spring-april.glitch.me/lookup/book`;
-  //ItemId=[여기에isbn 넣어줘야함]
-  const resp = await axios.get(`${url}?ISBN13=${queryKey[1]}`);
+  // console.log(queryKey);
+  // ItemId=[여기에isbn 넣어줘야함]
+  const resp = await axios.get(`${url}?ISBN13=${id}`);
   const data = resp.data;
-  return data;
   console.log('상세정보 ==>', data);
+  return data;
 };
 
 export { getSearchData, getItemData };

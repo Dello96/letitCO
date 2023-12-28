@@ -1,9 +1,19 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { QUERY_KEYS } from '../query/keys';
+import { getItemData } from '../api/aldData';
+import { useParams } from 'react-router-dom';
 
 export default function BookRegister() {
   const [search, setSearch] = useState<string>('');
+  const { id } = useParams();
+  // const id = pram.id
+  // const numberId = parseInt(id)
+  const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
 
+  // console.log({ numberId });
+  console.log({ data });
   const searchOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };

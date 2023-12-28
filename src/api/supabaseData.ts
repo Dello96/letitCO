@@ -1,23 +1,21 @@
 import { supabase } from '../supabaseClient';
 
-type Book = {
-  cover: string;
-  description: string;
-  pubDate: string;
-  title: string;
-  author: string;
-}
-
+// type Book = {
+//   cover: string;
+//   description: string;
+//   pubDate: string;
+//   title: string;
+//   author: string;
+// }
 
 const getBooks = async () => {
   try {
-    const  { data }  = await supabase.from('books').select('*');
+    const { data } = await supabase.from('books').select('*');
     return data;
   } catch (err) {
     console.log(err);
   }
 };
-
 
 const addBook = async () => {
   // try {

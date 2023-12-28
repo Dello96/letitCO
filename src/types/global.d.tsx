@@ -1,0 +1,24 @@
+export type Book = {
+  adult?: boolean;
+  author: string;
+  categoryId?: number;
+  categoryName: string;
+  cover: string;
+  customerReviewRank?: number;
+  description: string;
+  fixedPrice?: boolean;
+  isbn: number;
+  isbn13: number;
+  itemId?: number;
+  link: string;
+  mallType?: string;
+  mileage?: number;
+  priceSales?: number;
+  priceStandard?: number;
+  pubDate: string;
+  publisher: string;
+  salesPoint?: number;
+  stockStatus?: string;
+  subInfo?: string;
+  title: string;
+};

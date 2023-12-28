@@ -1,40 +1,31 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
+import { QUERY_KEYS } from '../query/keys';
+import { getSearchData } from '../api/aldData';
 
-export default function BookRegister() {
-  const [search, setSearch] = useState<string>('');
+function BookSearch() {
+  const [search, setSearch] = useState('');
+  const { data } = useQuery([QUERY_KEYS.SEARCH, 'search'], getSearchData);
+
+  console.log(data);
 
   const searchOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
-
   const searchOnSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
   };
-
   return (
     <StBody>
       <form onSubmit={searchOnSubmitHandler}>
         <input value={search} onChange={searchOnChangeHandler} />
         <button>검색</button>
       </form>
-      <div>
-        <img />
-        <h1>도서 정보</h1>
-        <h3>책 제목</h3>
-        <h3>작가</h3>
-        <h3>출판사</h3>
-        <h3>페이지 수</h3>
-        <h3>카테고리</h3>
-      </div>
-      <div>
-        <button>북마크</button>
-        <button>+버튼 </button>
-      </div>
+      <div></div>
     </StBody>
   );
 }
-
 const StBody = styled.div`
   width: 1200px;
   margin: 0 auto;
@@ -42,3 +33,5 @@ const StBody = styled.div`
   flex-direction: column;
   align-items: center;
 `;
+
+export default BookSearch;

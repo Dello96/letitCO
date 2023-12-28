@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../pages/Login';
-import Detail from '../pages/detail';
+import BookRegister from '../pages/BookRegister';
+import BookSearch from '../pages/BookSearch';
 
 const Router = () => {
   return (
@@ -10,7 +11,8 @@ const Router = () => {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="/bookregister" element={<BookRegister />} />
+        <Route path="/booksearch" element={<BookSearch />} />
       </Routes>
     </BrowserRouter>
   );

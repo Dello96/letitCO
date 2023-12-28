@@ -7,8 +7,8 @@ export type Book = {
   customerReviewRank?: number;
   description: string;
   fixedPrice?: boolean;
-  isbn: number;
-  isbn13: number;
+  isbn: string;
+  isbn13: string;
   itemId?: number;
   link: string;
   mallType?: string;
@@ -21,4 +21,51 @@ export type Book = {
   stockStatus?: string;
   subInfo?: string;
   title: string;
+};
+
+export type Detail = {
+  title: string;
+  link: string;
+  author: string;
+  pubDate: string;
+  description: string;
+  isbn: string;
+  isbn13: string;
+  itemId: number;
+  priceSales: number;
+  priceStandard: number;
+  mallType: string;
+  stockStatus: string;
+  mileage: number;
+  cover: string;
+  categoryId: number;
+  categoryName: string;
+  publisher: string;
+  salesPoint: number;
+  adult: boolean;
+  fixedPrice?: boolean;
+  customerReviewRank: number;
+  subInfo?: {
+    ebookList: [];
+    usedList: {
+      aladinUsed: {
+        itemCount: number;
+        minPrice: number;
+        link: string;
+      };
+      userUsed: {
+        itemCount: number;
+        minPrice: number;
+        link: string;
+      };
+      spaceUsed: {
+        itemCount: number;
+        minPrice: number;
+        link: string;
+      };
+    };
+    subTitle: string;
+    originalTitle: string;
+    itemPage: number;
+  };
 };

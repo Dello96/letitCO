@@ -1,21 +1,26 @@
 import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useAddBookMutation } from '../query/useBookQuery';
+import { getBooks } from '../api/sbDetatilData';
 
 export default function BookRegister() {
   const [search, setSearch] = useState<string>('');
+  // const [isMarker, serIsMarker] = useState<boolean>();
   const { id } = useParams();
-  // const queryclient = useQueryClient();
+  const navigate = useNavigate();
+  const queryclient = useQueryClient();
   // 해당 isbn의 book 정보 가져오기
   const { data: detailData } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
-
+  const { data: superBookData } = useQuery(QUERY_KEYS.BOOKS, getBooks);
+  const filterData = superBookData?.find((book) => book.isbn13 === id);
+  console.log(filterData);
   const { mutate: addMutate } = useAddBookMutation();
   // 검색창
-  console.log(detailData);
+
   const searchOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
@@ -38,7 +43,14 @@ export default function BookRegister() {
       isbn13: detailData?.isbn13
     };
 
-    addMutate(newBook);
+    addMutate(newBook, {
+      onSuccess: () => {
+        alert('저장되었습니다.');
+        navigate(`/detail/${detailData?.isbn13}`);
+        queryclient.invalidateQueries(QUERY_KEYS.BOOKS);
+      }
+    });
+    // detail페이지로 이동 필요.
   };
 
   return (

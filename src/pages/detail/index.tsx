@@ -5,6 +5,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getMemos } from '../../api/sbDetatilData';
 import useMemosQuery from '../../query/useMemosQuery';
+import { useParams } from 'react-router-dom';
 
 // import { useParams } from 'react-router-dom';
 
@@ -12,6 +13,7 @@ const Detail = () => {
   // const [isReading, setIsReading] = useState<boolean>(false);
   const [memo, setMemo] = useState('');
   const queryClient = useQueryClient();
+  const { id } = useParams();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOK],
     queryFn: getBooks
@@ -25,7 +27,7 @@ const Detail = () => {
   const { mutate: addMemoMutate } = addMemoMutation;
 
   // const {id} = useParams()
-  const book = books?.find((book) => book.id === '53efccb1-c74a-4287-838c-79872a40ce7c');
+  const book = books?.find((book) => book.isbn13 === id);
   // console.log(book);
 
   // const toggleIsReading = () => {
@@ -36,7 +38,7 @@ const Detail = () => {
   const handleOnSubmit: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
     const newMemo = {
-      content: memo,
+      content: memo
     };
     addMemoMutate(newMemo, {
       onSuccess: () => {

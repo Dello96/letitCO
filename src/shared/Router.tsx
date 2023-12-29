@@ -9,7 +9,6 @@ import BookShelf from '../pages/BookShelf';
 
 import Detail from '../pages/detail';
 
-
 const Router = () => {
   return (
     <BrowserRouter>
@@ -21,10 +20,9 @@ const Router = () => {
 
         <Route path="/bookshelf" element={<BookShelf />} />
 
-        <Route path="/detail" element={<Detail />} />
-        
-        <Route path="*" element={<Navigate to="/" replace/>} />
+        <Route path="/detail/:id" element={<Detail />} />
 
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
@@ -7,7 +7,6 @@ import { useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 
 function BookSearch() {
-  const inputRef = useRef(null);
   const [search, setSearch] = useState('');
   const [keyword, setKeyword] = useState('');
   const navi = useNavigate();
@@ -30,7 +29,7 @@ function BookSearch() {
   return (
     <StBody>
       <StInputWraper>
-        <input value={keyword} onChange={searchOnChangeHandler} ref={inputRef} />
+        <input value={keyword} onChange={searchOnChangeHandler} />
         <button onClick={searchOnClickHandler}>검색</button>
       </StInputWraper>
       {searchData ? (

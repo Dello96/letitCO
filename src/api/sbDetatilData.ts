@@ -1,22 +1,6 @@
 import { QUERY_KEYS } from '../query/keys';
 import { supabase } from '../supabaseClient';
-
-type Book = {
-  id: string;
-  uid: string;
-  title: string;
-  author: string;
-  page: number;
-  cover: string;
-  description: string;
-  pubDate: string;
-  publisher: string;
-  isReading: boolean;
-  isMarked: boolean;
-  isbn: string;
-  createdAt: string;
-  item: string;
-};
+import { Book } from '../types/global.d';
 
 type MemoType = {
   content: string;

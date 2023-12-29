@@ -17,11 +17,8 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
-
         <Route path="/bookshelf" element={<BookShelf />} />
-
         <Route path="/detail/:id" element={<Detail />} />
-
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

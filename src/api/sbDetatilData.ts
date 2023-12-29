@@ -17,6 +17,7 @@ type Book = {
   createdAt: string;
   item: string;
 };
+import { Book } from '../types/global.d';
 
 type MemoType = {
   content: string;
@@ -25,6 +26,10 @@ type MemoType = {
 const getBooks = async () => {
   const { data } = await supabase.from(QUERY_KEYS.BOOKS).select('*');
   return data;
+};
+
+const addBook = async (newBook: Book) => {
+  await supabase.from(QUERY_KEYS.BOOKS).insert(newBook);
 };
 
 const getMemos = async () => {
@@ -45,4 +50,4 @@ const deleteMemo = async (id: string) => {
   await supabase.from(QUERY_KEYS.MEMOS).delete().eq('id', id);
 };
 
-export { getBooks, getMemos, addMemo, updateMemo, deleteMemo };
+export { getBooks, addBook, getMemos, addMemo, updateMemo, deleteMemo };

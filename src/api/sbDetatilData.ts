@@ -17,7 +17,6 @@ type Book = {
   createdAt: string;
   item: string;
 };
-import { Book } from '../types/global.d';
 
 type MemoType = {
   content: string;

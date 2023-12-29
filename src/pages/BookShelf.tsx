@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
-import { getBooks } from '../api/sbDetatilData';
+import { getBooks } from '../api/supabaseData';
 
 function BookShelf() {
   const { id } = useParams();
@@ -149,7 +149,7 @@ const BookShelfs = styled.div`
 
 const Books = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 10%;
   width: 80%;
   margin: auto;

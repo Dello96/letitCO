@@ -1,17 +1,6 @@
 import styled from 'styled-components';
 
-const Container = styled.div`
-  /* background-color: beige; */
-  min-width: 1200px;
-  width: 100vw;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-const BookInfoSection = styled.div`
+const BookInfoSection = styled.section`
   margin-top: 50px;
   /* background-color: #d3f2db; */
   width: 100%;
@@ -95,51 +84,13 @@ const Description = styled.p`
   line-height: 1.7;
 `;
 
-const AddMemoForm = styled.form`
-  /* background-color: #fcacac; */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 700px;
-  margin: 50px 0;
-  gap: 20px;
-  & textarea {
-    resize: none;
-    padding: 15px;
-    width: 700px;
-    height: 120px;
-    border: 1px solid #dbdbdb;
-    border-radius: 8px;
-  }
-  & button {
-    font-size: 16px;
-    font-weight: 600;
-    color: white;
-    padding: 15px 60px;
-    border: none;
-    border-radius: 5px;
-    background-color: #669674;
-    cursor: pointer;
-  }
-`;
-
-const Memo = styled.li`
-  margin: 10px;
-  background-color: #fcacac;
-  width: 500px;
-  height: 150px;
-`;
-
 export default {
-  BookCover,
-  TextInfoHeader,
   BookInfoSection,
   Wrapper,
-  PublishInfo,
+  BookCover,
   TextInfo,
   IsReading,
-  Description,
-  Container,
-  AddMemoForm,
-  Memo
+  TextInfoHeader,
+  PublishInfo,
+  Description
 };

@@ -34,7 +34,13 @@ export const StBookProgressWrap = styled.div`
     position: relative;
 `
 
-export const StBookProgressMove = styled.div`
+export const StBookProgressMove = styled.p`
+    border-top: 4px solid black;
+    width: 910px;
+    margin-top: 50px;
+`
+
+export const StBookProgressPoint = styled.p`
 
 `
 
@@ -49,19 +55,29 @@ export const StBookDoneTitle = styled.div`
 `
 
 export const StBookDoneList = styled.div`
+    width: 1200px;
+    height: 250px;
     border: 1px solid black;
-    margin: 30px 200px 0 200px;
+    margin: 30px 200px 30px 200px;
     display: flex;
 `
 
 export const StReadingPeriod = styled.p`
-    margin-top: 90px;
+    margin-top: 70px;
+    margin-left: 20px;
 `
 
 export const StReadingStar = styled.p`
-
+    margin-left: 20px;
 `
 
 export const StReadingMemo = styled.p`
+    margin-left: 20px;
+`
 
+export const StReadingMemoIndex = styled.div`
+    border: 1px solid black;
+    width: 900px;
+    height: 70px;
+    margin-left: 20px;
 `

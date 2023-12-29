@@ -8,12 +8,14 @@ import {
   StBookcover,
   StBookProgressWrap,
   StBookProgressMove,
+  StBookProgressPoint,
   StMainSection2,
   StBookDoneTitle,
   StBookDoneList,
   StReadingPeriod,
   StReadingStar,
-  StReadingMemo
+  StReadingMemo,
+  StReadingMemoIndex
  } from './style'
 
 export default function Home() {
@@ -34,6 +36,7 @@ export default function Home() {
               <StBookcover>책 표지</StBookcover>
               <StBookProgressWrap>
                 <StBookProgressMove></StBookProgressMove>
+                <StBookProgressPoint></StBookProgressPoint>
               </StBookProgressWrap>
             </StReadingBox>
         </StMainSection1>
@@ -44,7 +47,10 @@ export default function Home() {
             <div>
               <StReadingPeriod>읽은 기간</StReadingPeriod>
               <StReadingStar>평점</StReadingStar>
-              <StReadingMemo>독서 메모</StReadingMemo>
+              <div>
+                <StReadingMemo>독서 메모</StReadingMemo>
+                <StReadingMemoIndex></StReadingMemoIndex>
+              </div>
             </div>
           </StBookDoneList>
         </StMainSection2>

@@ -21,6 +21,9 @@ const MemoSection = () => {
     queryKey: [QUERY_KEYS.MEMOS],
     queryFn: getMemos
   });
+  
+  //로그인 기능 완성 후 사용
+  // const memos = data?.filter(d => data.uid === currentUer && 파람아이디 === data.id)
 
   const { addMemoMutation, deleteMemoMutation } = useMemosQuery();
   const { mutate: addMemoMutate } = addMemoMutation;

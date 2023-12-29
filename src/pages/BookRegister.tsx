@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useAddBookMutation } from '../query/useBookQuery';
 import { getBooks } from '../api/supabaseData';
 
@@ -11,7 +11,8 @@ export default function BookRegister() {
   const [search, setSearch] = useState<string>('');
   // const [isMarker, serIsMarker] = useState<boolean>();
   const { id } = useParams();
-  const navigate = useNavigate();
+  // const navi = useNavigate();
+  // const navigate = useNavigate();
   const queryclient = useQueryClient();
   // 해당 isbn의 book 정보 가져오기
   const { data: detailData } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
@@ -42,15 +43,13 @@ export default function BookRegister() {
       isMarked: false,
       isbn13: detailData?.isbn13
     };
-
     addMutate(newBook, {
       onSuccess: () => {
         alert('저장되었습니다.');
-        navigate(`/detail/${detailData?.isbn13}`);
         queryclient.invalidateQueries(QUERY_KEYS.BOOKS);
       }
     });
-    // detail페이지로 이동 필요.
+    // navi(`/booksearch?query=${keyword}`)
   };
 
   return (

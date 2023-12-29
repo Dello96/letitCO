@@ -3,6 +3,7 @@ import St from './style';
 import { getBooks } from '../../../api/supabaseData';
 import { QUERY_KEYS } from '../../../query/keys';
 import { useQuery } from 'react-query';
+// import { useParams } from 'react-router-dom';
 
 const BookInfo = () => {
   // const queryClient = useQueryClient();
@@ -12,8 +13,8 @@ const BookInfo = () => {
   });
 
   // const {id} = useParams()
-  const book = books?.find((book) => book.id === '081877ec-4d82-4638-9748-975152cef7f2');
-  // console.log(book);
+  const book = books?.find((book) => book.id === '421900cb-b52a-4237-8825-8e84253f3bab');
+  console.log('book==>', book);
 
   // const toggleIsReading = () => {
   //   setIsReading(!book.isLoading)

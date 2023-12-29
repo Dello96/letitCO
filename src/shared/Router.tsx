@@ -19,10 +19,8 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
-        <Route path="/detail" element={<Detail />} />
         <Route path="/bookshelf" element={<BookShelf />} />
         <Route path="/bookcalender" element={<Calender />}/>
-
         <Route path="/detail/:id" element={<Detail />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

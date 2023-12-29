@@ -1,4 +1,4 @@
-export type Book = {
+export type AldBook = {
   adult?: boolean;
   author: string;
   categoryId?: number;
@@ -23,7 +23,7 @@ export type Book = {
   title: string;
 };
 
-export type Detail = {
+export type AldDetail = {
   title: string;
   link: string;
   author: string;
@@ -68,4 +68,20 @@ export type Detail = {
     originalTitle: string;
     itemPage: number;
   };
+};
+
+export type Book = {
+  id?: string;
+  title?: string;
+  author?: string;
+  page?: number;
+  cover?: string;
+  description?: string;
+  pubDate?: string;
+  publisher?: string;
+  isReading?: boolean;
+  isMarked?: boolean;
+  isbn?: string;
+  isbn13?: string;
+  createdAt?: string;
 };

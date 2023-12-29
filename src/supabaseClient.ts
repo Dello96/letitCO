@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
+import { Database } from '../database.types';
 
 type SupabaseConfig = {
   supabaseUrl: string;
@@ -10,6 +11,6 @@ const supabaseConfig: SupabaseConfig = {
   supabaseKey: process.env.REACT_APP_SB_API_KEY || ''
 };
 
-const supabase = createClient(supabaseConfig.supabaseUrl, supabaseConfig.supabaseKey);
+const supabase = createClient<Database>(supabaseConfig.supabaseUrl, supabaseConfig.supabaseKey);
 
 export default supabase;

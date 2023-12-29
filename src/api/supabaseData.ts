@@ -1,21 +1,7 @@
 import { QUERY_KEYS } from '../query/keys';
 import { supabase } from '../supabaseClient';
+import { Book } from '../types/global.d';
 
-type BookType = {
-  id: string;
-  uid: string;
-  title: string;
-  author: string;
-  page: number;
-  cover: string;
-  description: string;
-  pubDate: string;
-  publisher: string;
-  isReading: boolean;
-  isMarked: boolean;
-  isbn13: string;
-  createdAt: string;
-};
 
 type MemoType = {
     content: string;
@@ -33,7 +19,7 @@ const getBooks = async () => {
 };
 
 //책등록
-const addBook = async (newBook: BookType) => {
+const addBook = async (newBook: Book[]) => {
     await supabase.from(QUERY_KEYS.MEMOS).insert(newBook);
 };
 

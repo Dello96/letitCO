@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import supabase from '../../supabaseClient';
+import { supabase } from '../../supabaseClient';
 import { StFormWrapper, StInput, StSignUpButton, StLoginButton } from './index';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
@@ -128,6 +128,7 @@ const Login = () => {
           console.log('5초 뒤에 찍히나?');
         }, 5000);
       }
+      // setInterval n초 간격으로 실행!!!
     } catch (error) {
       console.error(error);
     }

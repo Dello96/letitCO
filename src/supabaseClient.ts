@@ -1,16 +1,11 @@
 import { createClient } from '@supabase/supabase-js';
 import { Database } from '../database.types';
 
-type SupabaseConfig = {
-  supabaseUrl: string;
-  supabaseKey: string;
-};
+if (!process.env.REACT_APP_SB_URL || !process.env.REACT_APP_SB_API_KEY) {
+  throw new Error('환경 변수가 설정되지 않았습니다.');
+}
 
-const supabaseConfig: SupabaseConfig = {
-  supabaseUrl: process.env.REACT_APP_SB_URL || '',
-  supabaseKey: process.env.REACT_APP_SB_API_KEY || ''
-};
+const supabaseUrl = process.env.REACT_APP_SB_URL;
+const supabaseKey = process.env.REACT_APP_SB_API_KEY;
 
-const supabase = createClient<Database>(supabaseConfig.supabaseUrl, supabaseConfig.supabaseKey);
-
-export default supabase;
+export const supabase = createClient<Database>(supabaseUrl, supabaseKey);

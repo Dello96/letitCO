@@ -1,7 +1,26 @@
 import React from 'react';
+import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { QUERY_KEYS } from '../query/keys';
+import { getItemData } from '../api/aldData';
+import { getBooks } from '../api/sbDetatilData';
 
 function BookShelf() {
+  const { id } = useParams();
+  const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
+  const { isLoading: memoIsReading, data: memos } = useQuery({
+    queryKey: [QUERY_KEYS.BOOKS],
+    queryFn: getBooks
+  });
+
+  console.log(data);
+  console.log(
+    memos?.map((item) => {
+      return item.isReading;
+    })
+  );
+  console.log(memoIsReading);
   return (
     <>
       <MainContainer>
@@ -11,20 +30,41 @@ function BookShelf() {
             <Btns>읽고 싶은 책</Btns>
             <BookShelfs>
               <Books>
-                <Book />
-                <Book />
-                <Book />
-                <Book />
+                {memos?.map((item) => {
+                  if (item.isMarked === true) {
+                    return <PlaningBook key={item.id} src={item.cover} />;
+                  }
+                })}
               </Books>
             </BookShelfs>
           </BtnAndShelf>
           <BtnAndShelf>
             <Btns>읽고 있는 책</Btns>
-            <BookShelfs />
+            <BookShelfs>
+              <Books>
+                {memos?.map((item) => {
+                  if (item.isReading === true) {
+                    return <ReadingBook key={item.id} src={item.cover} />;
+                  }
+                })}
+                <ReadingBook />
+              </Books>
+            </BookShelfs>
           </BtnAndShelf>
           <BtnAndShelf>
             <Btns>다 읽은 책</Btns>
-            <BookShelfs />
+            <BookShelfs>
+              <Books>
+                {memos?.map((item) => {
+                  if (item.isReading === false) {
+                    if (item.isMarked === false) {
+                      return <FinishedBook key={item.id} src={item.cover} />;
+                    }
+                  }
+                })}
+                <FinishedBook />
+              </Books>
+            </BookShelfs>
           </BtnAndShelf>
         </WrapBookShelf>
       </MainContainer>
@@ -41,6 +81,7 @@ const TempHeader = styled.header`
   display: flex;
   width: 100%;
   height: 150px;
+  margin-bottom: 50px;
   background-color: aliceblue;
 `;
 
@@ -53,6 +94,7 @@ const BtnAndShelf = styled.div`
 const Btns = styled.div`
   display: flex;
   flex-direction: column;
+  font-weight: 800;
 `;
 
 const WrapBookShelf = styled.div`
@@ -60,7 +102,6 @@ const WrapBookShelf = styled.div`
   height: 800px;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   margin-top: 100px;
 `;
 
@@ -78,6 +119,7 @@ const BookShelfs = styled.div`
   border-left: 20px solid transparent;
   border-right: 20px solid transparent;
   pointer-events: all;
+  margin: 100px 0px 180px 0px;
 
   // bookshelf front-side
   &::before {
@@ -116,18 +158,29 @@ const Books = styled.div`
   z-index: -1;
   position: relative;
   top: 10px;
-  overflow: scroll;
 `;
 
-const Book = styled.div`
-  --bg-image: url('https://i.gr-assets.com/images/S/compressed.photo.goodreads.com/books/1581128232l/50214741.jpg');
-  // background-color: red;
+const PlaningBook = styled.img`
+  width: 100%;
+  border-radius: 3px 0.5px 0.5px 3px;
+  aspect-ratio: 115 / 180;
+  position: relative;
+`;
+
+const FinishedBook = styled.img`
+  width: 100%;
+  border-radius: 3px 0.5px 0.5px 3px;
+  aspect-ratio: 115 / 180;
+  position: relative;
+`;
+
+const ReadingBook = styled.img`
   width: 100%;
   border-radius: 3px 0.5px 0.5px 3px;
   aspect-ratio: 115 / 180;
   position: relative;
 
-  &:hover {
+  /* &:hover {
     &::before,
     &::after {
       transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -172,7 +225,7 @@ const Book = styled.div`
     filter: blur(10px);
     z-index: -1;
     opacity: 1;
-  }
+  } */
 `;
 
 // const ReadingPlan = styled.

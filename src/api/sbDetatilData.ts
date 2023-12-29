@@ -3,6 +3,7 @@ import { supabase } from '../supabaseClient';
 
 type Book = {
   id: string;
+  uid: string;
   title: string;
   author: string;
   page: number;
@@ -14,33 +15,34 @@ type Book = {
   isMarked: boolean;
   isbn: string;
   createdAt: string;
+  item: string;
 };
 
 type MemoType = {
-    content: string;
-}
+  content: string;
+};
 
 const getBooks = async () => {
-    const { data } = await supabase.from(QUERY_KEYS.BOOKS).select('*');
-    return data;
+  const { data } = await supabase.from(QUERY_KEYS.BOOKS).select('*');
+  return data;
 };
 
 const getMemos = async () => {
-    const { data } = await supabase.from(QUERY_KEYS.MEMOS).select('*');
-    return data;
+  const { data } = await supabase.from(QUERY_KEYS.MEMOS).select('*');
+  return data;
 };
 
 const addMemo = async (newMemo: MemoType) => {
-    await supabase.from(QUERY_KEYS.MEMOS).insert(newMemo);
+  await supabase.from(QUERY_KEYS.MEMOS).insert(newMemo);
 };
 
 //item 타입 수정
 const updateMemo = async (modifiedMemo: string, item: Book) => {
-    await supabase.from(QUERY_KEYS.MEMOS).update({ memo: modifiedMemo }).eq('id', item.id);
+  await supabase.from(QUERY_KEYS.MEMOS).update({ memo: modifiedMemo }).eq('id', item.id);
 };
 
 const deleteMemo = async (id: string) => {
-    await supabase.from(QUERY_KEYS.MEMOS).delete().eq('id', id);
+  await supabase.from(QUERY_KEYS.MEMOS).delete().eq('id', id);
 };
 
 export { getBooks, getMemos, addMemo, updateMemo, deleteMemo };

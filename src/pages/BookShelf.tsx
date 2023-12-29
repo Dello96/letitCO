@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+// import { useInView } from 'react-intersection-observer';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
 import { getBooks } from '../api/supabaseData';
@@ -9,17 +10,22 @@ import { getBooks } from '../api/supabaseData';
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
+
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
+  // const { ref, inView } = useInView({
+  //   threshold: 0.3
+  // });
 
+  // useEffect(() => {
+  //   if (inView && hasNextPage && !isFetchingNextPage) {
+  //     fetchNextPage();
+  //   }
+  // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   console.log(data);
-  console.log(
-    memos?.map((item) => {
-      return item.isReading;
-    })
-  );
+  console.log(memos);
   console.log(memoIsReading);
   return (
     <>

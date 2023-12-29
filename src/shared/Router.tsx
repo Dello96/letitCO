@@ -23,9 +23,9 @@ const Router = () => {
         <Route path="/bookshelf" element={<BookShelf />} />
         <Route path="/bookcalender" element={<Calender />}/>
 
-        
-        <Route path="*" element={<Navigate to="/" replace/>} />
+        <Route path="/detail/:id" element={<Detail />} />
 
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   );

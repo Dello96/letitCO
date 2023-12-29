@@ -19,7 +19,7 @@ const getBooks = async () => {
 };
 
 //책등록
-const addBook = async (newBook: Book[]) => {
+const addBook = async (newBook: Book) => {
     await supabase.from(QUERY_KEYS.MEMOS).insert(newBook);
 };
 

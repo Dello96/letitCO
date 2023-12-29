@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
-import Login from '../pages/Login';
+import Login from '../../src/pages/login/Login'
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
 
@@ -19,7 +19,6 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
-        <Route path="/detail" element={<Detail />} />
         <Route path="/bookshelf" element={<BookShelf />} />
         <Route path="/bookcalender" element={<Calender />}/>
 

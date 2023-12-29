@@ -8,6 +8,7 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/BookShelf';
 
 import Detail from '../pages/detail';
+import Calender from '../pages/calender';
 
 
 const Router = () => {
@@ -18,10 +19,10 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
-
-        <Route path="/bookshelf" element={<BookShelf />} />
-
         <Route path="/detail" element={<Detail />} />
+        <Route path="/bookshelf" element={<BookShelf />} />
+        <Route path="/bookcalender" element={<Calender />}/>
+
         
         <Route path="*" element={<Navigate to="/" replace/>} />
 

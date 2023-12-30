@@ -85,3 +85,13 @@ export type Book = {
   isbn13?: string;
   createdAt?: string;
 };
+
+export type Memo = {
+  id: string;
+  content: string;
+  createdAt: string;
+  uid: string;
+  bookId: string;
+  isEditing: boolean;
+  editingText: string;
+}

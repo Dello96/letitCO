@@ -3,18 +3,18 @@ import St from './style';
 import { getBooks } from '../../../api/supabaseData';
 import { QUERY_KEYS } from '../../../query/keys';
 import { useQuery } from 'react-query';
+import { useParams } from 'react-router-dom';
 // import { useParams } from 'react-router-dom';
 
 const BookInfo = () => {
-  // const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
 
-  // const {id} = useParams()
-  const book = books?.find((book) => book.id === '421900cb-b52a-4237-8825-8e84253f3bab');
-  console.log('book==>', book);
+  const {id} = useParams()
+  const book = books?.find((book) => book.id === id);
+  // console.log('book==>', book);
 
   // const toggleIsReading = () => {
   //   setIsReading(!book.isLoading)

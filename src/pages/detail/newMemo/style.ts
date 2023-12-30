@@ -52,32 +52,6 @@ const AddMemoForm = styled.form`
   }
 `;
 
-const Memo = styled.li`
-  margin: 10px;
-  background-color: #fcacac;
-  width: 700px;
-  height: 200px;
-`;
 
-const Content = styled.p`
-  font-size: 16px;
-  line-height: 1.7;
-  padding: 12px;
-  background-color: aqua;
-  border-radius: 10px;
-  height: 150px;
-`;
 
-const TextArea = styled.textarea`
-  font-size: 16px;
-  line-height: 1.7;
-  padding: 12px;
-  background-color: aqua;
-  border-radius: 10px;
-  height: 150px;
-  resize: none;
-`;
-
-const Buttons = styled.div``;
-
-export default { Container, AddMemoToggleBtn, AddMemoForm, Memo, Content, TextArea, Buttons };
+export default { Container, AddMemoToggleBtn, AddMemoForm };

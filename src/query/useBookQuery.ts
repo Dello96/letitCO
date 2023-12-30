@@ -1,5 +1,14 @@
 import { useMutation } from 'react-query';
 import { addBook, upsertBook } from '../api/supabaseData';
 
-export const useAddBookMutation = () => useMutation(addBook);
-export const useUpsertBookMutation = () => useMutation(upsertBook);
+export const useBookQuery = () => {
+  const { mutate: addBookMutation } = useMutation(addBook);
+
+  const { mutate: upsertBookMutation } = useMutation(upsertBook, {
+    onMutate: async (pram) => {
+      console.log(pram);
+    }
+  });
+
+  return { addBookMutation, upsertBookMutation };
+};

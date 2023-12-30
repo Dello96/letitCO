@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
 import { useParams } from 'react-router-dom';
-import { useUpsertBookMutation } from '../query/useBookQuery';
+import { useBookQuery } from '../query/useBookQuery';
 import { getCurrentUser, getUidIsbnBook } from '../api/supabaseData';
 import { BsFilePlus } from 'react-icons/bs';
 import { BsFileCheckFill } from 'react-icons/bs';
@@ -30,7 +30,7 @@ export default function BookRegister() {
   console.log('uid와 isbn13에 맞는 데이터 정보다', uidIsbn13BookData);
 
   // upsert Mutation
-  const { mutate: upsertMutate } = useUpsertBookMutation();
+  const { upsertBookMutation } = useBookQuery();
   // const queryClient = useQueryClient();
 
   // 책 정보 저장, isReading값 변경
@@ -48,7 +48,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
       isbn13: detailData?.isbn13
     };
-    upsertMutate(newBook);
+    upsertBookMutation(newBook);
   };
   //  marker 정보 저장 & 수정
   const upSertBookMarkerOnclickHandler = () => {
@@ -65,7 +65,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
       isbn13: detailData?.isbn13
     };
-    upsertMutate(newMarkerBook, {});
+    upsertBookMutation(newMarkerBook);
   };
 
   return (

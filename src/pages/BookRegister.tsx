@@ -10,9 +10,9 @@ import { BsFilePlus } from 'react-icons/bs';
 import { BsFileCheckFill } from 'react-icons/bs';
 import { PiBookmarkSimpleFill } from 'react-icons/pi';
 import { PiBookmarkSimpleLight } from 'react-icons/pi';
+// import { Book } from '../types/global.d';
 
 export default function BookRegister() {
-  // const [isMarker, serIsMarker] = useState<boolean>();
   const { id } = useParams();
 
   // 유저정보 가져오기
@@ -31,6 +31,7 @@ export default function BookRegister() {
 
   // upsert Mutation
   const { mutate: upsertMutate } = useUpsertBookMutation();
+  // const queryClient = useQueryClient();
 
   // 책 정보 저장, isReading값 변경
   const addBookAndIsRedingUpdateOnclickHandler = () => {
@@ -47,11 +48,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
       isbn13: detailData?.isbn13
     };
-    upsertMutate(newBook, {
-      onSuccess: () => {
-        alert('성공했습니다');
-      }
-    });
+    upsertMutate(newBook);
   };
   //  marker 정보 저장 & 수정
   const upSertBookMarkerOnclickHandler = () => {
@@ -68,11 +65,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
       isbn13: detailData?.isbn13
     };
-    upsertMutate(newMarkerBook, {
-      onSuccess(data) {
-        console.log('onsuccess', data);
-      }
-    });
+    upsertMutate(newMarkerBook, {});
   };
 
   return (

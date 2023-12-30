@@ -1,36 +1,41 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react';
-import { useQuery, useQueryClient } from 'react-query';
+import React from 'react';
+import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
 import { useParams } from 'react-router-dom';
-import { useAddBookMutation } from '../query/useBookQuery';
-import { getBooks } from '../api/supabaseData';
+import { useUpsertBookMutation } from '../query/useBookQuery';
+import { getCurrentUser, getUidIsbnBook } from '../api/supabaseData';
+import { BsFilePlus } from 'react-icons/bs';
+import { BsFileCheckFill } from 'react-icons/bs';
+import { PiBookmarkSimpleFill } from 'react-icons/pi';
+import { PiBookmarkSimpleLight } from 'react-icons/pi';
 
 export default function BookRegister() {
-  const [search, setSearch] = useState<string>('');
   // const [isMarker, serIsMarker] = useState<boolean>();
   const { id } = useParams();
-  // const navigate = useNavigate();
-  const queryclient = useQueryClient();
+
+  // 유저정보 가져오기
+  const { data: user } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
+
   // 해당 isbn의 book 정보 가져오기
   const { data: detailData } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
-  const { data: superBookData } = useQuery(QUERY_KEYS.BOOKS, getBooks);
-  const filterData = superBookData?.find((book) => book.isbn13 === id);
-  console.log(filterData);
-  const { mutate: addMutate } = useAddBookMutation();
-  // 검색창
 
-  const searchOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
+  // supabase/ uid,isbn13에 맞는 Book data 가져오기
+  const newData = {
+    uid: user?.id,
+    isbn13: detailData?.isbn13
   };
+  const { data: uidIsbn13BookData } = useQuery([QUERY_KEYS.BOOKS, newData], () => getUidIsbnBook(newData));
+  console.log('uid와 isbn13에 맞는 데이터 정보다', uidIsbn13BookData);
 
-  const searchOnSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-  };
+  // upsert Mutation
+  const { mutate: upsertMutate } = useUpsertBookMutation();
 
-  const addBookOnclickHandler = () => {
+  // 책 정보 저장, isReading값 변경
+  const addBookAndIsRedingUpdateOnclickHandler = () => {
     const newBook = {
+      uid: user?.id,
       cover: detailData?.cover,
       title: detailData?.title,
       author: detailData?.author,
@@ -38,26 +43,40 @@ export default function BookRegister() {
       page: detailData?.subInfo?.itemPage,
       description: detailData?.description,
       pubDate: detailData?.pubDate,
-      isReading: true,
-      isMarked: false,
+      isReading: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isReading,
+      isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
       isbn13: detailData?.isbn13
     };
-
-    addMutate(newBook, {
+    upsertMutate(newBook, {
       onSuccess: () => {
-        alert('저장되었습니다.');
-        queryclient.invalidateQueries(QUERY_KEYS.BOOKS);
+        alert('성공했습니다');
       }
     });
-    // detail페이지로 이동 필요.
+  };
+  //  marker 정보 저장 & 수정
+  const upSertBookMarkerOnclickHandler = () => {
+    const newMarkerBook = {
+      uid: user?.id,
+      cover: detailData?.cover,
+      title: detailData?.title,
+      author: detailData?.author,
+      publisher: detailData?.publisher,
+      page: detailData?.subInfo?.itemPage,
+      description: detailData?.description,
+      pubDate: detailData?.pubDate,
+      isReading: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isReading,
+      isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
+      isbn13: detailData?.isbn13
+    };
+    upsertMutate(newMarkerBook, {
+      onSuccess(data) {
+        console.log('onsuccess', data);
+      }
+    });
   };
 
   return (
     <StBody>
-      <form onSubmit={searchOnSubmitHandler}>
-        <input value={search} onChange={searchOnChangeHandler} />
-        <button>검색</button>
-      </form>
       {detailData && (
         <StBookBox>
           <StImgBox>
@@ -65,8 +84,24 @@ export default function BookRegister() {
           </StImgBox>
           <StTextWrapper>
             <StBtnBox>
-              <button>북마크</button>
-              <button onClick={addBookOnclickHandler}>+버튼 </button>
+              {/* uidIsbn13BookData가 없다면 빈마크
+         있다면 그중 isReading의 여부가 true면 채워진 마크 false라면 빈 마크  */}
+              {/* 북마크 */}
+              {uidIsbn13BookData?.length === 0 ? (
+                <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+              ) : uidIsbn13BookData && uidIsbn13BookData[0].isMarked === true ? (
+                <PiBookmarkSimpleFill size={60} color="red" onClick={upSertBookMarkerOnclickHandler} />
+              ) : (
+                <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+              )}
+              {/* 저장 */}
+              {uidIsbn13BookData?.length === 0 ? (
+                <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+              ) : uidIsbn13BookData && uidIsbn13BookData[0].isReading ? (
+                <BsFileCheckFill size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+              ) : (
+                <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+              )}
             </StBtnBox>
             <StTextBox>
               <h2>책 제목:{detailData.title}</h2>
@@ -118,6 +153,9 @@ const StTextWrapper = styled.div`
 const StBtnBox = styled.div`
   display: flex;
   justify-content: flex-end;
+  & BsFilePlus {
+    margin-top: 10px;
+  }
 `;
 const StImgBox = styled.div`
   margin-top: 30px;

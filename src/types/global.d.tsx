@@ -71,6 +71,7 @@ export type AldDetail = {
 };
 
 export type Book = {
+  uid?: string;
   id?: string;
   title?: string;
   author?: string;
@@ -84,4 +85,14 @@ export type Book = {
   isbn?: string;
   isbn13?: string;
   createdAt?: string;
+};
+
+export type Memo = {
+  id: string;
+  content: string;
+  createdAt: string;
+  uid: string;
+  bookId: string;
+  isEditing: boolean;
+  editingText: string;
 };

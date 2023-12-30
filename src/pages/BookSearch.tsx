@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getSearchData } from '../api/aldData';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getCurrentUser } from '../api/supabaseData';
 // import { useDispatch } from 'react-redux';
 
 function BookSearch() {
@@ -16,6 +17,11 @@ function BookSearch() {
   console.log(param.get('keyword'));
   console.log('search', search);
   console.log('keyword=>', keyword);
+
+  const { data } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
+  console.log('유저정보다', data);
+
+  // 책 검색목록 가져오기
   const { data: searchData } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);
 
   // 검색

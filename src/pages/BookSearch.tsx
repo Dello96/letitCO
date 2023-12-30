@@ -8,10 +8,10 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 
 function BookSearch() {
   // 주소를 먼저 바꾸고 url에 있는 값을 가져와서 초깃값으로 넣어주기 useSearchParams
-  const [search, setSearch] = useState('');
-  const [keyword, setKeyword] = useState('');
   const [param] = useSearchParams();
   const queryString = param.get('keyword');
+  const [search, setSearch] = useState(queryString!);
+  const [keyword, setKeyword] = useState('');
   const navi = useNavigate();
   console.log(param.get('keyword'));
   console.log('search', search);
@@ -24,8 +24,7 @@ function BookSearch() {
   };
   const searchOnClickHandler = () => {
     navi(`/booksearch?keyword=${keyword}`);
-    setSearch(queryString!);
-    // console.log(queryString);
+    setSearch(keyword!);
   };
 
   const moveRegisterPage = (item: string) => {

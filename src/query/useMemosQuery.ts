@@ -1,12 +1,15 @@
 import { useMutation } from 'react-query';
-import { addMemo } from '../api/sbDetatilData';
+import { addMemo, deleteMemo } from '../api/supabaseData';
+
 
 const useMemosQuery = () => {
-  const addMemoMutation = useMutation({
-    mutationFn: addMemo
-  });
+  const addMemoMutation = useMutation(addMemo);
 
-  return { addMemoMutation };
+  // const updateMemoMutation = useMutation(updateMemo);
+
+  const deleteMemoMutation = useMutation(deleteMemo);
+
+  return { addMemoMutation,  deleteMemoMutation };
 };
 
 export default useMemosQuery;

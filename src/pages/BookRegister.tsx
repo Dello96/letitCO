@@ -5,7 +5,7 @@ import { QUERY_KEYS } from '../query/keys';
 import { getItemData } from '../api/aldData';
 import { useParams } from 'react-router-dom';
 import { useAddBookMutation } from '../query/useBookQuery';
-import { getBooks } from '../api/sbDetatilData';
+import { getBooks } from '../api/supabaseData';
 
 export default function BookRegister() {
   const [search, setSearch] = useState<string>('');

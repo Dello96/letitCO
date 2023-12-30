@@ -20,6 +20,8 @@ function BookSearch() {
   const searchOnClickHandler = () => {
     setSearch(keyword);
     console.log(keyword);
+    // navi(`/booksearch?keyword=${keyword}`)
+
   };
 
   const moveRegisterPage = (item: string) => {

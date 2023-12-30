@@ -3,5 +3,6 @@ export const QUERY_KEYS = {
     BOOK:'book',
     SEARCH: 'search',
     DETAIL: 'detail',
-    MEMOS: 'memos'
+    MEMOS: 'memos',
+    AUTH: 'auth'
 };

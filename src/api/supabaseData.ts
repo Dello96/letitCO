@@ -4,7 +4,6 @@ import { Book, Memo } from '../types/global.d';
 
 type NewMemo = Omit<Memo, 'id' | 'createdAt' | 'editingText'>;
 
-
 //현재 로그인된 유저 정보
 const getCurrentUser = async () => {
   const {
@@ -12,7 +11,7 @@ const getCurrentUser = async () => {
   } = await supabase.auth.getUser();
   // console.log('현재 세션에 로그인된 유저', user!.id);
   // console.log("user ==>", user)
-  return user
+  return user;
 };
 
 //등록한 책 목록 가져오기
@@ -38,14 +37,17 @@ const addMemo = async (newMemo: NewMemo) => {
 };
 
 //item 타입 수정
-const updateMemo = async ({ id, editingText }: { id: string; editingText: string }) => {
+const updateMemo = async ({ id, editingText }: Memo) => {
   await supabase.from(QUERY_KEYS.MEMOS).update({ content: editingText, isEditing: false }).eq('id', id);
 };
-
 
 //메모 삭제
 const deleteMemo = async (id: string) => {
   await supabase.from(QUERY_KEYS.MEMOS).delete().eq('id', id);
 };
 
-export { getCurrentUser, getBooks, addBook, getMemos, addMemo, updateMemo, deleteMemo };
+const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
+  await supabase.from(QUERY_KEYS.BOOKS).update({ readUpto: page }).eq('id', id);
+};
+
+export { getCurrentUser, getBooks, addBook, getMemos, addMemo, updateMemo, deleteMemo, updateReadPages };

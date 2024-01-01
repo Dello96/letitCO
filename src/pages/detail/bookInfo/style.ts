@@ -14,14 +14,10 @@ const Wrapper = styled.div`
   /* background-color: plum; */
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   padding: 20px;
   gap: 50px;
   width: 1000px;
   height: 500px;
-  /* .description {
-    white-space: pre-wrap;
-  } */
 `;
 
 const BookCover = styled.div`
@@ -53,6 +49,9 @@ const TextInfo = styled.div`
     font-size: 32px;
     font-weight: 700;
   }
+  & .category {
+    color: grey;
+  }
 `;
 
 const TextInfoHeader = styled.div`
@@ -60,7 +59,6 @@ const TextInfoHeader = styled.div`
   justify-content: space-between;
   align-items: flex-start;
 `;
-
 
 const IsReading = styled.p`
   padding: 10px 15px;
@@ -74,7 +72,7 @@ const PublishInfo = styled.div`
   display: flex;
   align-items: flex-start;
   width: 100%;
-  color: grey;
+  /* color: grey; */
   & span {
     padding-left: 10px;
     margin-left: 10px;
@@ -82,8 +80,45 @@ const PublishInfo = styled.div`
   }
 `;
 
-const Description = styled.p`
+const Description = styled.h3`
+margin-top: 10px;
   line-height: 1.7;
+`;
+
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  & input {
+    width: 80px;
+  }
+  & button {
+    margin-left: 20px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: #669674;
+    padding: 5px 7px;
+    font-size: 14px;
+    transition: 200ms;
+    &:hover {
+      background-color: #295435;
+      transition: 200ms;
+      cursor: pointer;
+    }
+  }
+  & form {
+    display: flex;
+    align-items: center;
+  }
+`;
+const PageSubmit = styled.h3`
+  cursor: pointer;
+  margin: 25px 0;
+  font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export default {
@@ -94,5 +129,7 @@ export default {
   IsReading,
   TextInfoHeader,
   PublishInfo,
-  Description
+  Description,
+  PageSubmit,
+  Page,
 };

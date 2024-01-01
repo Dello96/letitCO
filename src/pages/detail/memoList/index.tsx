@@ -108,10 +108,10 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
                   <>
                     <St.TextArea defaultValue={memo.content} onChange={onEditingText} autoFocus />
                     <St.Buttons>
-                      <p className='leftBtn' onClick={() => onEditCancel(memo.id)}>
+                      <p className='leftBtn' onClick={() => onEditCancel(memo.id!)}>
                         취소
                       </p>
-                      <p onClick={() => onEditDone(memo.id)}>
+                      <p onClick={() => onEditDone(memo.id!)}>
                         완료
                       </p>
                     </St.Buttons>

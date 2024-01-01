@@ -1,19 +1,43 @@
-import React from 'react';
+import React, { useState } from 'react';
 import St from './style';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getBooks } from '../../../api/supabaseData';
+import { getBooks, updateReadPages } from '../../../api/supabaseData';
 import { useParams } from 'react-router-dom';
 
 const BookInfo = () => {
+  const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
-
   const { id } = useParams();
   const book = books?.find((book) => book.id === id);
 
+  const [pageSubmitMode, setPageSubmitMode] = useState(false);
+  const [page, setPage] = useState<number>(book?.readUpto);
+
+  const { mutate: updateReadPagesMutate } = useMutation(updateReadPages);
+
+  const onChangePage = (e: React.ChangeEvent<HTMLInputElement>) => setPage(parseInt(e.target.value));
+  const togglePageInput = () => setPageSubmitMode(!pageSubmitMode);
+
+  const updatePageButton = (e: React.FormEvent<HTMLFormElement>, id: string) => {
+    e.preventDefault();
+    const previousPage = page;
+    updateReadPagesMutate(
+      { id, page },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        },
+        onError: () => {
+          setPage(previousPage);
+        }
+      }
+    );
+    setPageSubmitMode(false);
+  };
   return (
     <St.BookInfoSection>
       {isLoading ? (
@@ -29,17 +53,25 @@ const BookInfo = () => {
               <h1>{book?.title}</h1>
               <St.IsReading>{book.isReading ? '완독' : '독서중'}</St.IsReading>
             </St.TextInfoHeader>
-            <p>{book?.author}</p>
+            <h3>{book?.author}</h3>
             <St.PublishInfo>
               <p>{book?.publisher}</p>
               <span>{book?.pubDate}</span>
             </St.PublishInfo>
-            <p>{book?.category}</p>
-            <div>
-              <span>페이지:</span>
-              <span>&nbsp;&nbsp;{book?.page}</span>
-            </div>
+            <p className='category'>{book?.category}</p>
             <St.Description>{book?.description}</St.Description>
+            <St.Page>
+              <St.PageSubmit onClick={togglePageInput}>{pageSubmitMode ? '취소' : '읽은 쪽수 등록'}</St.PageSubmit>
+              <form onSubmit={(e) => updatePageButton(e, book.id)}>
+                {pageSubmitMode ? (
+                  <input defaultValue={book.readUpto} onChange={onChangePage} type="number" placeholder="읽은 쪽수" />
+                ) : (
+                  <p>{book?.readUpto}</p>
+                )}
+                <span>&nbsp;&nbsp;/&nbsp;&nbsp;{book?.page}p</span>
+                {pageSubmitMode && <button type="submit">저장</button>}
+              </form>
+            </St.Page>
           </St.TextInfo>
         </St.Wrapper>
       )}

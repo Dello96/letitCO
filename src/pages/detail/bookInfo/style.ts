@@ -81,7 +81,7 @@ const PublishInfo = styled.div`
 `;
 
 const Description = styled.h3`
-margin-top: 10px;
+  margin-top: 10px;
   line-height: 1.7;
 `;
 
@@ -131,5 +131,5 @@ export default {
   PublishInfo,
   Description,
   PageSubmit,
-  Page,
+  Page
 };

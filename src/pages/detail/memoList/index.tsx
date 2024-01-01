@@ -14,14 +14,15 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
 
   const [editingText, setEditingText] = useState<string>('');
   const [editableMemos, setEditableMemos] = useState<Memo[]>([]);
-  // const [clickedMemo, setClickedMemo] = useState<Memo | null>(null);
+
 
   // 메모목록 가져오기
   const { isLoading: memoIsLoading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.MEMOS],
     queryFn: getMemos
   });
-  const filteredMemos = memos?.filter((memo) => memo.uid === currentUserId && paramId === memo.bookId);
+  const filteredMemos = memos?.filter((memo) => memo.uid === currentUserId && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
+  
   useEffect(() => {
     if (!filteredMemos) {
       return;
@@ -29,6 +30,8 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
       setEditableMemos(filteredMemos);
     }
   }, [memos]);
+
+  console.log('filteredMemos', filteredMemos)
 
   const { deleteMemoMutation, updateMemoMutation } = useMemosQuery();
   const { mutate: updateMemoMutate } = updateMemoMutation;
@@ -103,7 +106,7 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
           editableMemos?.map((memo) => {
             return (
               <St.Memo key={memo.id}>
-                <p>{getFormattedDate(memo.createdAt!)}</p>
+                <p>{getFormattedDate(memo.timeStamp!)}</p>
                 {memo.isEditing ? (
                   <>
                     <St.TextArea defaultValue={memo.content} onChange={onEditingText} autoFocus />

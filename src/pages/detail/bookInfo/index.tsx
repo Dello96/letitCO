@@ -5,6 +5,7 @@ import { QUERY_KEYS } from '../../../query/keys';
 import { getBooks, updateReadPages } from '../../../api/supabaseData';
 import { useParams } from 'react-router-dom';
 
+
 const BookInfo = () => {
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({

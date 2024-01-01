@@ -42,7 +42,8 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
       bookId: paramId!,
       content: memo,
       uid: currentUserId,
-      isEditing: false
+      isEditing: false,
+      timeStamp: Date.now()
     };
     addMemoMutate(newMemo, {
       onSuccess: () => {

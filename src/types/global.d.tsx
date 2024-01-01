@@ -92,9 +92,9 @@ export type Book = {
 export type Memo = {
   id?: string;
   content?: string;
-  createdAt?: string;
   uid?: string;
   bookId?: string;
   isEditing?: boolean;
   editingText?: string;
+  timeStamp?: number;
 }

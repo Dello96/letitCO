@@ -72,7 +72,7 @@ const PublishInfo = styled.div`
   display: flex;
   align-items: flex-start;
   width: 100%;
-  /* color: grey; */
+  color: grey;
   & span {
     padding-left: 10px;
     margin-left: 10px;

@@ -23,7 +23,7 @@ const getBooks = async () => {
 
 //책등록
 const addBook = async (newBook: Book) => {
-  await supabase.from(QUERY_KEYS.MEMOS).insert(newBook);
+  await supabase.from(QUERY_KEYS.BOOKS).insert(newBook);
 };
 
 //등록된 메모목록 가져오기
@@ -38,8 +38,8 @@ const addMemo = async (newMemo: NewMemo) => {
 };
 
 //item 타입 수정
-const updateMemo = async ({ id, updatedMemo }: { id: string; updatedMemo: Memo }) => {
-  await supabase.from(QUERY_KEYS.MEMOS).update({ content: updatedMemo }).eq('id', id);
+const updateMemo = async ({ id, editingText }: { id: string; editingText: string }) => {
+  await supabase.from(QUERY_KEYS.MEMOS).update({ content: editingText, isEditing: false }).eq('id', id);
 };
 
 

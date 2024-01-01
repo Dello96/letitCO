@@ -68,6 +68,8 @@ export type AldDetail = {
     originalTitle: string;
     itemPage: number;
   };
+  startDate?: string;
+  DoneDate?: string;
 };
 
 export type Book = {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import St from './style';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getCurrentUser} from '../../../api/supabaseData';
+import { getCurrentUser } from '../../../api/supabaseData';
 import { useQuery, useQueryClient } from 'react-query';
 import useMemosQuery from '../../../query/useMemosQuery';
 import { useParams } from 'react-router-dom';
@@ -17,7 +17,6 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
   // 상태관리
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
-
 
   //현재 로그인된 유저 정보 가져오기
   const { data: userData } = useQuery({
@@ -52,13 +51,14 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
     });
     //위치?
     setMemo('');
+    setIsWritingMemo(false);
   };
 
   return (
     <St.Container>
       {/* '메모작성 아이콘' */}
       <St.AddMemoToggleBtn type="button" onClick={toggleAddMemoForm}>
-        메모 작성
+        {isWritingMemo ? '닫기' : '메모 작성'}
       </St.AddMemoToggleBtn>
       {isWritingMemo ? (
         <St.AddMemoForm onSubmit={handleOnSubmit}>

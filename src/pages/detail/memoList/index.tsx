@@ -31,8 +31,6 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
     }
   }, [memos]);
 
-  console.log('filteredMemos', filteredMemos)
-
   const { deleteMemoMutation, updateMemoMutation } = useMemosQuery();
   const { mutate: updateMemoMutate } = updateMemoMutation;
   const { mutate: deleteMemoMutate } = deleteMemoMutation;
@@ -98,7 +96,7 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
   };
 
   return (
-    <section>
+    <St.Container>
       <ul>
         {memoIsLoading ? (
           <St.PlaceHolder>메모 가져오는중</St.PlaceHolder>
@@ -137,7 +135,7 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
           })
         )}
       </ul>
-    </section>
+    </St.Container>
   );
 };
 

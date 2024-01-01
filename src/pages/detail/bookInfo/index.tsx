@@ -54,7 +54,7 @@ const BookInfo = () => {
 
   useEffect(() => {
     changeIsReading();  
-    console.log('isReading 상태 ==>', book?.isReading, '/  읽은 페이지수 ==>', book?.readUpto);
+    // console.log('isReading 상태 ==>', book?.isReading, '/  읽은 페이지수 ==>', book?.readUpto);
   }, [book]);
 
   return (
@@ -85,9 +85,9 @@ const BookInfo = () => {
                 {pageSubmitMode ? (
                   <input defaultValue={book.readUpto} onChange={onChangePage} max={book.page} min={0} type="number" placeholder="읽은 쪽수" />
                 ) : (
-                  <p>{book?.readUpto}</p>
+                  <St.PageNumber>{book?.readUpto}p</St.PageNumber>
                 )}
-                <span>&nbsp;&nbsp;/&nbsp;&nbsp;{book?.page}p</span>
+                <p>&nbsp;&nbsp;/&nbsp;&nbsp;{book?.page}p</p>
                 {pageSubmitMode && <button type="submit">저장</button>}
               </form>
             </St.Page>

@@ -27,7 +27,7 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
   useEffect(() => {
     if (userData) {
       setCurrentUserId(userData.id);
-      console.log('현재 로그인된 유저 ==>', userData.id);
+      // console.log('현재 로그인된 유저 ==>', userData.id);
     }
   }, [userData]);
 

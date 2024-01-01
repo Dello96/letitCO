@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+
+const Container = styled.section`
+  margin-top: 50px;
+`;
+
 const PlaceHolder = styled.div``;
 
 const Memo = styled.li`
@@ -48,9 +53,9 @@ const Buttons = styled.div`
     }
   }
   & .leftBtn {
-      border-right: 1px solid lightgrey;
-      padding-right: 8px;
-    }
+    border-right: 1px solid lightgrey;
+    padding-right: 8px;
+  }
 `;
 
-export default { PlaceHolder, Memo, Content, TextArea, Buttons };
+export default { Container, PlaceHolder, Memo, Content, TextArea, Buttons };

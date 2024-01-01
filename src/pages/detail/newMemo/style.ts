@@ -17,6 +17,7 @@ const AddMemoToggleBtn = styled.button`
   border: 2px solid  #669674;
   border-radius: 5px;
   transition: 200ms;
+
   &:hover {
     cursor: pointer;
     background-color: #669674;
@@ -31,7 +32,6 @@ const AddMemoForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: 700px;
-  margin: 50px 0;
   gap: 20px;
   & textarea {
     resize: none;

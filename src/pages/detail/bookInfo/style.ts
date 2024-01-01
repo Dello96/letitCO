@@ -81,7 +81,6 @@ const PublishInfo = styled.div`
 `;
 
 const Description = styled.h3`
-  margin-top: 10px;
   line-height: 1.7;
 `;
 
@@ -121,6 +120,9 @@ const PageSubmit = styled.h3`
   }
 `;
 
+const PageNumber = styled.span`
+  font-weight: 600;
+`
 export default {
   BookInfoSection,
   Wrapper,
@@ -131,5 +133,6 @@ export default {
   PublishInfo,
   Description,
   PageSubmit,
-  Page
+  Page,
+  PageNumber
 };

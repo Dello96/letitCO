@@ -87,6 +87,8 @@ export type Book = {
   isbn13?: string;
   createdAt?: string;
   updatedPages?: number;
+  readUpto?: number;
+  category?: string;
 };
 
 export type Memo = {
@@ -97,4 +99,5 @@ export type Memo = {
   isEditing?: boolean;
   editingText?: string;
   timeStamp?: number;
-}
+};
+ 

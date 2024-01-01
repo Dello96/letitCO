@@ -36,7 +36,7 @@ const addMemo = async (newMemo: NewMemo) => {
   await supabase.from(QUERY_KEYS.MEMOS).insert(newMemo);
 };
 
-//item 타입 수정
+//메모 수정
 const updateMemo = async ({ id, editingText }: Memo) => {
   await supabase.from(QUERY_KEYS.MEMOS).update({ content: editingText, isEditing: false }).eq('id', id);
 };
@@ -46,8 +46,29 @@ const deleteMemo = async (id: string) => {
   await supabase.from(QUERY_KEYS.MEMOS).delete().eq('id', id);
 };
 
+//읽은 페이지 업데이트
 const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
   await supabase.from(QUERY_KEYS.BOOKS).update({ readUpto: page }).eq('id', id);
 };
 
-export { getCurrentUser, getBooks, addBook, getMemos, addMemo, updateMemo, deleteMemo, updateReadPages };
+//독서 상태 업데이트
+const updateIsReading = async ({ id, isReadingStatus }: { id: string; isReadingStatus: boolean }) => {
+  if (!id) {
+    // id 값이 없으면 오류 처리
+    console.error("ID is undefined!");
+    return;
+  }
+  await supabase.from(QUERY_KEYS.BOOKS).update({ isReading: isReadingStatus }).eq('id', id);
+};
+
+export {
+  getCurrentUser,
+  getBooks,
+  addBook,
+  getMemos,
+  addMemo,
+  updateMemo,
+  deleteMemo,
+  updateReadPages,
+  updateIsReading
+};

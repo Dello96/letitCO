@@ -70,7 +70,7 @@ const BookInfo = () => {
           <St.TextInfo>
             <St.TextInfoHeader>
               <h1>{book?.title}</h1>
-              <St.IsReading>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
+              <St.IsReading $isReading={book.isReading}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
             </St.TextInfoHeader>
             <h3>{book?.author}</h3>
             <St.PublishInfo>

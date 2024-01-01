@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const BookInfoSection = styled.section`
   margin-top: 50px;
@@ -60,11 +60,17 @@ const TextInfoHeader = styled.div`
   align-items: flex-start;
 `;
 
-const IsReading = styled.p`
+const IsReading = styled.p<{ $isReading: boolean }>`
   padding: 10px 15px;
-  border: 1px solid #2a6b3b;
+  ${props => props.$isReading ? css`
+    border: none;
+    background-color: #2a6b3b;
+    color: white;
+  ` : css`
+    border: 1px solid #2a6b3b;
+    color: #2a6b3b;
+  `}
   border-radius: 20px;
-  color: #2a6b3b;
   font-weight: 500;
 `;
 

@@ -4,7 +4,7 @@ const BookInfoSection = styled.section`
   margin-top: 50px;
   /* background-color: #d3f2db; */
   width: 100%;
-  height: 600px;
+  height: 500px;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #d9d9d9;
@@ -49,10 +49,18 @@ const TextInfo = styled.div`
   /* justify-content: center; */
   gap: 20px;
   & h1 {
+    width: 410px;
     font-size: 32px;
     font-weight: 700;
   }
 `;
+
+const TextInfoHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+`;
+
 
 const IsReading = styled.p`
   padding: 10px 15px;
@@ -60,12 +68,6 @@ const IsReading = styled.p`
   border-radius: 20px;
   color: #2a6b3b;
   font-weight: 500;
-`;
-
-const TextInfoHeader = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 `;
 
 const PublishInfo = styled.div`

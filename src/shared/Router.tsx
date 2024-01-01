@@ -20,7 +20,6 @@ const Router = () => {
         <Route path="/booksearch" element={<BookSearch />} />
         <Route path="/bookshelf" element={<BookShelf />} />
         <Route path="/bookcalender" element={<Calender />} />
-
         <Route path="/detail/:id" element={<Detail />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -43,7 +43,6 @@ export default function BookRegister() {
       isMarked: false,
       isbn13: detailData?.isbn13,
       category: detailData?.categoryName,
-      doneDate: '',
     };
     addMutate(newBook, {
       onSuccess: () => {

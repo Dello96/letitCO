@@ -11,7 +11,7 @@ const BookInfo = () => {
     queryFn: getBooks
   });
 
-  const {id} = useParams()
+  const { id } = useParams();
   const book = books?.find((book) => book.id === id);
 
   return (
@@ -34,8 +34,12 @@ const BookInfo = () => {
               <p>{book?.publisher}</p>
               <span>{book?.pubDate}</span>
             </St.PublishInfo>
-            <St.Description>{book?.description}</St.Description>
             <p>{book?.category}</p>
+            <div>
+              <span>페이지:</span>
+              <span>&nbsp;&nbsp;{book?.page}</span>
+            </div>
+            <St.Description>{book?.description}</St.Description>
           </St.TextInfo>
         </St.Wrapper>
       )}

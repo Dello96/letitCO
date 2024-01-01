@@ -3,9 +3,11 @@ import { useQuery } from 'react-query';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
-import { QUERY_KEYS } from '../query/keys';
-import { getItemData } from '../api/aldData';
-import { getBooks } from '../api/supabaseData';
+import { HiBookmark } from 'react-icons/hi';
+import { QUERY_KEYS } from '../../query/keys';
+import { getItemData } from '../../api/aldData';
+import { getBooks } from '../../api/supabaseData';
+import './style.css';
 
 function BookShelf() {
   const { id } = useParams();
@@ -38,7 +40,20 @@ function BookShelf() {
               <Books>
                 {memos?.map((item) => {
                   if (item.isMarked === true) {
-                    return <PlaningBook key={item.id} src={item.cover} />;
+                    return (
+                      <>
+                        <WrapingBook>
+                          <HiBookmark
+                            style={{
+                              color: 'red',
+                              position: 'absolute',
+                              zIndex: '2'
+                            }}
+                          />
+                          <PlaningBook key={item.id} src={item.cover} />
+                        </WrapingBook>
+                      </>
+                    );
                   }
                 })}
               </Books>
@@ -101,6 +116,10 @@ const Btns = styled.div`
   display: flex;
   flex-direction: column;
   font-weight: 800;
+`;
+
+const WrapingBook = styled.div`
+  display: flex;
 `;
 
 const WrapBookShelf = styled.div`

@@ -1,22 +1,28 @@
 import styled from 'styled-components';
 
-export const StMain = styled.div``;
-
-export const StMainSection1 = styled.section``;
-
-export const StNotice = styled.div`
-
-  font-size: 40px;
-  margin: 80px 420px 50px 420px;
+export const StMain = styled.div`
+  width:100%;
+  height:100%;
 `;
 
+export const StMainSection1 = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+
+export const StNotice = styled.div`
+  font-size: 40px;
+  margin: 80px 0 50px 0;
+`;
 
 export const StReadingBox = styled.div`
   border: 1px solid lightgray;
   border-radius: 10px;
   width: 1200px;
   height: 250px;
-  margin-left: 230px;
   display: flex;
 `;
 
@@ -31,7 +37,7 @@ export const StAddBookWrap = styled.div`
   width: 1200px;
   border: 1px solid lightgray;
   border-radius: 10px;
-  margin: 180px 230px;
+  margin-top: 180px;
   cursor: pointer;
 `
 
@@ -39,25 +45,20 @@ export const StAddIcon = styled.div`
   color: #0e411d;
   font-size: 90px;
   font-weight: 700;
-  margin: 50px 550px 10px 550px;
+  margin: 50px 0 10px 0;
 `
 
 export const StAddNotice = styled.div`
   color: black;
   font-size: 18px;
-  margin: 0 480px 0 480px;
 `
-
 
 export const StBookcoverimg = styled.img`
   width: 150px;
   height: 200px;
-  /* margin: 25px; */
 `;
 
 export const StBookcover = styled.div`
-  /* border: 1px solid black; */
-  /* object-fit: cover; */
   width: 150px;
   height: 200px;
   margin: 25px;
@@ -67,7 +68,7 @@ export const StBookProgressWrap = styled.div`
   display: flex;
   align-items: center;
   height: 30px;
-  margin: 95px 30px 100px 0;
+  margin: 95px 0 100px 0;
   position: relative;
 `;
 
@@ -82,12 +83,18 @@ export const StCompletedPercent = styled.div`
   font-size: 20px;
 `;
 
-export const StMainSection2 = styled.section``;
+export const StMainSection2 = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 export const StBookDoneTitle = styled.div`
+  width: 1200px;
   font-size: 25px;
   font-weight: 700;
-  margin: 100px 200px 0 230px;
+  margin-top: 100px;
 `;
 
 export const StBookDoneList = styled.div`
@@ -95,8 +102,9 @@ export const StBookDoneList = styled.div`
   height: 250px;
   border: 1px solid lightgray;
   border-radius: 10px;
-  margin: 30px 200px 30px 230px;
+  margin: 30px 0 30px 0;
   display: flex;
+  cursor: pointer;
 `;
 
 export const StBookInfo = styled.div`

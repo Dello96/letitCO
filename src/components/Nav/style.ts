@@ -21,7 +21,7 @@ export const StLogo = styled.img`
 `;
 
 export const StTabList = styled.ul`
-  width: 70%;
+  width: 90%;
   display: flex;
   align-items: center;
   color: white;

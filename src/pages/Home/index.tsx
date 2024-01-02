@@ -6,6 +6,7 @@ import {
   StNotice,
   StReadingBox,
   StBookcover,
+  StBookcoverimg,
   StBookProgressWrap,
   StBookProgress,
   StMainSection2,
@@ -16,7 +17,7 @@ import {
 } from './style';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
-import { getBooks getCurrentUser } from '../../api/supabaseData'
+import { getBooks, getCurrentUser } from '../../api/supabaseData'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';

@@ -5,15 +5,9 @@ export const StMain = styled.div``;
 export const StMainSection1 = styled.section``;
 
 export const StNotice = styled.div`
-<<<<<<< HEAD
     font-size: 40px;
     margin: 80px 420px 50px 420px;
 `
-=======
-  font-size: 40px;
-  margin: 80px 450px 50px 450px;
-`;
->>>>>>> d0aaa07022dc19751358fc8457df15c7fac3df71
 
 export const StReadingBox = styled.div`
   border: 1px solid lightgray;
@@ -50,13 +44,9 @@ export const StBookProgress = styled.div`
   width: 910px;
 `;
 
-<<<<<<< HEAD
-export const StBookProgressPoint = styled.label`
-=======
 export const StBookTitle = styled.h2`
   font-size: 20px;
 `;
->>>>>>> d0aaa07022dc19751358fc8457df15c7fac3df71
 
 export const StCompletedPercent = styled.div`
   margin-top: 40px;
@@ -64,6 +54,7 @@ export const StCompletedPercent = styled.div`
   font-weight: 530;
   font-size: 20px;
 `;
+
 export const StMainSection2 = styled.section``;
 
 export const StBookDoneTitle = styled.div`
@@ -86,10 +77,6 @@ export const StReadingPeriod = styled.p`
 `;
 
 export const StReadingStar = styled.p`
-<<<<<<< HEAD
-    margin-left: 20px;
-`
-=======
   margin-left: 20px;
 `;
 
@@ -103,4 +90,3 @@ export const StReadingMemoIndex = styled.div`
   height: 70px;
   margin-left: 20px;
 `;
->>>>>>> d0aaa07022dc19751358fc8457df15c7fac3df71

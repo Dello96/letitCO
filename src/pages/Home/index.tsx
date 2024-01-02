@@ -17,7 +17,7 @@ import {
   StReadingPeriod,
   StBookInfo,
   StBookTitle,
-  StBookAuthor,
+  StBookAuthor
 } from './style';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
@@ -85,7 +85,9 @@ export default function Home() {
     );
   }
 
-  const readingBook = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
+  const readingBook = books?.find(
+    (item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true
+  );
 
   return (
     <>
@@ -105,15 +107,15 @@ export default function Home() {
           </StReadingBox>
         </StMainSection1>
         ) : (
-        <StAddBookWrap onClick={() => navigate('/booksearch')}>
-          <StAddIcon>
-            <FaSearchPlus />
-          </StAddIcon>
-          <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
-        </StAddBookWrap>
+          <StAddBookWrap onClick={() => navigate('/booksearch')}>
+            <StAddIcon>
+              <FaSearchPlus />
+            </StAddIcon>
+            <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
+          </StAddBookWrap>
         )}
-      <StMainSection2>
-        <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
+        <StMainSection2>
+          <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
           ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
           .map((item) => {

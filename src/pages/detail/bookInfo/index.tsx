@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import St from './style';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
+import { getBooks, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
 
@@ -36,7 +36,7 @@ const BookInfo = () => {
   const onChangeEndDate = (e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value);
 
   const { mutate: updateReadPagesMutate } = useMutation(updateReadPages);
-  const { mutate: updateIsreadingMutate } = useMutation(updateIsReading);
+  // const { mutate: updateIsreadingMutate } = useMutation(updateIsReading);
   const { mutate: readingPeriodMutate } = useMutation(updateReadingPeriod);
 
   const onChangePage = (e: React.ChangeEvent<HTMLInputElement>) => setPage(parseInt(e.target.value));
@@ -59,23 +59,23 @@ const BookInfo = () => {
     setPageSubmitMode(false);
   };
 
-  const changeIsReading = () => {
-    const isCompleted = book?.readUpto === book?.page;
-    const isReadingStatus = !isCompleted;
-    const id = book?.id;
-    if (!id) {
-      console.error('책 ID가 없습니다');
-      return;
-    }
-    updateIsreadingMutate(
-      { id, isReadingStatus, isDone: isCompleted },
-      {
-        onSuccess: () => {
-          queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
-        }
-      }
-    );
-  };
+  // const changeIsReading = () => {
+  //   const isCompleted = book?.readUpto === book?.page;
+  //   const isReadingStatus = !isCompleted;
+  //   const id = book?.id;
+  //   if (!id) {
+  //     console.error('책 ID가 없습니다');
+  //     return;
+  //   }
+  //   updateIsreadingMutate(
+  //     { id, isReadingStatus, isDone: isCompleted },
+  //     {
+  //       onSuccess: () => {
+  //         queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+  //       }
+  //     }
+  //   );
+  // };
 
   const onSubmitDate = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

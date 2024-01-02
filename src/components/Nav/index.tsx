@@ -4,6 +4,7 @@ import { StLogo, StNavbar, StTabList, StTabListItem } from './style';
 import logoWhite from '../../assets/logo.white.png';
 import { supabase } from '../../supabaseClient';
 import Swal from 'sweetalert2';
+
 // import ReactModal from 'react-modal';
 // import { StCustomModal } from './style';
 function Nav() {

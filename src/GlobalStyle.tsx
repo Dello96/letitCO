@@ -4,6 +4,13 @@ export const GlobalStyle = createGlobalStyle`
 v2.0 | 20110126
 License: none (public domain)
 */
+@font-face {
+    font-family: 'NanumSquareNeo-Variable';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_11-01@1.0/NanumSquareNeo-Variable.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 
 * {
  box-sizing: border-box;
@@ -36,6 +43,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
    line-height: 1;
+   font-family:'NanumSquareNeo-Variable'
 }
 ol, ul {
  list-style: none;

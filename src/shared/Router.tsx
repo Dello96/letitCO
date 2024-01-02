@@ -7,13 +7,14 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../redux/store';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
 
 const Router = () => {
-  // const currentUser = useSelector((state: RootState) => state.user);
-  // console.log('currentUser===>', currentUser.id);
+  const currentUser = useSelector((state: RootState) => state.user);
+  console.log('currentUser===>', currentUser.id);
 
   return (
     <BrowserRouter>
@@ -22,7 +23,7 @@ const Router = () => {
         <>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            {/* <Route path="/login" element={<Login />} /> */}
             <Route path="/bookregister/:id" element={<BookRegister />} />
             <Route path="/booksearch" element={<BookSearch />} />
             <Route path="/bookshelf" element={<BookShelf />} />

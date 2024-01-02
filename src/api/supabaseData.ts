@@ -9,8 +9,8 @@ const getCurrentUser = async () => {
   const {
     data: { user }
   } = await supabase.auth.getUser();
-  // console.log('현재 세션에 로그인된 유저', user!.id);
-  // console.log("user ==>", user)
+  console.log('현재 세션에 로그인된 유저', user!.id);
+  console.log("user ==>", user)
   return user;
 };
 

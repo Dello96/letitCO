@@ -26,9 +26,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-
 import { supabase } from '../../supabaseClient';
-
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -94,7 +92,7 @@ export default function Home() {
     <>
       <StMain>
         {readingBook ? (
-          <StMainSection1>
+          <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
             <StNotice>
               {currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥
             </StNotice>
@@ -125,7 +123,7 @@ export default function Home() {
               if (item.isDone === true) {
                 return (
                   <>
-                    <StBookDoneList key={item?.id}>
+                    <StBookDoneList key={item?.id} onClick={() => navigate(`/detail/${item.id}`)}>
                       <StBookcover>
                         <StBookcoverimg src={item?.cover} alt="bookCover" />
                       </StBookcover>

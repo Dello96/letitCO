@@ -17,7 +17,7 @@ import {
   StReadingPeriod,
   StBookInfo,
   StBookTitle,
-  StBookAuthor,
+  StBookAuthor
 } from './style';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
@@ -26,12 +26,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-
 import { supabase } from '../../supabaseClient';
-
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from "react-icons/fa";
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Home() {
@@ -73,12 +71,6 @@ export default function Home() {
     queryFn: getBooks
   });
 
-
-  const { id } = useParams();
-  const book = books?.find((book) => book.id === id);
-  console.log('책 정보', book);
-
-
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
@@ -93,13 +85,15 @@ export default function Home() {
     );
   }
 
-  const readingBook = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
+  const readingBook = books?.find(
+    (item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true
+  );
 
   return (
     <>
       <StMain>
       {readingBook ? (
-        <StMainSection1>
+        <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
           <StNotice>{currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥</StNotice>
           <StReadingBox>
             <StBookcover>
@@ -113,22 +107,22 @@ export default function Home() {
           </StReadingBox>
         </StMainSection1>
         ) : (
-        <StAddBookWrap onClick={() => navigate('/booksearch')}>
-          <StAddIcon>
-            <FaSearchPlus />
-          </StAddIcon>
-          <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
-        </StAddBookWrap>
+          <StAddBookWrap onClick={() => navigate('/booksearch')}>
+            <StAddIcon>
+              <FaSearchPlus />
+            </StAddIcon>
+            <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
+          </StAddBookWrap>
         )}
-      <StMainSection2>
-        <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
+        <StMainSection2>
+          <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
           ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
           .map((item) => {
             if (item.isDone === true) {
               return (
                 <>
-                  <StBookDoneList key={item?.id}>
+                  <StBookDoneList key={item?.id} onClick={() => navigate(`/detail/${item.id}`)}>
                   <StBookcover>
                     <StBookcoverimg src={item?.cover} alt="bookCover" />
                   </StBookcover>

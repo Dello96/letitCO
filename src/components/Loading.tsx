@@ -1,12 +1,11 @@
 import React from 'react';
-
-import Spinner from '../assets/Spinner-1s-200px.gif';
 import styled from 'styled-components';
+import { FadeLoader } from 'react-spinners';
 
 function Loading() {
   return (
     <StBackground>
-      <Spinner />
+      <FadeLoader color="#36d7b7" />
     </StBackground>
   );
 }

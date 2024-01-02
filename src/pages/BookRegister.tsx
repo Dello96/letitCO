@@ -10,6 +10,7 @@ import { BsFilePlus } from 'react-icons/bs';
 import { BsFileCheckFill } from 'react-icons/bs';
 import { PiBookmarkSimpleFill } from 'react-icons/pi';
 import { PiBookmarkSimpleLight } from 'react-icons/pi';
+// import Loading from '../components/Loading';
 
 export default function BookRegister() {
   const { id } = useParams();

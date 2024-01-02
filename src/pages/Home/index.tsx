@@ -7,11 +7,12 @@ import {
   StAddBookWrap,
   StBookcover,
   StBookcoverimg,
+  StMainSection2,
   StBookProgressWrap,
   StAddIcon,
   StAddNotice,
   StBookProgress,
-  StMainSection2,
+  StMainSection3,
   StBookDoneTitle,
   StBookDoneList,
   StReadingPeriod,
@@ -107,14 +108,16 @@ export default function Home() {
           </StReadingBox>
         </StMainSection1>
         ) : (
-          <StAddBookWrap onClick={() => navigate('/booksearch')}>
-            <StAddIcon>
-              <FaSearchPlus />
-            </StAddIcon>
-            <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
-          </StAddBookWrap>
+          <StMainSection2>
+            <StAddBookWrap onClick={() => navigate('/booksearch')}>
+              <StAddIcon>
+                <FaSearchPlus />
+              </StAddIcon>
+              <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
+            </StAddBookWrap>
+          </StMainSection2>
         )}
-        <StMainSection2>
+        <StMainSection3>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
           ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
@@ -138,7 +141,7 @@ export default function Home() {
               );
             }
           })}
-      </StMainSection2>
+      </StMainSection3>
       </StMain>
     </>
   );

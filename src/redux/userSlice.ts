@@ -18,14 +18,14 @@ export const userSlice = createSlice({
     // 사용자 정보 초기화
     clearUser: (state) => {
       state.id = '';
-    },
-
-    loginUser: (state) => {
-      const storedId = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
-      state.id = storedId || '';
     }
+
+    // loginUser: (state) => {
+    //   const storedId = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+    //   state.id = storedId || '';
+    // }
   }
 });
 
-export const { setUser, clearUser, loginUser } = userSlice.actions;
+export const { setUser, clearUser } = userSlice.actions;
 export default userSlice.reducer;

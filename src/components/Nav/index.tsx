@@ -23,11 +23,11 @@ function Nav() {
           confirmButtonText: 'Yes'
         });
         if (result.isConfirmed) {
-          navigate('/login');
           Swal.fire({
             title: '로그아웃 완료!',
             icon: 'success'
           });
+          navigate('/login');
         }
       }
     } catch (error) {

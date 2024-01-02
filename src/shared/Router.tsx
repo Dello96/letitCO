@@ -11,31 +11,32 @@ import Calendar from '../pages/calendar';
 // import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
 
-
 const Router = () => {
-  const [user, setUser] = useState('')
+  const [user, setUser] = useState('');
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
-  if (authTokenStr) {
-    //제이슨으로 바꾸기
-    const authToken = JSON.parse(authTokenStr);
-    console.log('authToken=========>', authToken)
-    const userId: string = authToken.user.id;
-    console.log('사용자 ID:', userId);
-    setUser(userId)
+    if (authTokenStr) {
+      //제이슨으로 바꾸기
+      const authToken = JSON.parse(authTokenStr);
+      console.log('authToken=========>', authToken);
+      const userId: string = authToken.user.id;
+      console.log('사용자 ID:', userId);
+      setUser('userId');
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+    }
+    setLoading(false);
+  }, []);
 
-  } else {
-    console.log('Auth 토큰을 찾을 수 없습니다.');
+  if (loading) {
+    return <div>Loading..</div>;
   }
-}, [])
- 
-
 
   return (
     <BrowserRouter>
       <Routes>
         {user ? (
-        <>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
             {/* <Route path="/login" element={<Login />} /> */}
@@ -46,13 +47,12 @@ const Router = () => {
             <Route path="/detail/:id" element={<Detail />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
-        </>
-         ) : ( 
-        <>
-          <Route path="/login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </>
-         )} 
+        ) : (
+          <>
+            <Route path="/login" element={<Login />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
+          </>
+        )}
       </Routes>
     </BrowserRouter>
   );

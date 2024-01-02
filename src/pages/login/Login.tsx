@@ -137,15 +137,15 @@ const Login: React.FC = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
+        Swal.fire({
+          position: 'center',
+          icon: 'success',
+          title: '로그인에 성공하였습니다!',
+          showConfirmButton: false,
+          timer: 1500
+        });
         navigate('/');
       }
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: '로그인에 성공하였습니다!',
-        showConfirmButton: false,
-        timer: 1500
-      });
     } catch (error) {
       console.error(error);
     }

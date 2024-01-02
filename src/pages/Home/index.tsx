@@ -23,7 +23,7 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
@@ -31,15 +31,15 @@ import { supabase } from '../../supabaseClient';
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-import { loginUser } from '../../redux/userSlice';
+// import { loginUser } from '../../redux/userSlice';
 
 export default function Home() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(loginUser());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(loginUser());
+  // }, [dispatch]);
 
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');

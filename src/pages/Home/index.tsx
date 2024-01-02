@@ -73,10 +73,10 @@ export default function Home() {
     queryFn: getBooks
   });
 
-  const bookOnDashboard: Book = books?.find( b => !!b.inOnDashboard)
-  const {page, readUpto} = bookOnDashboard
+  const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
+  const { page, readUpto } = bookOnDashboard || {};
   const percentage = (readUpto! / page!) * 100;
-  console.log(`${percentage | 0}%`)
+  console.log(`${percentage | 0}%`);
   return (
     <>
       <Header />
@@ -89,7 +89,9 @@ export default function Home() {
               <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
             </div>
             <StReadingBox>
-              <StBookcover>{bookOnDashboard.cover}</StBookcover>
+              <StBookcover>
+                <img src={bookOnDashboard.cover} alt="" />
+              </StBookcover>
               <StBookProgressWrap>
                 <StBookProgressMove></StBookProgressMove>
                 <StBookProgressPoint></StBookProgressPoint>

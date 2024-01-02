@@ -94,7 +94,7 @@ export type Book = {
   category?: string;
   startDate?: string;
   endDate?: string;
-  isOnDashboard?: boolean;
+  inOnDashboard?: boolean;
   isDone?: boolean;
 };
 

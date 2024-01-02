@@ -62,9 +62,9 @@ const upsertBook = async (newBook: Book) => {
 };
 
 //책 대시보드정보 수정
-const dashUpdate = async ({ id, isOnDashboard }: Book) => {
-  await supabase.from(QUERY_KEYS.BOOKS).update({ isOnDashboard: false });
-  await supabase.from(QUERY_KEYS.BOOKS).update({ isOnDashboard }).eq('id', id);
+const dashUpdate = async ({ id, inOnDashboard }: Book) => {
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard: false });
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard }).eq('id', id);
 };
 
 //등록된 메모목록 가져오기

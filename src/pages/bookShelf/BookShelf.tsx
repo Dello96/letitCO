@@ -17,7 +17,6 @@ import { RootState } from '../../redux/store';
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
-
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
@@ -38,6 +37,12 @@ function BookShelf() {
 
   const currentUser = useSelector((state: RootState) => state.user);
 
+  const filteredBooks = memos
+    ?.filter((item) => item.uid === currentUser.id)
+    .filter((book) => {
+      return book.inOnDashboard;
+    });
+
   const dashBoardHandler = () => {
     Swal.fire({
       title: '대시보드에 추가하시겠습니까?',
@@ -45,7 +50,18 @@ function BookShelf() {
       cancelButtonText: '취소',
       showCancelButton: true
     });
+
     dashUpdate(currentUser);
+  };
+
+  const bookMarkHandler = () => {
+    Swal.fire({
+      title: '북마크를 해제하시겠습니까?',
+
+      cancelButtonText: '취소',
+      showCancelButton: true,
+      didOpen: () => {}
+    });
   };
 
   // const { ref, inView } = useInView({
@@ -67,6 +83,7 @@ function BookShelf() {
   console.log(memoIsReading);
   console.log(currentUser);
   console.log(currentUserNickname);
+  console.log(filteredBooks);
   return (
     <>
       <MainContainer>
@@ -81,7 +98,7 @@ function BookShelf() {
                     return (
                       <>
                         <WrapingBook>
-                          <BookMarkBtn onClick={() => {}}>
+                          <BookMarkBtn onClick={bookMarkHandler}>
                             <HiBookmark
                               style={{
                                 color: item.isMarked ? 'black' : 'red'

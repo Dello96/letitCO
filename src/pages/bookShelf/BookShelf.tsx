@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -6,17 +6,37 @@ import styled from 'styled-components';
 import { HiBookmark } from 'react-icons/hi';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
+import { getCurrentUser } from '../../api/supabaseData';
 import { getBooks } from '../../api/supabaseData';
 import './style.css';
+import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
+  const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
+
+  const { data: userData } = useQuery({
+    queryKey: [QUERY_KEYS.AUTH],
+    queryFn: getCurrentUser
+  });
+
+  useEffect(() => {
+    if (userData) {
+      setCurrentUserNickname(userData.user_metadata.nickname);
+      console.log('현재 로그인된 유저 ==>', userData.user_metadata.nickname);
+    }
+  }, [userData]);
+
+  const currentUser = useSelector((state: RootState) => state.user);
+
   // const { ref, inView } = useInView({
   //   threshold: 0.3
   // });
@@ -27,30 +47,46 @@ function BookShelf() {
   //   }
   // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   const navigate = useNavigate();
-  const moveRegisterPage = (item: string) => {
+  const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
   };
+
+  const dashStateHandler = () => {
+    return Swal.fire({
+      title: '완주목록에 추가',
+      text: '대쉬보드에 추가하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonText: '아니오',
+      confirmButtonText: '예'
+    });
+  };
+
   const buttonClicked = () => {
-    alert('버튼 클릭됨!');
+    memos?.filter((item) => {
+      return item.isMarked != item.isMarked;
+    });
   };
 
   console.log(data);
   console.log(memos);
   console.log(memoIsReading);
+  console.log(currentUser);
+  console.log(currentUserNickname);
   return (
     <>
       <MainContainer>
-        <TempHeader />
         <WrapBookShelf>
           <BtnAndShelf>
             <Btns>읽고 싶은 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isMarked === true) {
+                {memos
+                  ?.filter((item) => item.isMarked === true && item.uid === currentUser.id)
+                  .map((item) => {
                     return (
                       <>
-                        <WrapingBook onClick={() => moveRegisterPage(item.id)}>
+                        <WrapingBook>
                           <BookMarkBtn onClick={buttonClicked}>
                             <HiBookmark
                               style={{
@@ -58,12 +94,11 @@ function BookShelf() {
                               }}
                             />
                           </BookMarkBtn>
-                          <PlaningBook key={item.id} src={item.cover}></PlaningBook>
+                          <PlaningBook key={item.uid} src={item.cover} onClick={() => moveDetailPage(item.id)} />
                         </WrapingBook>
                       </>
                     );
-                  }
-                })}
+                  })}
               </Books>
             </BookShelfs>
           </BtnAndShelf>
@@ -71,12 +106,21 @@ function BookShelf() {
             <Btns>읽고 있는 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isReading === true) {
-                    return <ReadingBook key={item.id} src={item.cover} />;
-                  }
-                })}
-                <ReadingBook />
+                {memos
+                  ?.filter((item) => item.isReading === true && item.uid === currentUser.id)
+                  .map((item) => {
+                    return (
+                      <>
+                        <WrapingBook>
+                          <ButtonWrap>
+                            <DashBtn onClick={dashStateHandler}>🔥</DashBtn>
+                          </ButtonWrap>
+
+                          <ReadingBook key={item.uid} src={item.cover} onClick={() => moveDetailPage(item.id)} />
+                        </WrapingBook>
+                      </>
+                    );
+                  })}
               </Books>
             </BookShelfs>
           </BtnAndShelf>
@@ -84,14 +128,20 @@ function BookShelf() {
             <Btns>다 읽은 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isReading === false) {
-                    if (item.isMarked === false) {
-                      return <FinishedBook key={item.id} src={item.cover} />;
-                    }
-                  }
-                })}
-                <FinishedBook />
+                {memos
+                  ?.filter((item) => item.isDone === true && item.uid === currentUser.id)
+                  .map((item) => {
+                    return (
+                      <>
+                        <WrapingBook>
+                          <ButtonWrap>
+                            <DashBtn>✅</DashBtn>
+                          </ButtonWrap>
+                          <FinishedBook key={item.uid} src={item.cover} onClick={() => moveDetailPage(item.id)} />
+                        </WrapingBook>
+                      </>
+                    );
+                  })}
               </Books>
             </BookShelfs>
           </BtnAndShelf>
@@ -106,14 +156,6 @@ const MainContainer = styled.div`
   flex-direction: column;
 `;
 
-const TempHeader = styled.header`
-  display: flex;
-  width: 100%;
-  height: 150px;
-  margin-bottom: 50px;
-  background-color: aliceblue;
-`;
-
 const BtnAndShelf = styled.div`
   display: flex;
   flex-direction: row;
@@ -126,10 +168,23 @@ const Btns = styled.div`
   font-weight: 800;
 `;
 
-const WrapingBook = styled.button`
+const WrapingBook = styled.div`
   border: 0px;
   background-color: transparent;
   display: flex;
+`;
+
+const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+const DashBtn = styled.button`
+  display: flex;
+  border: 0px;
+  background-color: transparent;
+  cursor: pointer;
 `;
 
 const WrapBookShelf = styled.div`
@@ -142,6 +197,8 @@ const WrapBookShelf = styled.div`
 
 const BookMarkBtn = styled.button`
   display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0px;
   left: 5px;
   background-color: transparent;
@@ -203,17 +260,20 @@ const Books = styled.div`
 `;
 
 const PlaningBook = styled.img`
-  width: 100%;
+  width: 80px;
+  height: 120px;
   position: relative;
 `;
 
 const FinishedBook = styled.img`
-  width: 100%;
+  width: 80px;
+  height: 120px;
   position: relative;
 `;
 
 const ReadingBook = styled.img`
-  width: 100%;
+  width: 80px;
+  height: 120px;
   position: relative;
 
   /* &:hover {

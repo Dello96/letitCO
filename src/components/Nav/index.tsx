@@ -9,8 +9,8 @@ import { supabase } from '../../supabaseClient';
 function Nav() {
   const navigate = useNavigate();
   const signOutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
+    const data = await supabase.auth.signOut();
+    console.log('로그아웃 후 데이터', data);
     navigate('/login');
     alert('로그아웃 되었습니다.');
   };

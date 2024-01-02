@@ -3,16 +3,28 @@ import St from './style';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
 
 const BookInfo = () => {
+  const navigate = useNavigate()
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
   const { id } = useParams();
+
+  useEffect(() => {
+    if (!isLoading && books) {
+      const bookExists = books.some((book) => book?.id === id);
+      console.log('있는 책인가요?', bookExists)
+      if (!bookExists) {
+        navigate('/booksearch');
+      }
+    }
+  }, [id, books, isLoading, navigate]);
+  
   const book: Book = books?.find((book) => book.id === id);
 
   const [pageSubmitMode, setPageSubmitMode] = useState(false);
@@ -49,14 +61,14 @@ const BookInfo = () => {
 
   const changeIsReading = () => {
     const isCompleted = book?.readUpto === book?.page;
-    const isReadingStatus = !!isCompleted;
+    const isReadingStatus = !isCompleted;
     const id = book?.id;
     if (!id) {
       console.error('책 ID가 없습니다');
       return;
     }
     updateIsreadingMutate(
-      { id, isReadingStatus },
+      { id, isReadingStatus, isDone: isCompleted },
       {
         onSuccess: () => {
           queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
@@ -98,14 +110,13 @@ const BookInfo = () => {
       ) : (
         <St.Wrapper key={book?.id}>
           <St.BookCover>
-            <p>북마크</p>
             <img src={book?.cover} alt="bookCover" />
           </St.BookCover>
 
           <St.TextInfo>
             <St.TextInfoHeader>
               <h1>{book?.title}</h1>
-              <St.IsReading $isReading={book.isReading!}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
+              <St.IsReading $isReading={book?.isReading ?? false}>{book?.isReading ? '읽는중' : '완독'}</St.IsReading>
             </St.TextInfoHeader>
             <h3>{book?.author}</h3>
             <St.PublishInfo>
@@ -138,7 +149,7 @@ const BookInfo = () => {
                 <St.StartAdnEnd onSubmit={onSubmitDate}>
                   <p>시작일</p>
                   <input
-                    defaultValue={book.startDate}
+                    defaultValue={book?.startDate}
                     onChange={(e) => {
                       onChangeStartDate(e);
                     }}
@@ -146,7 +157,7 @@ const BookInfo = () => {
                   />
                   <p>종료일</p>
                   <input
-                    defaultValue={book.endDate}
+                    defaultValue={book?.endDate}
                     onChange={(e) => {
                       onChangeEndDate(e);
                     }}

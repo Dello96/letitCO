@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 
 export type User = {
-  id: string;
+  id: string | undefined ,
 }
 
 const initialState: User = {
@@ -15,7 +15,6 @@ export const userSlice = createSlice({
   reducers: {
     setUser: (state, action: PayloadAction<User>) => {
       state.id = action.payload.id;
-
     },
     // 사용자 정보 초기화
     clearUser: (state) => {

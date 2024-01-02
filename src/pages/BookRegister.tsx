@@ -46,7 +46,7 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
-      isDone: false,
+      isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isDone,
       isbn13: detailData?.isbn13,
       category: detailData?.categoryName
     };
@@ -65,7 +65,7 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
-      isDone: false,
+      isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isReading,
       isbn13: detailData?.isbn13,
       category: detailData?.categoryName
     };
@@ -82,14 +82,14 @@ export default function BookRegister() {
 
   return (
     <StBody>
-      {detailData && (
+      {
         <StBookBox>
           <StImgBox>
-            <img src={detailData.cover} />
+            <img src={detailData?.cover} />
           </StImgBox>
           <StTextWrapper>
             <StBtnBox>
-              <h1>{detailData.title}</h1>
+              <h1>{detailData?.title}</h1>
               {/* uidIsbn13BookData가 없다면 빈마크
          있다면 그중 isReading의 여부가 true면 채워진 마크 false라면 빈 마크  */}
               {/* 북마크 */}
@@ -111,19 +111,19 @@ export default function BookRegister() {
                 )}
               </div>
             </StBtnBox>
-            <h3>{detailData.author} </h3>
+            <h3>{detailData?.author} </h3>
             <StPublishInpo>
-              <p>{detailData.publisher} </p>
-              <span>{detailData.pubDate}</span>
+              <p>{detailData?.publisher} </p>
+              <span>{detailData?.pubDate}</span>
             </StPublishInpo>
             <StTextBox>
-              <p>{detailData.categoryName} </p>
-              <p> 평점 {detailData.customerReviewRank} </p>
+              <p>{detailData?.categoryName} </p>
+              <p> 평점 {detailData?.customerReviewRank} </p>
             </StTextBox>
-            <p> {detailData.description}</p>
+            <p> {detailData?.description}</p>
           </StTextWrapper>
         </StBookBox>
-      )}
+      }
     </StBody>
   );
 }
@@ -172,7 +172,7 @@ const StTextBox = styled.div`
 
 const StPublishInpo = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
   color: grey;
   & span {

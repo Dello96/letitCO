@@ -23,6 +23,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 export type Inputs = {
   userEmail: string;
@@ -32,6 +34,7 @@ export type Inputs = {
 };
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const {
@@ -81,8 +84,8 @@ const Login: React.FC = () => {
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 5000
+          showConfirmButton: false
+          // timer: 5000
         });
         navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
       }
@@ -91,12 +94,12 @@ const Login: React.FC = () => {
     }
   };
 
-  const signOutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    alert('로그아웃');
-    // console.log()
-  };
+  // const signOutHandler = async () => {
+  //   const { error } = await supabase.auth.signOut();
+  //   console.log(error);
+  //   alert('로그아웃');
+  //   // console.log()
+  // };
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
@@ -106,6 +109,16 @@ const Login: React.FC = () => {
         email: inputs.userEmail,
         password: inputs.userPassword
       });
+      if (data && data.user) {
+        const id = data.user.id;
+        const user = {
+          id: id
+        };
+        dispatch(setUser(user));
+      } else {
+        console.log('id 값이 없습니다.');
+      }
+
       console.log('userData', data);
       console.log('만료', data.session?.expires_in);
 
@@ -121,17 +134,17 @@ const Login: React.FC = () => {
         });
       } else {
         Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          // position: 'center',
+          // icon: 'success',
+          // title: '로그인에 성공하였습니다!',
+          // showConfirmButton: false,
+          // timer: 1500
         });
         navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
         setTimeout(() => {
-          signOutHandler();
+          //   signOutHandler();
           // console.log('5초 뒤에 찍히나?');
         }, 60000);
       }

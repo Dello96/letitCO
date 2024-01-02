@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 export const StMain = styled.div`
-  width:100%;
-  height:100%;
+  width: 100%;
+  height: 100%;
 `;
 
 export const StMainSection1 = styled.section`
@@ -50,12 +50,12 @@ export const StAddIcon = styled.div`
     transform: scale(1.1);
     transition: all 0.2s;
   }
-`
+`;
 
 export const StAddNotice = styled.div`
   color: black;
   font-size: 18px;
-`
+`;
 
 export const StBookcoverimg = styled.img`
   width: 150px;

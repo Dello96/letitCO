@@ -9,6 +9,7 @@ import Swal from 'sweetalert2';
 // import { StCustomModal } from './style';
 function Nav() {
   const navigate = useNavigate();
+
   const signOutHandler = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -23,13 +24,13 @@ function Nav() {
           confirmButtonText: 'Yes'
         });
         if (result.isConfirmed) {
-          navigate('/login');
           Swal.fire({
             title: '로그아웃 완료!',
             icon: 'success'
           });
         }
       }
+      navigate('/login');
     } catch (error) {
       console.error(error);
     }

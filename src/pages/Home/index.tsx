@@ -23,15 +23,20 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
+
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
+
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 export default function Home() {
   const navigate = useNavigate();
+
   const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+
   const [user, setUser] = useState<string | null>(null);
+
   useEffect(() => {
     if (authTokenStr) {
       const authToken = JSON.parse(authTokenStr);
@@ -43,6 +48,7 @@ export default function Home() {
       setUser(null);
     }
   }, [authTokenStr]);
+
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
   const { data: userData } = useQuery({
@@ -59,6 +65,7 @@ export default function Home() {
       console.log('현재 로그인된 유저 ==>', provider === 'google' ? name : nickname);
     }
   }, [userData]);
+
   // 책 정보 가져오기
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
@@ -76,7 +83,9 @@ export default function Home() {
       </div>
     );
   }
+
   const readingBook = books?.find((item) => user === item.uid && item.isReading === true);
+
   return (
     <>
       <StMain>
@@ -120,7 +129,7 @@ export default function Home() {
                       </StBookcover>
                       <div>
                         <StBookInfo>
-                          <StBookTitle>:흰색_확인_표시: {item.title}</StBookTitle>
+                          <StBookTitle>✅ {item.title}</StBookTitle>
                           <StBookAuthor>{item.author}</StBookAuthor>
                         </StBookInfo>
                         <StReadingPeriod>

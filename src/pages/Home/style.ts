@@ -10,7 +10,7 @@ export const StMainSection1 = styled.section`
 
 export const StNotice = styled.div`
     font-size: 40px;
-    margin: 80px 450px 50px 450px;
+    margin: 80px 420px 50px 420px;
 `
 
 export const StReadingBox = styled.div`
@@ -68,16 +68,5 @@ export const StReadingPeriod = styled.p`
 `
 
 export const StReadingStar = styled.p`
-    margin-left: 20px;
-`
-
-export const StReadingMemo = styled.p`
-    margin-left: 20px;
-`
-
-export const StReadingMemoIndex = styled.div`
-    border: 1px solid black;
-    width: 900px;
-    height: 70px;
     margin-left: 20px;
 `

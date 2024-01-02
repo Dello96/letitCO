@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Header from '../../components/Header'
 import {
   StMain,
@@ -14,25 +14,42 @@ import {
   StBookDoneList,
   StReadingPeriod,
   StReadingStar,
-  StReadingMemo,
-  StReadingMemoIndex
  } from './style'
-import { SupabaseClient } from '@supabase/supabase-js'
-import { getMemos, getBooks } from '../../api/supabaseData'
+import { useQuery } from 'react-query'
 import { QUERY_KEYS } from '../../query/keys'
-import { useQuery } from 'react-query';
+import { getBooks, getCurrentUser } from '../../api/supabaseData'
+import { useParams } from 'react-router-dom'
 
 export default function Home() {
-  // 읽은 페이지 표시
-  // const [currentPage, setCurrentPage] = React.useState<number>(0);
-  // const totalPage = data?.length || 0;
-  // const progressPercentage = ((currentPage + 1) / totalPage) * 100;
+  // 현재 로그인된 유저 정보 가져오기
+  const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
-  const {isLoading, data: books} = useQuery({
+  const { data: userData } = useQuery({
+    queryKey: [QUERY_KEYS.AUTH],
+    queryFn: getCurrentUser
+  });
+
+  useEffect(() => {
+    if (userData) {
+      setCurrentUserNickname(userData.user_metadata.nickname);
+      console.log('현재 로그인된 유저 ==>', userData.user_metadata.nickname);
+    }
+  }, [userData]);
+
+  // 책 정보 가져오기
+  const {data: books} = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks,
   });
-  // const memo = memos?.find((memo) => memo.id === memo.id)
+
+  const {id} = useParams();
+  const book = books?.find((book) => book.id === id );
+  console.log("책 정보", book);
+
+
+  // 읽은 페이지 표시
+  const progressPercentage = book ? ((book.readUpto || 0) / (book.page)) * 100 : 0;
+
 
   return (
     <>
@@ -40,28 +57,30 @@ export default function Home() {
       <StMain>
         <StMainSection1>
           <div>
-            <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
+            <StNotice>{currentUserNickname}님 ! 벌써 {book.readUpto} 페이지 읽으셨네요!!</StNotice>
           </div>
             <StReadingBox>
-              <StBookcover>책 표지</StBookcover>
+              <StBookcover></StBookcover>
               <StBookProgressWrap>
                 <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint></StBookProgressPoint>
+                <StBookProgressPoint style={{width: `${progressPercentage}%`}}></StBookProgressPoint>
               </StBookProgressWrap>
             </StReadingBox>
         </StMainSection1>
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
-          <StBookDoneList>
-            <StBookcover>책 표지</StBookcover>
-            <div>
-              <StReadingPeriod>읽은 기간</StReadingPeriod>
-              <StReadingStar>평점</StReadingStar>
-              <div>
-                <StReadingMemo>독서 메모</StReadingMemo>
-                <StReadingMemoIndex></StReadingMemoIndex>
-              </div>
-            </div>
+          <StBookDoneList key={book && book.id}>
+            {book && (
+              <>
+                <StBookcover>
+                  <img src={book.cover} alt="bookCover" />
+                </StBookcover>
+                <div>
+                  <StReadingPeriod>{book.startDate} ~ {book.endDate}</StReadingPeriod>
+                  <StReadingStar>평점</StReadingStar>
+                </div>
+              </>
+            )}
           </StBookDoneList>
         </StMainSection2>
       </StMain>

@@ -13,6 +13,7 @@ import { getCurrentUser } from '../api/supabaseData';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import { RootState } from '../redux/store';
+import Layout from '../components/Layout';
 const Router = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user);
@@ -26,25 +27,26 @@ const Router = () => {
       dispatch(setUser(userData));
     }
   }, [userData, dispatch]);
+  console.log('커런드 유저다', currentUser);
   return (
     <BrowserRouter>
       <Routes>
-        {currentUser ? (
+        {currentUser.id ? (
           <>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/bookregister/:id" element={<BookRegister />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/booksearch" element={<BookSearch />} />
-            <Route path="/bookshelf" element={<BookShelf />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/detail/:id" element={<Detail />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/bookregister/:id" element={<BookRegister />} />
+              <Route path="/booksearch" element={<BookSearch />} />
+              <Route path="/bookshelf" element={<BookShelf />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/detail/:id" element={<Detail />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
           </>
         ) : (
           <>
             <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
       </Routes>

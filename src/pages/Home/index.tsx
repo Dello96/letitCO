@@ -19,6 +19,8 @@ import { useQuery} from 'react-query'
 import { QUERY_KEYS } from '../../query/keys'
 import { getBooks, getCurrentUser } from '../../api/supabaseData'
 import { useParams } from 'react-router-dom'
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 export default function Home() {
   // const circle = useRef(null);
@@ -80,6 +82,9 @@ export default function Home() {
     }
   }, [userData]);
 
+  const currentUser = useSelector((state: RootState) => state.user)
+  console.log("현재유저", currentUser.id);
+
   // 책 정보 가져오기
   const { data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
@@ -111,8 +116,9 @@ export default function Home() {
         </StMainSection1>
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
-          {books?.map((item) => {
-                  if (item.isReading === false) {
+          {books?.filter((item) => currentUser.id === item.uid)
+          .map((item) => {
+                  if (item.isReading === true) {
                     if (item.isMarked === false) {
                       return <>
                       <StBookDoneList key={item?.id}>
@@ -120,6 +126,8 @@ export default function Home() {
                         <img src={item?.cover} alt="bookCover" />
                       </StBookcover>
                       <div>
+                        <div>{item.title}</div>
+                        <div>{item.author}</div>
                         <StReadingPeriod>{item?.startDate} ~ {item?.endDate}</StReadingPeriod>
                         <StReadingStar>평점</StReadingStar>
                       </div>

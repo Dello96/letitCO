@@ -23,7 +23,7 @@ import { QUERY_KEYS } from '../../query/keys';
 import { getBooks } from '../../api/supabaseData';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-import { supabase } from '../../supabaseClient';
+// import { supabase } from '../../supabaseClient';
 
 export default function Home() {
   const { isLoading, data: books } = useQuery({
@@ -33,17 +33,17 @@ export default function Home() {
 
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
-  console.log('tt', title);
+  // console.log('tt', title);
   const percentage = (readUpto! / page!) * 100;
   console.log(`${percentage | 0}%`);
 
-  const existUser = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    console.log('현재 세션에 로그인된 유저', user?.user_metadata.nickname);
-  };
-  existUser();
+  // const existUser = async () => {
+  //   const {
+  //     data: { user }
+  //   } = await supabase.auth.getUser();
+  //   console.log('현재 세션에 로그인된 유저', user?.user_metadata.nickname);
+  // };
+  // existUser();
 
   return (
     <>

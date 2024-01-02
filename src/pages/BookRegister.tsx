@@ -67,7 +67,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
       isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isDone,
       isbn13: detailData?.isbn13,
-      category: detailData?.categoryName
+      category: detailData?.categoryName,
     };
     upsertBookMutation(newMarkerBook);
   };

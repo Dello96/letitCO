@@ -13,6 +13,7 @@ const NewMemo = () => {
 
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
+  
   const currentUser = useSelector((state: RootState) => state.user) as { id: string };
   console.log('detail페이지 로그인유저 uid===>', currentUser.id);
 

@@ -1,67 +1,49 @@
-import React, { useState, ChangeEvent } from 'react';
-// import { useQuery, useQueryClient } from 'react-query';
-// import { QUERY_KEYS } from '../../query/keys';
-// import { getBooks } from '../../api/supabaseData';
-// import { useParams } from 'react-router-dom';
-// import { Book } from '../../types/global.d';
+import React from 'react';
+// import { ChangeEvent, useState } from 'react';
+import { StBookTitle, StCompletedPercent } from './style';
+interface ProgressBar {
+  percentage: number;
+  title?: string;
+}
 
-function ProgressBar() {
-  //   const queryClient = useQueryClient();
-  //   const { isLoading, data: books } = useQuery({
-  //     queryKey: [QUERY_KEYS.BOOKS],
-  //     queryFn: getBooks
-  //   });
-  //   const { id } = useParams();
-  //   const book: Book = books?.find((book) => book.id === id);
-
-  //   console.log('dd', QUERY_KEYS.BOOKS);
-  //   console.log('isLoading', isLoading);
-
-  //   const [page, setPage] = useState<number>(book?.readUpto ?? 0);
-
-  //   updateReadPagesMutate(
-  //     { id, page },
-  //     {
-  //       onSuccess: () => {
-  //         queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
-  //       },
-  //       onError: () => {
-  //         setPage(previousPage);
-  //       }
-  //     }
-  //   );
-
-  const [inputValue, setInputValue] = useState<number>(0);
-  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = parseFloat(event.target.value);
-    setInputValue(newValue);
-  };
+function ProgressBar({ percentage, title }: ProgressBar) {
+  //   const [inputValue, setInputValue] = useState<number>(0);
+  //   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+  //     const newValue = parseFloat(event.target.value);
+  //     setInputValue(newValue);
+  //   };
 
   const calculatePercentage = () => {
-    const clampedValue = Math.min(100, Math.max(0, inputValue));
+    const clampedValue = Math.min(100, Math.max(0, percentage));
     return clampedValue;
   };
 
   return (
     <div>
-      <h2>프로그래스 바</h2>
-      <label>
-        값 입력:
-        <input type="text" value={inputValue} onChange={handleInputChange} min="0" max="100" />
-      </label>
-      <div style={{ marginTop: '10px' }}>
+      <StBookTitle> 📖 {title}</StBookTitle>
+
+      <div style={{ marginTop: '40px' }}>
         <div
           style={{
-            width: `${calculatePercentage()}%`,
-            height: '20px',
-            backgroundColor: 'lightblue',
-            border: '1px solid blue',
-            borderRadius: '4px',
-            transition: 'width 0.3s ease'
+            position: 'relative',
+            height: '30px;',
+            width: '910px;',
+            backgroundColor: '#d8d8d8',
+            borderRadius: '20px'
           }}
-        />
+        >
+          <div
+            style={{
+              width: `${calculatePercentage()}%`,
+              height: '30px',
+              backgroundColor: 'lightblue',
+              borderRadius: '20px',
+              transition: 'width 0.3s ease'
+            }}
+          />
+        </div>
       </div>
-      <div style={{ marginTop: '10px' }}>{`${calculatePercentage()}% 완료`}</div>
+      <StCompletedPercent>{`${Math.floor(calculatePercentage())}% 책 읽기 완료!`}</StCompletedPercent>
     </div>
   );
 }

@@ -32,6 +32,7 @@ const Router = () => {
         {currentUser ? (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/bookregister/:id" element={<BookRegister />} />
             <Route path="/login" element={<Login />} />
             <Route path="/booksearch" element={<BookSearch />} />

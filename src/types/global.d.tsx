@@ -1,5 +1,3 @@
-import { User } from '../redux/userSlice';
-
 export type AldBook = {
   adult?: boolean;
   author: string;

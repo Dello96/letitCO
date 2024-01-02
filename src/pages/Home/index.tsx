@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StMain,
   StMainSection1,
@@ -23,11 +23,10 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-import { supabase } from '../../supabaseClient';
+
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
@@ -35,6 +34,22 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
   const navigate = useNavigate();
+
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+  
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authTokenStr) {
+      const authToken = JSON.parse(authTokenStr);
+      const userId = authToken.user.id;
+      setUser(userId);
+      console.log('사용자 ID:', userId);
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+      setUser(null);
+    }
+  }, [authTokenStr]);
 
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
@@ -55,16 +70,7 @@ export default function Home() {
       console.log('현재 로그인된 유저 ==>', provider === 'google' ? name : nickname);
     }
   }, [userData]);
-
-  const existUser = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    console.log('현재 세션에 로그인된 유저', user);
-  };
-  existUser();
-
-  const currentUser = useSelector((state: RootState) => state.user);
+  
 
   // 책 정보 가져오기
   const { isLoading, data: books } = useQuery({
@@ -87,7 +93,7 @@ export default function Home() {
   }
 
   const readingBook = books?.find(
-    (item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true
+    (item) => user === item.uid && item.isReading === true
   );
 
   return (
@@ -120,7 +126,7 @@ export default function Home() {
         <StMainSection3>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
-          ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
+          ?.filter((item) => user === item.uid && item.isDone === true)
           .map((item) => {
             if (item.isDone === true) {
               return (

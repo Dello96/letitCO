@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
 import { HiBookmark } from 'react-icons/hi';
@@ -26,10 +26,13 @@ function BookShelf() {
   //     fetchNextPage();
   //   }
   // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
-  const buttonClicked = () => {
-    return console.log('버튼클릭');
+  const navigate = useNavigate();
+  const moveRegisterPage = (item: string) => {
+    navigate(`/detail/${item}`);
   };
-  // const navigate = useNavigate();
+  const buttonClicked = () => {
+    alert('버튼 클릭됨!');
+  };
 
   console.log(data);
   console.log(memos);
@@ -47,11 +50,10 @@ function BookShelf() {
                   if (item.isMarked === true) {
                     return (
                       <>
-                        <WrapingBook>
+                        <WrapingBook onClick={() => moveRegisterPage(item.id)}>
                           <BookMarkBtn onClick={buttonClicked}>
                             <HiBookmark
                               style={{
-                                zIndex: '2',
                                 color: item.isMarked ? 'black' : 'red'
                               }}
                             />
@@ -124,7 +126,9 @@ const Btns = styled.div`
   font-weight: 800;
 `;
 
-const WrapingBook = styled.div`
+const WrapingBook = styled.button`
+  border: 0px;
+  background-color: transparent;
   display: flex;
 `;
 
@@ -138,7 +142,6 @@ const WrapBookShelf = styled.div`
 
 const BookMarkBtn = styled.button`
   display: flex;
-  z-index: 3;
   top: 0px;
   left: 5px;
   background-color: transparent;
@@ -152,7 +155,7 @@ const BookShelfs = styled.div`
   display: flex;
   justify-content: center;
   flex-shrink: 0;
-  z-index: -1;
+  /* z-index: -1; */
   position: relative;
   height: 0px;
   box-sizing: border-box;
@@ -164,14 +167,13 @@ const BookShelfs = styled.div`
 
   // bookshelf front-side
   &::before {
-    content: '';
     position: absolute;
     top: 16px;
     background: linear-gradient(90deg, #fafafa 0%, #ffffff 100%);
     height: 26px;
     width: calc(100% + 40px);
     box-shadow: 0px -1px 6px rgba(0, 0, 0, 0.05), 0px 4px 16px rgba(0, 0, 0, 0.25);
-    z-index: 2;
+    /* z-index: 2; */
   }
 
   // bookshelf drop-shadow
@@ -196,7 +198,6 @@ const Books = styled.div`
   margin: auto;
   transform: translateY(-100%);
   padding: 0 0 2px;
-  z-index: -1;
   position: relative;
   top: 10px;
 `;

@@ -1,48 +1,119 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import St from './style';
-import { getBooks } from '../../../api/supabaseData';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { useQuery } from 'react-query';
+import { getBooks, updateIsReading, updateReadPages } from '../../../api/supabaseData';
 import { useParams } from 'react-router-dom';
-// import { useParams } from 'react-router-dom';
 
 const BookInfo = () => {
+  const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
-
-  const {id} = useParams()
+  const { id } = useParams();
   const book = books?.find((book) => book.id === id);
-  // console.log('book==>', book);
 
-  // const toggleIsReading = () => {
-  //   setIsReading(!book.isLoading)
-  // };
+  const [pageSubmitMode, setPageSubmitMode] = useState(false);
+  const [page, setPage] = useState<number>(book?.readUpto);
+
+  const { mutate: updateReadPagesMutate } = useMutation(updateReadPages);
+  const { mutate: updateIsreadingMutate } = useMutation(updateIsReading);
+
+  const onChangePage = (e: React.ChangeEvent<HTMLInputElement>) => setPage(parseInt(e.target.value));
+  const togglePageInput = () => setPageSubmitMode(!pageSubmitMode);
+
+  const updatePageButton = (e: React.FormEvent<HTMLFormElement>, id: string) => {
+    e.preventDefault();
+    const previousPage = page;
+    updateReadPagesMutate(
+      { id, page },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        },
+        onError: () => {
+          setPage(previousPage);
+        }
+      }
+    );
+    setPageSubmitMode(false);
+  };
+  const changeIsReading = () => {
+    const isCompleted = book?.readUpto === book?.page;
+    const isReadingStatus = !!isCompleted;
+    const id: string = book?.id; // id가 언디파인드..
+    updateIsreadingMutate(
+      { id, isReadingStatus },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        }
+      }
+    );
+  };
+
+  useEffect(() => {
+    changeIsReading();
+    // console.log('isReading 상태 ==>', book?.isReading, '/  읽은 페이지수 ==>', book?.readUpto);
+  }, [book]);
 
   return (
     <St.BookInfoSection>
       {isLoading ? (
         <p>데이터 오는중</p>
       ) : (
-        <St.Wrapper key={book.id}>
-          {/* 이미지소스 사이즈 크게 받아야함. */}
+        <St.Wrapper key={book?.id}>
           <St.BookCover>
             <p>북마크</p>
-            <img src={book.cover} alt="bookCover" />
+            <img src={book?.cover} alt="bookCover" />
           </St.BookCover>
+
           <St.TextInfo>
             <St.TextInfoHeader>
-              <h1>{book.title}</h1>
-              <St.IsReading>{book.isReading ? '완독' : '독서중'}</St.IsReading>
+              <h1>{book?.title}</h1>
+              <St.IsReading $isReading={book.isReading}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
             </St.TextInfoHeader>
-            <p>{book.author}</p>
+            <h3>{book?.author}</h3>
             <St.PublishInfo>
-              <p>{book.publisher}</p>
-              <span>{book.pubDate}</span>
+              <p>{book?.publisher}</p>
+              <span>{book?.pubDate}</span>
             </St.PublishInfo>
-            <St.Description>{book.description}</St.Description>
-            <p>{book.category}</p>
+            <p className="category">{book?.category}</p>
+            <St.Description>{book?.description}</St.Description>
+            <St.UserReadingInfo>
+              <St.Page>
+                <St.PageSubmit onClick={togglePageInput}>{pageSubmitMode ? '취소' : '읽은 쪽수 등록'}</St.PageSubmit>
+                <form onSubmit={(e) => updatePageButton(e, book.id)}>
+                  {pageSubmitMode ? (
+                    <input
+                      defaultValue={book.readUpto}
+                      onChange={onChangePage}
+                      max={book.page}
+                      min={0}
+                      type="number"
+                      placeholder="읽은 쪽수"
+                    />
+                  ) : (
+                    <St.PageNumber>{book?.readUpto}p</St.PageNumber>
+                  )}
+                  <p>&nbsp;&nbsp;/&nbsp;&nbsp;{book?.page}p</p>
+                  {pageSubmitMode && <button type="submit">저장</button>}
+                </form>
+              </St.Page>
+              <St.Timeline>
+                <h3>독서기간</h3>
+                <St.StartAdnEnd>
+
+                    <p>시작일</p>
+                    <input type="date" />
+
+                    <p>종료일</p>
+                    <input type="date" />
+
+                </St.StartAdnEnd>
+              </St.Timeline>
+            </St.UserReadingInfo>
           </St.TextInfo>
         </St.Wrapper>
       )}

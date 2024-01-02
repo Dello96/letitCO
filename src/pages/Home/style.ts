@@ -40,7 +40,7 @@ export const StBookProgressMove = styled.p`
     margin-top: 50px;
 `
 
-export const StBookProgressPoint = styled.p`
+export const StBookProgressPoint = styled.label`
 
 `
 

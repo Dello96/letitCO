@@ -89,6 +89,8 @@ export type Book = {
   updatedPages?: number;
   readUpto?: number;
   category?: string;
+  startDate?: string;
+  endDate?: string;
 };
 
 export type Memo = {

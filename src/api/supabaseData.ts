@@ -55,10 +55,23 @@ const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
 const updateIsReading = async ({ id, isReadingStatus }: { id: string; isReadingStatus: boolean }) => {
   if (!id) {
     // id 값이 없으면 오류 처리
-    console.error("ID is undefined!");
+    console.error('ID is undefined!');
     return;
   }
   await supabase.from(QUERY_KEYS.BOOKS).update({ isReading: isReadingStatus }).eq('id', id);
+};
+
+//독서 상태 업데이트
+const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; startDate: string; endDate: string }) => {
+  const updateData: { startDate?: string; endDate?: string } = {};
+  if (startDate) {
+    updateData.startDate = startDate;
+  }
+  if (endDate) {
+    updateData.endDate = endDate;
+  }
+
+  await supabase.from(QUERY_KEYS.BOOKS).update(updateData).eq('id', id);
 };
 
 export {
@@ -70,5 +83,6 @@ export {
   updateMemo,
   deleteMemo,
   updateReadPages,
-  updateIsReading
+  updateIsReading,
+  updateReadingPeriod
 };

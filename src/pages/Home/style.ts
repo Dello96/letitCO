@@ -32,6 +32,15 @@ export const StProgressBookTitle = styled.div`
   color: #0e411d;
   margin-top: 10px;
 `;
+
+export const StMainSection2 = styled.section`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+`;
+
 export const StAddBookWrap = styled.div`
   height: 250px;
   width: 1200px;
@@ -39,13 +48,18 @@ export const StAddBookWrap = styled.div`
   border-radius: 10px;
   margin-top: 180px;
   cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 `;
 
 export const StAddIcon = styled.div`
   color: #0e411d;
   font-size: 90px;
   font-weight: 700;
-  margin: 50px 0 10px 0;
+  margin: 10px 0 10px 0;
   &:hover {
     transform: scale(1.1);
     transition: all 0.2s;
@@ -87,7 +101,7 @@ export const StCompletedPercent = styled.div`
   font-size: 20px;
 `;
 
-export const StMainSection2 = styled.section`
+export const StMainSection3 = styled.section`
   display: flex;
   flex-direction: column;
   align-items: center;

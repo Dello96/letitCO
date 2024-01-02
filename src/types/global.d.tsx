@@ -1,4 +1,4 @@
-import { User } from "../redux/userSlice";
+import { User } from '../redux/userSlice';
 
 export type AldBook = {
   adult?: boolean;
@@ -95,6 +95,7 @@ export type Book = {
   startDate?: string;
   endDate?: string;
   isOnDashboard?: boolean;
+  isDone?: boolean;
 };
 
 export type Memo = {

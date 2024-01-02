@@ -82,7 +82,7 @@ const Login: React.FC = () => {
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
           showConfirmButton: false,
-          timer: 1500
+          timer: 5000
         });
         navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
       }
@@ -127,7 +127,7 @@ const Login: React.FC = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/homepage');
+        navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
         setTimeout(() => {

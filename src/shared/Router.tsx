@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
+
 const Router = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user);
@@ -27,11 +28,11 @@ const Router = () => {
       dispatch(setUser(userData));
     }
   }, [userData, dispatch]);
-  console.log('커런드 유저다', currentUser);
+  console.log('커런드 유저다', !!currentUser.id);
   return (
     <BrowserRouter>
       <Routes>
-        {currentUser ? (
+        {currentUser.id ? (
           <>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
@@ -46,7 +47,7 @@ const Router = () => {
         ) : (
           <>
             <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
       </Routes>

@@ -5,10 +5,10 @@ import { QUERY_KEYS } from '../query/keys';
 import { getSearchData } from '../api/aldData';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getCurrentUser } from '../api/supabaseData';
+import Loading from '../components/Loading';
 // import { useDispatch } from 'react-redux';
 
 function BookSearch() {
-  // 주소를 먼저 바꾸고 url에 있는 값을 가져와서 초깃값으로 넣어주기 useSearchParams
   // search값이 없으면 검색하지 않도록 하기
   const [param] = useSearchParams();
   const queryString = param.get('keyword');
@@ -23,8 +23,7 @@ function BookSearch() {
   console.log('유저정보다', data);
 
   // 책 검색목록 가져오기
-
-  const { data: searchData } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);
+  const { data: searchData, isLoading } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);
 
   // 검색
   const searchOnChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -39,13 +38,17 @@ function BookSearch() {
     navi(`/bookregister/${item}`);
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
   return (
     <StBody>
       <StInputWraper>
         <input value={keyword} onChange={searchOnChangeHandler} />
         <button onClick={searchOnClickHandler}>검색</button>
       </StInputWraper>
-      {searchData ? (
+      {searchData &&
         searchData.map((item) => {
           return (
             <StBookWraper key={item.isbn} onClick={() => moveRegisterPage(item.isbn13)}>
@@ -62,10 +65,7 @@ function BookSearch() {
               </StBookBox>
             </StBookWraper>
           );
-        })
-      ) : (
-        <EmptySearch>도서를 검색하세요</EmptySearch>
-      )}
+        })}
     </StBody>
   );
 }
@@ -89,11 +89,15 @@ const StInputWraper = styled.div`
   & button {
     height: 50px;
     width: 50px;
+    font-weight: bold;
     background-color: #0e411d;
     color: white;
     border-radius: 0 8px 8px 0;
-    border: none;
-    & :hover {
+    border: 2px solid #0e411d;
+    cursor: pointer;
+    &:hover {
+      background-color: white;
+      color: #0e411d;
     }
   }
 `;
@@ -101,6 +105,9 @@ const StBookWraper = styled.div`
   margin: 20px;
   width: 1100px;
   background-color: beige;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 const StBookBox = styled.div`
   display: flex;
@@ -114,8 +121,5 @@ const StBookBox = styled.div`
   & p {
     font-size: 14px;
   }
-`;
-const EmptySearch = styled.h1`
-  margin-top: 200px;
 `;
 export default BookSearch;

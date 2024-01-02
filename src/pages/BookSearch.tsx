@@ -9,6 +9,7 @@ import { getCurrentUser } from '../api/supabaseData';
 
 function BookSearch() {
   // 주소를 먼저 바꾸고 url에 있는 값을 가져와서 초깃값으로 넣어주기 useSearchParams
+  // search값이 없으면 검색하지 않도록 하기
   const [param] = useSearchParams();
   const queryString = param.get('keyword');
   const [search, setSearch] = useState(queryString!);
@@ -22,6 +23,7 @@ function BookSearch() {
   console.log('유저정보다', data);
 
   // 책 검색목록 가져오기
+
   const { data: searchData } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);
 
   // 검색
@@ -69,6 +71,7 @@ function BookSearch() {
 }
 const StBody = styled.div`
   width: 1200px;
+  height: 200vw;
   margin: 0 auto;
   display: flex;
   flex-direction: column;

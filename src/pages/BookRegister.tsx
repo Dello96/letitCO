@@ -10,7 +10,7 @@ import { BsFilePlus } from 'react-icons/bs';
 import { BsFileCheckFill } from 'react-icons/bs';
 import { PiBookmarkSimpleFill } from 'react-icons/pi';
 import { PiBookmarkSimpleLight } from 'react-icons/pi';
-// import Loading from '../components/Loading';
+import Loading from '../components/Loading';
 
 export default function BookRegister() {
   const { id } = useParams();
@@ -45,7 +45,8 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
-      isbn13: detailData?.isbn13
+      isbn13: detailData?.isbn13,
+      category: detailData?.categoryName
     };
     upsertBookMutation(newBook);
   };
@@ -62,13 +63,18 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
-      isbn13: detailData?.isbn13
+      isbn13: detailData?.isbn13,
+      category: detailData?.categoryName
     };
     upsertBookMutation(newMarkerBook);
   };
 
   if (isLoading) {
-    return <h1>로딩중..</h1>;
+    return (
+      <div>
+        <Loading />;
+      </div>
+    );
   }
 
   return (

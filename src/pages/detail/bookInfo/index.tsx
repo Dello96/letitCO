@@ -6,9 +6,7 @@ import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from 
 import { useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
 
-
 const BookInfo = () => {
-
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
@@ -19,11 +17,11 @@ const BookInfo = () => {
 
   const [pageSubmitMode, setPageSubmitMode] = useState(false);
   const [page, setPage] = useState<number>(book?.readUpto ?? 0);
-  const [startDate, setStartDate] = useState('')
-  const [endDate, setEndDate] = useState('')
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
 
-  const onChangeStartDate = (e:React.ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value)
-  const onChangeEndDate = (e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value)
+  const onChangeStartDate = (e: React.ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value);
+  const onChangeEndDate = (e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value);
 
   const { mutate: updateReadPagesMutate } = useMutation(updateReadPages);
   const { mutate: updateIsreadingMutate } = useMutation(updateIsReading);
@@ -54,7 +52,7 @@ const BookInfo = () => {
     const isReadingStatus = !!isCompleted;
     const id = book?.id;
     if (!id) {
-      console.error("책 ID가 없습니다");
+      console.error('책 ID가 없습니다');
       return;
     }
     updateIsreadingMutate(
@@ -71,10 +69,10 @@ const BookInfo = () => {
     e.preventDefault();
     const id = book?.id;
     if (!id) {
-      console.error("책 ID가 없습니다");
+      console.error('책 ID가 없습니다');
       return;
     }
-  
+
     readingPeriodMutate(
       { id, startDate, endDate },
       {
@@ -82,7 +80,7 @@ const BookInfo = () => {
           queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
         },
         onError: (error) => {
-          console.error("업데이트 중 오류 발생:", error);
+          console.error('업데이트 중 오류 발생:', error);
         }
       }
     );
@@ -139,9 +137,21 @@ const BookInfo = () => {
               <St.Timeline>
                 <St.StartAdnEnd onSubmit={onSubmitDate}>
                   <p>시작일</p>
-                  <input defaultValue={book.startDate} onChange={(e) => {onChangeStartDate(e)}} type="date" />
+                  <input
+                    defaultValue={book.startDate}
+                    onChange={(e) => {
+                      onChangeStartDate(e);
+                    }}
+                    type="date"
+                  />
                   <p>종료일</p>
-                  <input defaultValue={book.endDate} onChange={(e) => {onChangeEndDate(e)}} type="date" />
+                  <input
+                    defaultValue={book.endDate}
+                    onChange={(e) => {
+                      onChangeEndDate(e);
+                    }}
+                    type="date"
+                  />
                   <button type="submit">저장</button>
                 </St.StartAdnEnd>
               </St.Timeline>

@@ -1,17 +1,19 @@
 import styled from 'styled-components';
 import loginBgImg from '../../assets/loginBgImg.jpg';
-// import logo from '../../assets/logo1.png';
-// import logo2 from '../../assets/logo2.png';
 import logo3 from '../../assets/logo3.png';
 
 export const StWrapper = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const StWelcomeSection = styled.div`
   background-image: url(${loginBgImg});
   display: flex;
+  justify-content: center;
   flex-direction: column;
+  flex-wrap: nowrap;
+  background-size: cover;
   align-items: center;
   object-fit: cover;
   text-align: center;
@@ -28,20 +30,18 @@ export const StFormWrapper = styled.form`
   width: 50%;
   height: 100vh;
   float: left;
-
-  /* margin-bottom: 80px; */
 `;
 
 export const StIntroductionTitle = styled.h1`
-  margin-top: 50px;
   font-weight: 550;
+  font-size: 20px;
   color: #0e411d;
 `;
 
 export const StIntroduction = styled.div`
   margin-left: 20px;
   margin-right: 20px;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.6;
 `;
 
@@ -69,7 +69,6 @@ export const StTitle = styled.h1`
 `;
 
 export const StInput = styled.input`
-  /* border-bottom: 1px solid lightgray; */
   border: none;
   border-bottom: 1px solid lightgray;
   margin-left: 10px;

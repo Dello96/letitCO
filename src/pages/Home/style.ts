@@ -10,11 +10,6 @@ export const StNotice = styled.div`
   margin: 80px 420px 50px 420px;
 `;
 
-    width: 740px;
-    font-size: 40px;
-    margin: 150px 450px 50px 450px;
-`
-
 
 export const StReadingBox = styled.div`
   border: 1px solid lightgray;

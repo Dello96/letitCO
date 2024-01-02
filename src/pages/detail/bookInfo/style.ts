@@ -39,7 +39,7 @@ const BookCover = styled.div`
 
 const TextInfo = styled.div`
   /* background-color: cadetblue; */
-  width: 500px;
+  width: 550px;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -62,14 +62,17 @@ const TextInfoHeader = styled.div`
 
 const IsReading = styled.p<{ $isReading: boolean }>`
   padding: 10px 15px;
-  ${props => props.$isReading ? css`
-    border: none;
-    background-color: #2a6b3b;
-    color: white;
-  ` : css`
-    border: 1px solid #2a6b3b;
-    color: #2a6b3b;
-  `}
+  ${(props) =>
+    props.$isReading
+      ? css`
+          border: none;
+          background-color: #2a6b3b;
+          color: white;
+        `
+      : css`
+          border: 1px solid #2a6b3b;
+          color: #2a6b3b;
+        `}
   border-radius: 20px;
   font-weight: 500;
 `;
@@ -88,6 +91,10 @@ const PublishInfo = styled.div`
 
 const Description = styled.h3`
   line-height: 1.7;
+`;
+
+const UserReadingInfo = styled.div`
+  display: flex;
 `;
 
 const Page = styled.div`
@@ -128,7 +135,24 @@ const PageSubmit = styled.h3`
 
 const PageNumber = styled.span`
   font-weight: 600;
-`
+`;
+
+const Timeline = styled.div`
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 27px 0 0 50px;
+    & h3 {
+      font-weight: 600;
+    }
+`;
+const StartAdnEnd = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* flex-direction: column; */
+`;
 export default {
   BookInfoSection,
   Wrapper,
@@ -140,5 +164,8 @@ export default {
   Description,
   PageSubmit,
   Page,
-  PageNumber
+  PageNumber,
+  UserReadingInfo,
+  StartAdnEnd,
+  Timeline
 };

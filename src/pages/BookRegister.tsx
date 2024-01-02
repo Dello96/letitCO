@@ -89,7 +89,7 @@ export default function BookRegister() {
           </StImgBox>
           <StTextWrapper>
             <StBtnBox>
-              <h1>책 제목:{detailData.title}</h1>
+              <h1>{detailData.title}</h1>
               {/* uidIsbn13BookData가 없다면 빈마크
          있다면 그중 isReading의 여부가 true면 채워진 마크 false라면 빈 마크  */}
               {/* 북마크 */}
@@ -111,15 +111,16 @@ export default function BookRegister() {
                 )}
               </div>
             </StBtnBox>
+            <h3>{detailData.author} </h3>
+            <StPublishInpo>
+              <p>{detailData.publisher} </p>
+              <span>{detailData.pubDate}</span>
+            </StPublishInpo>
             <StTextBox>
-              <br />
-              <p>{detailData.author} </p>
-              <p> {detailData.publisher} </p>
-              <p> {detailData.subInfo?.itemPage} </p>
-              <p> {detailData.categoryName} </p>
-              <p> {detailData.customerReviewRank} </p>
-              <p> {detailData.description}</p>
+              <p>{detailData.categoryName} </p>
+              <p> 평점 {detailData.customerReviewRank} </p>
             </StTextBox>
+            <p> {detailData.description}</p>
           </StTextWrapper>
         </StBookBox>
       )}
@@ -129,31 +130,56 @@ export default function BookRegister() {
 
 const StBody = styled.div`
   width: 100%;
-  margin: 0 auto;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
+  align-items: center;
 `;
 
 const StBookBox = styled.div`
-  height: 600px;
-  width: 60%;
-  background-color: azure;
+  height: 500px;
+  width: 1000px;
+
   display: flex;
-  margin: 50px;
   padding: 50px;
+  margin-top: 50px;
+  & h3 {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
 `;
 
-const StTextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 const StTextWrapper = styled.div`
   height: 100%;
   margin: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #55a5eb;
+  & p {
+    line-height: 1.5;
+  }
+`;
+
+const StTextBox = styled.div`
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  & p {
+    margin: 7px;
+  }
+`;
+
+const StPublishInpo = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 100%;
+  color: grey;
+  & span {
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid grey;
+  }
 `;
 
 const StBtnBox = styled.div`
@@ -171,5 +197,12 @@ const StBtnBox = styled.div`
   }
 `;
 const StImgBox = styled.div`
-  margin-top: 30px;
+  position: relative;
+  width: 300px;
+  height: 450px;
+  box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 0.1);
+  & img {
+    width: 300px;
+    height: 100%;
+  }
 `;

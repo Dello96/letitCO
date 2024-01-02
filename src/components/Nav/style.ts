@@ -14,8 +14,10 @@ export const StNavbar = styled.nav`
 
 export const StLogo = styled.img`
   cursor: pointer;
-  height: 100px;
-  margin-left: 20px;
+  height: 110px;
+  width: 110px;
+  margin-left: 30px;
+  margin-top: -10px;
 `;
 
 export const StTabList = styled.ul`
@@ -23,7 +25,7 @@ export const StTabList = styled.ul`
   display: flex;
   align-items: center;
   color: white;
-  justify-content: space-evenly;
+  justify-content: space-around;
 `;
 
 export const StTabListItem = styled.li`

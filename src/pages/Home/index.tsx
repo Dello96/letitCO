@@ -8,6 +8,8 @@ import {
   StBookcover,
   StBookcoverimg,
   StBookProgressWrap,
+  StAddIcon,
+  StAddNotice,
   StBookProgress,
   StMainSection2,
   StBookDoneTitle,
@@ -24,10 +26,13 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-import { supabase } from '../../supabaseClient';
 import Loading from '../../components/Loading';
+import { FaSearchPlus } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 export default function Home() {
+  const navigate = useNavigate();
+
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
@@ -51,20 +56,12 @@ export default function Home() {
     queryFn: getBooks
   });
 
-//대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
+  //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
   console.log('tt', title);
   const percentage = (readUpto! / page!) * 100;
   console.log(`${percentage | 0}%`);
-
-  const existUser = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    console.log('현재 세션에 로그인된 유저', user?.user_metadata.nickname);
-  };
-  existUser();
 
   if (isLoading) {
     return (
@@ -97,9 +94,12 @@ export default function Home() {
           </StReadingBox>
         </StMainSection1>
         ) : (
-          <>
-            <StAddBookWrap></StAddBookWrap>
-          </>
+        <StAddBookWrap onClick={() => navigate('/booksearch')}>
+          <StAddIcon>
+            <FaSearchPlus />
+          </StAddIcon>
+          <StAddNotice>읽고싶은 책을 추가해주세요.</StAddNotice>
+        </StAddBookWrap>
         )}
       <StMainSection2>
         <StBookDoneTitle>완주 목록</StBookDoneTitle>

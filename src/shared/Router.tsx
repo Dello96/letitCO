@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
@@ -7,27 +7,13 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-import { useQuery } from 'react-query';
-import { QUERY_KEYS } from '../query/keys';
-import { getCurrentUser } from '../api/supabaseData';
-import { useDispatch, useSelector } from 'react-redux';
-import { setUser } from '../redux/userSlice';
+import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
 const Router = () => {
-  const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user);
-  console.log('currentUser', currentUser);
-  const { data: userData } = useQuery({
-    queryKey: [QUERY_KEYS.AUTH],
-    queryFn: getCurrentUser
-  });
-  useEffect(() => {
-    if (userData) {
-      dispatch(setUser(userData));
-    }
-  }, [userData, dispatch]);
-  console.log('커런드 유저다', currentUser);
+  console.log('currentUser===>', currentUser.id);
+
   return (
     <BrowserRouter>
       <Routes>

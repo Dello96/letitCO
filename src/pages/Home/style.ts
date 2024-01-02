@@ -20,12 +20,27 @@ export const StReadingBox = styled.div`
 `;
 
 export const StAddBookWrap = styled.div`
-  height: 300px;
+  height: 250px;
   width: 1200px;
   border: 1px solid lightgray;
   border-radius: 10px;
   margin: 180px 230px;
+  cursor: pointer;
 `
+
+export const StAddIcon = styled.div`
+  color: #0e411d;
+  font-size: 90px;
+  font-weight: 700;
+  margin: 50px 550px 10px 550px;
+`
+
+export const StAddNotice = styled.div`
+  color: black;
+  font-size: 18px;
+  margin: 0 480px 0 480px;
+`
+
 
 export const StBookcoverimg = styled.img`
   width: 150px;
@@ -79,17 +94,19 @@ export const StBookDoneList = styled.div`
 
 export const StBookInfo = styled.div`
   display: flex;
-  margin-top: 85px;
+  margin-top: 100px;
 `
 
 export const StBookTitle = styled.h2`
-  font-size: 25px;
-  margin-left: 10px;
+  color: #0e411d;
+  font-size: 22px;
+  font-weight: border;
+  margin-left: 20px;
 `;
 
 export const StBookAuthor = styled.div`
-  font-size: 18px;
-  margin: 10px 0 0 10px;
+  font-size: 15px;
+  margin: 7px 0 0 20px;
 `
 
 export const StReadingPeriod = styled.p`

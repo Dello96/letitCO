@@ -3,7 +3,7 @@ import Fullcalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
-// import { CustomHeaderCenter } from './header';
+import { CustomHeaderCenter } from './header';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks } from '../../api/supabaseData';
@@ -16,10 +16,11 @@ const Calendar = () => {
   });
 
   // const filtered: Book[] = books?.filter(item => !!item.endDate)
-  console.log(books)
+  console.log('books', books);
 
   return (
     <div>
+      <CustomHeaderCenter />
       <Fullcalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView={'dayGridMonth'}
@@ -29,8 +30,8 @@ const Calendar = () => {
           { title: 'Check Chaek PT', date: '2024-01-03' }
         ]}
         headerToolbar={{
-          start: 'title'
-          // center: <CustomHeaderCenter />,
+          start: 'title',
+          center: '',
         }}
       />
     </div>

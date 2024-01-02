@@ -87,7 +87,15 @@ const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
 };
 
 //독서 상태 업데이트
-const updateIsReading = async ({ id, isReadingStatus, isDone }: { id: string; isReadingStatus: boolean; isDone: boolean }) => {
+const updateIsReading = async ({
+  id,
+  isReadingStatus,
+  isDone
+}: {
+  id: string;
+  isReadingStatus: boolean;
+  isDone: boolean;
+}) => {
   if (!id) {
     // id 값이 없으면 오류 처리
     console.error('ID is undefined!');
@@ -98,9 +106,13 @@ const updateIsReading = async ({ id, isReadingStatus, isDone }: { id: string; is
 
 //독서 기간 업데이트
 const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; startDate: string; endDate: string }) => {
-  const updateData: { startDate?: string; endDate?: string } = {};
+  const updateData: { startDate?: string; endDate?: string; isReading?: boolean } = {};
   if (startDate) {
     updateData.startDate = startDate;
+    updateData.isReading = true;
+  } else if(startDate === null) {
+    updateData.startDate = startDate;
+    updateData.isReading = false;
   }
   if (endDate) {
     updateData.endDate = endDate;
@@ -121,5 +133,4 @@ export {
   updateReadingPeriod,
   getUidIsbnBook,
   upsertBook
-
 };

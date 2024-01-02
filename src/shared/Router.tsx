@@ -7,6 +7,7 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
+import Timer from '../pages/login/Timer';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../query/keys';
 import { getCurrentUser } from '../api/supabaseData';
@@ -32,6 +33,8 @@ const Router = () => {
         {currentUser ? (
           <>
             <Route path="/" element={<Home />} />
+            <Route path="/timer" element={<Timer />} />
+
             <Route path="/login" element={<Login />} />
             <Route path="/bookregister/:id" element={<BookRegister />} />
             <Route path="/login" element={<Login />} />

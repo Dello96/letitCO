@@ -64,18 +64,18 @@ const Login: React.FC = () => {
           }
         }
       });
-      console.log('data', data); // 불러오기 성공
+      console.log('data', data);
       setValue('userEmail', '');
       setValue('userPassword', '');
       setValue('userPasswordCheck', '');
       setValue('userNickname', '');
       if (error) {
         console.error(error);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: '회원가입 양식을 다시 확인해주세요'
-        // });
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '회원가입 양식을 다시 확인해주세요'
+        });
       } else {
         Swal.fire({
           position: 'center',
@@ -159,13 +159,13 @@ const Login: React.FC = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
-        });
+        // Swal.fire({
+        //   position: 'center',
+        //   icon: 'success',
+        //   title: '로그인에 성공하였습니다!',
+        //   showConfirmButton: false,
+        //   timer: 1500
+        // });
         navigate('/homepage');
       }
     } catch (error) {

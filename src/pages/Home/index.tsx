@@ -13,12 +13,10 @@ import {
   StBookDoneTitle,
   StBookDoneList,
   StReadingPeriod,
-  StReadingStar,
 } from './style';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData'
-import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
@@ -48,10 +46,6 @@ export default function Home() {
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
-  const { id } = useParams();
-  const book = books?.find((book) => book.id === id);
-  console.log("책 정보", book);
-
 
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
@@ -99,13 +93,12 @@ export default function Home() {
                       return <>
                       <StBookDoneList key={item?.id}>
                       <StBookcover>
-                        <img src={item?.cover} alt="bookCover" />
+                        <StBookcoverimg src={item?.cover} alt="bookCover" />
                       </StBookcover>
                       <div>
                         <div>{item.title}</div>
                         <div>{item.author}</div>
                         <StReadingPeriod>{item?.startDate} ~ {item?.endDate}</StReadingPeriod>
-                        <StReadingStar>평점</StReadingStar>
                       </div>
                       </StBookDoneList>
                     </>;

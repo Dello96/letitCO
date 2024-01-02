@@ -5,6 +5,7 @@ export const StMain = styled.div``;
 export const StMainSection1 = styled.section``;
 
 export const StNotice = styled.div`
+    width: 719px;
     font-size: 40px;
     margin: 80px 420px 50px 420px;
 `
@@ -66,27 +67,13 @@ export const StBookDoneTitle = styled.div`
 export const StBookDoneList = styled.div`
   width: 1200px;
   height: 250px;
-  border: 1px solid black;
+  border: 1px solid lightgray;
+  border-radius: 10px;
   margin: 30px 200px 30px 200px;
   display: flex;
 `;
 
 export const StReadingPeriod = styled.p`
   margin-top: 70px;
-  margin-left: 20px;
-`;
-
-export const StReadingStar = styled.p`
-  margin-left: 20px;
-`;
-
-export const StReadingMemo = styled.p`
-  margin-left: 20px;
-`;
-
-export const StReadingMemoIndex = styled.div`
-  border: 1px solid black;
-  width: 900px;
-  height: 70px;
   margin-left: 20px;
 `;

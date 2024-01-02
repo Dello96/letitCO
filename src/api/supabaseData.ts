@@ -35,7 +35,7 @@ const getUidIsbnBook = async (bookData: Book) => {
   return data;
 };
 
-// 책 등록&업데이트
+// 책 등록 & 업데이트
 const upsertBook = async (newBook: Book) => {
   const { data, error } = await supabase
     .from(QUERY_KEYS.BOOKS)

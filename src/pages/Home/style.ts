@@ -5,9 +5,9 @@ export const StMain = styled.div``;
 export const StMainSection1 = styled.section``;
 
 export const StNotice = styled.div`
-    font-size: 40px;
-    margin: 80px 420px 50px 420px;
-`
+  font-size: 40px;
+  margin: 80px 420px 50px 420px;
+`;
 
 export const StReadingBox = styled.div`
   border: 1px solid lightgray;

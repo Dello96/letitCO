@@ -1,11 +1,11 @@
 import React from 'react';
-import Spinner1 from '../assets/spinner.gif';
 import styled from 'styled-components';
+import { FadeLoader } from 'react-spinners';
 
 function Loading() {
   return (
     <StBackground>
-      <Spinner1 />
+      <FadeLoader color="#36d7b7" />
     </StBackground>
   );
 }
@@ -15,7 +15,7 @@ const StBackground = styled.div`
   height: 100vh;
   top: 0;
   left: 0;
-  background: #ffffffb7;
+  background: transparent;
   z-index: 999;
   display: flex;
   flex-direction: column;

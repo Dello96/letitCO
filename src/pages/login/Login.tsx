@@ -14,7 +14,6 @@ import {
   StInputWrapper,
   StLogo,
   StIntroductionTitle
-  // Stegg
 } from './style';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
@@ -42,17 +41,11 @@ const Login: React.FC = () => {
     formState: { errors }
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  console.log('errors', errors);
-
-  // useMemo, useCallback 사용하기
-  // ant design 사용하기
-
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
 
   // 회원가입
   const signUpHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     console.log(inputs);
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -84,7 +77,7 @@ const Login: React.FC = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
+        navigate('/login');
       }
     } catch (error) {
       console.error(error);
@@ -100,7 +93,6 @@ const Login: React.FC = () => {
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: inputs.userEmail,
@@ -132,7 +124,7 @@ const Login: React.FC = () => {
         // 비동기 처리??...
         setTimeout(() => {
           signOutHandler();
-          // console.log('5초 뒤에 찍히나?');
+          console.log('5초 뒤에 찍히나?');
         }, 60000);
       }
       // setInterval n초 간격으로 실행!!!
@@ -159,15 +151,15 @@ const Login: React.FC = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        // Swal.fire({
-        //   position: 'center',
-        //   icon: 'success',
-        //   title: '로그인에 성공하였습니다!',
-        //   showConfirmButton: false,
-        //   timer: 1500
-        // });
-        navigate('/homepage');
+        // navigate('/');
       }
+      // Swal.fire({
+      //   position: 'center',
+      //   icon: 'success',
+      //   title: '로그인에 성공하였습니다!',
+      //   showConfirmButton: false,
+      //   timer: 1500
+      // });
     } catch (error) {
       console.error(error);
     }

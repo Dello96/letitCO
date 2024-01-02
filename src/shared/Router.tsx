@@ -7,13 +7,13 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-import Timer from '../pages/login/Timer';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../query/keys';
 import { getCurrentUser } from '../api/supabaseData';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import { RootState } from '../redux/store';
+import Layout from '../components/Layout';
 const Router = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.user);
@@ -27,22 +27,22 @@ const Router = () => {
       dispatch(setUser(userData));
     }
   }, [userData, dispatch]);
+  console.log('커런드 유저다', currentUser);
   return (
     <BrowserRouter>
       <Routes>
         {currentUser ? (
           <>
-            <Route path="/" element={<Home />} />
-            <Route path="/timer" element={<Timer />} />
-
-            <Route path="/login" element={<Login />} />
-            <Route path="/bookregister/:id" element={<BookRegister />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/booksearch" element={<BookSearch />} />
-            <Route path="/bookshelf" element={<BookShelf />} />
-            <Route path="/calendar" element={<Calendar />} />
-            <Route path="/detail/:id" element={<Detail />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route element={<Layout />}>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/bookregister/:id" element={<BookRegister />} />
+              <Route path="/booksearch" element={<BookSearch />} />
+              <Route path="/bookshelf" element={<BookShelf />} />
+              <Route path="/calendar" element={<Calendar />} />
+              <Route path="/detail/:id" element={<Detail />} />
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Route>
           </>
         ) : (
           <>

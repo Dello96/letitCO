@@ -51,7 +51,8 @@ const upsertBook = async (newBook: Book) => {
         pubDate: newBook.pubDate,
         isReading: newBook.isReading,
         isMarked: newBook.isMarked,
-        isbn13: newBook.isbn13
+        isbn13: newBook.isbn13,
+        isDone: newBook.isDone
       },
       { onConflict: 'uid,isbn13' }
     )

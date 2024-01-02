@@ -15,7 +15,7 @@ import Layout from '../components/Layout';
 
 const Router = () => {
   const currentUser = useSelector((state: RootState) => state.user);
-  console.log('currentUser', currentUser);
+  console.log('currentUser===>', currentUser.id);
 
   return (
     <BrowserRouter>

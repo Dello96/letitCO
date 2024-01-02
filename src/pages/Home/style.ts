@@ -39,6 +39,11 @@ export const StAddIcon = styled.div`
   font-size: 90px;
   font-weight: 700;
   margin: 50px 550px 10px 550px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+  }
 `;
 
 export const StAddNotice = styled.div`

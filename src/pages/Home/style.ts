@@ -6,6 +6,7 @@ export const StMainSection1 = styled.section``;
 
 export const StNotice = styled.div`
   width: 740px;
+  width: 740px;
   font-size: 40px;
   margin: 150px 450px 50px 450px;
 `;
@@ -39,6 +40,11 @@ export const StAddIcon = styled.div`
   font-size: 90px;
   font-weight: 700;
   margin: 50px 550px 10px 550px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+  }
 `;
 
 export const StAddNotice = styled.div`

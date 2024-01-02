@@ -26,10 +26,10 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-
+import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-
 import Loading from '../../components/Loading';
+import { FaSearchPlus } from 'react-icons/fa';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
@@ -71,6 +71,10 @@ export default function Home() {
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
+
+  const { id } = useParams();
+  const book = books?.find((book) => book.id === id);
+  console.log('책 정보', book);
 
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);

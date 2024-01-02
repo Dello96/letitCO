@@ -1,15 +1,13 @@
 import styled, { css } from 'styled-components';
-
 const BookInfoSection = styled.section`
   margin-top: 50px;
-  /* background-color: #d3f2db; */
+  /* background-color: #D3F2DB; */
   width: 100%;
   height: 600px;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #d9d9d9;
 `;
-
 const Wrapper = styled.div`
   /* background-color: plum; */
   display: flex;
@@ -19,7 +17,6 @@ const Wrapper = styled.div`
   width: 1000px;
   height: 500px;
 `;
-
 const BookCover = styled.div`
   position: relative;
   width: 300px;
@@ -31,7 +28,6 @@ const BookCover = styled.div`
     height: 100%;
   }
 `;
-
 const TextInfo = styled.div`
   /* background-color: cadetblue; */
   width: 550px;
@@ -48,13 +44,11 @@ const TextInfo = styled.div`
     color: grey;
   }
 `;
-
 const TextInfoHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 `;
-
 const IsReading = styled.p<{ $isReading: boolean }>`
   padding: 15px 20px;
   ${(props) =>
@@ -71,7 +65,6 @@ const IsReading = styled.p<{ $isReading: boolean }>`
   border-radius: 25px;
   font-weight: 500;
 `;
-
 const PublishInfo = styled.div`
   display: flex;
   align-items: flex-start;
@@ -83,16 +76,13 @@ const PublishInfo = styled.div`
     border-left: 1px solid grey;
   }
 `;
-
 const Description = styled.h3`
   line-height: 1.7;
 `;
-
 const UserReadingInfo = styled.div`
   display: flex;
   flex-direction: column;
 `;
-
 const Page = styled.div`
   display: flex;
   position: relative;
@@ -134,11 +124,9 @@ const PageSubmit = styled.h3`
     text-decoration: underline;
   }
 `;
-
 const PageNumber = styled.span`
   font-weight: 600;
 `;
-
 const Timeline = styled.div`
   /* background-color: red; */
   display: flex;

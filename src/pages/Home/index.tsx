@@ -14,13 +14,14 @@ import {
   StBookDoneList,
   StReadingPeriod,
   StReadingStar,
- } from './style'
+} from './style'
 import { useQuery} from 'react-query'
 import { QUERY_KEYS } from '../../query/keys'
 import { getBooks, getCurrentUser } from '../../api/supabaseData'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import { Book } from '../../types/global.d';
 
 export default function Home() {
   // const circle = useRef(null);
@@ -67,6 +68,7 @@ export default function Home() {
   //   let endX = con - cir;
   //   circle.current.style.width = `${Math.min(Math.max(0, e.clientX - e.currentTarget.offsetLeft),endX)}px`;
   // }
+  
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
@@ -86,7 +88,7 @@ export default function Home() {
   console.log("현재유저", currentUser.id);
 
   // 책 정보 가져오기
-  const { data: books } = useQuery({
+  const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
@@ -94,26 +96,33 @@ export default function Home() {
   const book = books?.find((book) => book.id === id);
   console.log("책 정보", book);
 
-  // 읽은 페이지 표시
-  // const progressPercentage = book ? ((book.readUpto || 0) / (book.page)) * 100 : 0;
 
-
+  const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
+  const { page, readUpto } = bookOnDashboard || {};
+  const percentage = (readUpto! / page!) * 100;
+  console.log(`${percentage | 0}%`);
   return (
     <>
       <Header />
       <StMain>
-        <StMainSection1>
-          <div>
+        {isLoading ? (
+          <p>로딩중</p>
+        ) : (
+          <StMainSection1>
+            <div>
             <StNotice>{currentUserNickname}님 ! 벌써 {book?.readUpto} 페이지 읽으셨네요!!</StNotice>
-          </div>
+            </div>
             <StReadingBox>
-              <StBookcover><img src={book?.cover} alt="bookCover" /></StBookcover>
+              <StBookcover>
+                <img src={bookOnDashboard.cover} alt="" />
+              </StBookcover>
               <StBookProgressWrap>
                 <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint>{book?.readUpto} page / {book?.page} page</StBookProgressPoint>
+                <StBookProgressPoint></StBookProgressPoint>
               </StBookProgressWrap>
             </StReadingBox>
-        </StMainSection1>
+          </StMainSection1>
+        )}
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
           {books?.filter((item) => currentUser.id === item.uid)

@@ -25,6 +25,41 @@ const addBook = async (newBook: Book) => {
   await supabase.from(QUERY_KEYS.BOOKS).insert(newBook);
 };
 
+// uid,isbn기준 Book 데이터 가져오기
+const getUidIsbnBook = async (bookData: Book) => {
+  const { data } = await supabase
+    .from(QUERY_KEYS.BOOKS)
+    .select('*')
+    .eq('isbn13', bookData.isbn13)
+    .eq('uid', bookData.uid);
+  return data;
+};
+
+// 책 등록&업데이트
+const upsertBook = async (newBook: Book) => {
+  const { data, error } = await supabase
+    .from(QUERY_KEYS.BOOKS)
+    .upsert(
+      {
+        uid: newBook.uid,
+        cover: newBook.cover,
+        title: newBook.title,
+        author: newBook.author,
+        publisher: newBook.publisher,
+        page: newBook.page,
+        description: newBook.description,
+        pubDate: newBook.pubDate,
+        isReading: newBook.isReading,
+        isMarked: newBook.isMarked,
+        isbn13: newBook.isbn13
+      },
+      { onConflict: 'uid,isbn13' }
+    )
+    .select();
+  console.log('data', data);
+  console.log('error', error);
+};
+
 //등록된 메모목록 가져오기
 const getMemos = async () => {
   const { data } = await supabase.from(QUERY_KEYS.MEMOS).select();
@@ -55,7 +90,7 @@ const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
 const updateIsReading = async ({ id, isReadingStatus }: { id: string; isReadingStatus: boolean }) => {
   if (!id) {
     // id 값이 없으면 오류 처리
-    console.error("ID is undefined!");
+    console.error('ID is undefined!');
     return;
   }
   await supabase.from(QUERY_KEYS.BOOKS).update({ isReading: isReadingStatus }).eq('id', id);
@@ -70,5 +105,7 @@ export {
   updateMemo,
   deleteMemo,
   updateReadPages,
-  updateIsReading
+  updateIsReading,
+  getUidIsbnBook,
+  upsertBook
 };

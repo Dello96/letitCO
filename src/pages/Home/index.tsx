@@ -28,7 +28,6 @@ import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
 import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
-
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';

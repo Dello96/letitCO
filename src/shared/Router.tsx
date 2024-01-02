@@ -7,13 +7,14 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../redux/store';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
 
 const Router = () => {
-  // const currentUser = useSelector((state: RootState) => state.user);
-  // console.log('currentUser===>', currentUser.id);
+  const currentUser = useSelector((state: RootState) => state.user);
+  console.log('currentUser===>', currentUser.id);
 
   return (
     <BrowserRouter>

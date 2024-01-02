@@ -110,10 +110,8 @@ const Login: React.FC = () => {
       } else {
         console.log('id 값이 없습니다.');
       }
-
       console.log('userData', data);
       console.log('만료', data.session?.expires_in);
-
       setValue('userEmail', '');
       setValue('userPassword', '');
 
@@ -147,6 +145,7 @@ const Login: React.FC = () => {
   };
 
   // 구글 로그인
+
   const signInGoogle = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -160,7 +159,7 @@ const Login: React.FC = () => {
           }
         }
       });
-      console.log(data);
+      console.log('구글로그인 resp', data)
       if (error) {
         console.error(error);
         alert('일치하지 않습니다');

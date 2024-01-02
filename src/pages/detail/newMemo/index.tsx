@@ -13,7 +13,7 @@ const NewMemo = () => {
 
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
-  const currentUser = useSelector((state: RootState) => state.user);
+  const currentUser = useSelector((state: RootState) => state.user) as { id: string };
   console.log('detail페이지 로그인유저 uid===>', currentUser.id);
 
   const { addMemoMutation } = useMemosQuery();
@@ -26,10 +26,10 @@ const NewMemo = () => {
     const newMemo = {
       bookId: paramId!,
       content: memo,
-      uid: currentUser,
+      uid: currentUser.id,
       isEditing: false,
       timeStamp: Date.now()
-    };
+    };    
     addMemoMutate(newMemo, {
       onSuccess: () => {
         queryClient.invalidateQueries(QUERY_KEYS.MEMOS);

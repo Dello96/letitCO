@@ -6,7 +6,7 @@ export type User = {
 }
 
 const initialState: User = {
-  id: 'e8203e36-a4e5-4c5c-85c2-21b179016be8',
+  id: '',
 };
 
 export const userSlice = createSlice({

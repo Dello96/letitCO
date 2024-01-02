@@ -23,6 +23,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 export type Inputs = {
   userEmail: string;
@@ -32,6 +34,7 @@ export type Inputs = {
 };
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const {
@@ -106,6 +109,16 @@ const Login: React.FC = () => {
         email: inputs.userEmail,
         password: inputs.userPassword
       });
+      if (data && data.user) {
+        const id = data.user.id;
+        const user = {
+          id: id
+        };
+        dispatch(setUser(user));
+      } else {
+        console.log('id 값이 없습니다.');
+      }
+
       console.log('userData', data);
       console.log('만료', data.session?.expires_in);
 
@@ -127,6 +140,7 @@ const Login: React.FC = () => {
           showConfirmButton: false,
           timer: 1500
         });
+
         navigate('/homepage');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...

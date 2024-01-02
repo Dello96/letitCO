@@ -7,8 +7,11 @@ import { getMemos } from '../../../api/supabaseData';
 import useMemosQuery from '../../../query/useMemosQuery';
 import { getFormattedDate } from '../../../util/date';
 import { Memo } from '../../../types/global.d';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
-const MemoList = ({ currentUserId }: { currentUserId: string }) => {
+const MemoList = () => {
+  const currentUser = useSelector((state: RootState) => state.user)
   const queryClient = useQueryClient();
   const { id: paramId } = useParams();
 
@@ -21,7 +24,7 @@ const MemoList = ({ currentUserId }: { currentUserId: string }) => {
     queryKey: [QUERY_KEYS.MEMOS],
     queryFn: getMemos
   });
-  const filteredMemos = memos?.filter((memo) => memo.uid === currentUserId && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
+  const filteredMemos = memos?.filter((memo) => memo.uid === currentUser && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
   
   useEffect(() => {
     if (!filteredMemos) {

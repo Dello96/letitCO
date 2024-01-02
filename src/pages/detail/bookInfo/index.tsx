@@ -2,23 +2,32 @@ import React, { useEffect, useState } from 'react';
 import St from './style';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getBooks, updateIsReading, updateReadPages } from '../../../api/supabaseData';
+import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
 import { useParams } from 'react-router-dom';
+import { Book } from '../../../types/global.d';
+
 
 const BookInfo = () => {
+
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
   const { id } = useParams();
-  const book = books?.find((book) => book.id === id);
+  const book: Book = books?.find((book) => book.id === id);
 
   const [pageSubmitMode, setPageSubmitMode] = useState(false);
-  const [page, setPage] = useState<number>(book?.readUpto);
+  const [page, setPage] = useState<number>(book?.readUpto ?? 0);
+  const [startDate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+
+  const onChangeStartDate = (e:React.ChangeEvent<HTMLInputElement>) => setStartDate(e.target.value)
+  const onChangeEndDate = (e: React.ChangeEvent<HTMLInputElement>) => setEndDate(e.target.value)
 
   const { mutate: updateReadPagesMutate } = useMutation(updateReadPages);
   const { mutate: updateIsreadingMutate } = useMutation(updateIsReading);
+  const { mutate: readingPeriodMutate } = useMutation(updateReadingPeriod);
 
   const onChangePage = (e: React.ChangeEvent<HTMLInputElement>) => setPage(parseInt(e.target.value));
   const togglePageInput = () => setPageSubmitMode(!pageSubmitMode);
@@ -39,15 +48,41 @@ const BookInfo = () => {
     );
     setPageSubmitMode(false);
   };
+
   const changeIsReading = () => {
     const isCompleted = book?.readUpto === book?.page;
     const isReadingStatus = !!isCompleted;
-    const id: string = book?.id; // id가 언디파인드..
+    const id = book?.id;
+    if (!id) {
+      console.error("책 ID가 없습니다");
+      return;
+    }
     updateIsreadingMutate(
       { id, isReadingStatus },
       {
         onSuccess: () => {
           queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        }
+      }
+    );
+  };
+
+  const onSubmitDate = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const id = book?.id;
+    if (!id) {
+      console.error("책 ID가 없습니다");
+      return;
+    }
+  
+    readingPeriodMutate(
+      { id, startDate, endDate },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        },
+        onError: (error) => {
+          console.error("업데이트 중 오류 발생:", error);
         }
       }
     );
@@ -72,7 +107,7 @@ const BookInfo = () => {
           <St.TextInfo>
             <St.TextInfoHeader>
               <h1>{book?.title}</h1>
-              <St.IsReading $isReading={book.isReading}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
+              <St.IsReading $isReading={book.isReading!}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
             </St.TextInfoHeader>
             <h3>{book?.author}</h3>
             <St.PublishInfo>
@@ -83,8 +118,7 @@ const BookInfo = () => {
             <St.Description>{book?.description}</St.Description>
             <St.UserReadingInfo>
               <St.Page>
-                <St.PageSubmit onClick={togglePageInput}>{pageSubmitMode ? '취소' : '읽은 쪽수 등록'}</St.PageSubmit>
-                <form onSubmit={(e) => updatePageButton(e, book.id)}>
+                <form onSubmit={(e) => updatePageButton(e, book.id!)}>
                   {pageSubmitMode ? (
                     <input
                       defaultValue={book.readUpto}
@@ -92,25 +126,23 @@ const BookInfo = () => {
                       max={book.page}
                       min={0}
                       type="number"
-                      placeholder="읽은 쪽수"
+                      placeholder="0"
                     />
                   ) : (
                     <St.PageNumber>{book?.readUpto}p</St.PageNumber>
                   )}
                   <p>&nbsp;&nbsp;/&nbsp;&nbsp;{book?.page}p</p>
+                  <St.PageSubmit onClick={togglePageInput}>{pageSubmitMode ? '취소' : '변경'}</St.PageSubmit>
                   {pageSubmitMode && <button type="submit">저장</button>}
                 </form>
               </St.Page>
               <St.Timeline>
-                <h3>독서기간</h3>
-                <St.StartAdnEnd>
-
-                    <p>시작일</p>
-                    <input type="date" />
-
-                    <p>종료일</p>
-                    <input type="date" />
-
+                <St.StartAdnEnd onSubmit={onSubmitDate}>
+                  <p>시작일</p>
+                  <input defaultValue={book.startDate} onChange={(e) => {onChangeStartDate(e)}} type="date" />
+                  <p>종료일</p>
+                  <input defaultValue={book.endDate} onChange={(e) => {onChangeEndDate(e)}} type="date" />
+                  <button type="submit">저장</button>
                 </St.StartAdnEnd>
               </St.Timeline>
             </St.UserReadingInfo>

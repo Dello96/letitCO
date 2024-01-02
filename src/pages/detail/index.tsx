@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import BookInfo from './bookInfo';
 import styled from 'styled-components';
 import NewMemo from './newMemo';
 import MemoList from './memoList';
 
 const Detail = () => {
-  const [currentUserId, setCurrentUserId] = useState('');
   return (
     <Container>
       <BookInfo />
-      <NewMemo currentUserId={currentUserId} setCurrentUserId={setCurrentUserId} />
-      <MemoList currentUserId={currentUserId} />
+      <NewMemo />
+      <MemoList />
     </Container>
   );
 };

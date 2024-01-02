@@ -1,5 +1,5 @@
 import React from 'react';
-import { StBookTitle, StCompletedPercent } from './style';
+import { StProgressBookTitle, StCompletedPercent } from './style';
 
 interface ProgressBar {
   percentage: number;
@@ -14,7 +14,7 @@ function ProgressBar({ percentage, title }: ProgressBar) {
 
   return (
     <div>
-      <StBookTitle> 📖 {title}</StBookTitle>
+      <StProgressBookTitle> 📖 {title}</StProgressBookTitle>
 
       <div style={{ marginTop: '40px' }}>
         <div

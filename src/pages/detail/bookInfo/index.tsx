@@ -23,7 +23,7 @@ const BookInfo = () => {
         navigate('/booksearch');
       }
     }
-  }, [id, books, isLoading, navigate]);
+  }, []);
   
   const book: Book = books?.find((book) => book.id === id);
 

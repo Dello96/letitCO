@@ -2,7 +2,6 @@ import React from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
-import { CustomHeaderCenter } from './header';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks } from '../../api/supabaseData';
@@ -19,12 +18,13 @@ const Calendar = () => {
   });
 
   // 현재 사용자의 책만 필터링
-  const events = books?.filter((book: Book) => book.endDate && book.uid === currentUser.id)
+  const filtered = books?.filter((book: Book) => book.endDate && book.uid === currentUser.id)
     .map((book: Book) => ({
       title: book.title,
       date: book.endDate,
       image: book.cover
     }));
+    console.log('filtered ===>', filtered)
 
     const renderEventContent = (eventInfo: EventContentArg) => {
       return (
@@ -48,17 +48,16 @@ const Calendar = () => {
 
   return (
     <div>
-      <CustomHeaderCenter />
       <FullCalendar
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView={'dayGridMonth'}
         weekends={true}
-        events={events}
         eventContent={renderEventContent}
-        headerToolbar={{
-          start: 'title',
-          center: '',
-        }}
+        events={[
+          { title: '최후의 만찬', date: '2024-01-02' },
+          { title: 'Check Chaek PT', date: '2024-01-03' }
+          // ... 기타 이벤트 ...
+        ]}
       />
     </div>
   );

@@ -1,35 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import St from './style';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getCurrentUser } from '../../../api/supabaseData';
-import { useQuery, useQueryClient } from 'react-query';
+import { useQueryClient } from 'react-query';
 import useMemosQuery from '../../../query/useMemosQuery';
 import { useParams } from 'react-router-dom';
-type NewMemoProps = {
-  currentUserId: string;
-  setCurrentUserId: React.Dispatch<React.SetStateAction<string>>;
-};
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store';
 
-const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
+
+const NewMemo = () => {
   const queryClient = useQueryClient();
   const { id: paramId } = useParams();
 
   // 상태관리
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
+  const currentUser = useSelector((state: RootState) => state.user)
+  // //현재 로그인된 유저 정보 가져오기
+  // const { data: userData } = useQuery({
+  //   queryKey: [QUERY_KEYS.AUTH],
+  //   queryFn: getCurrentUser
+  // });
 
-  //현재 로그인된 유저 정보 가져오기
-  const { data: userData } = useQuery({
-    queryKey: [QUERY_KEYS.AUTH],
-    queryFn: getCurrentUser
-  });
-
-  useEffect(() => {
-    if (userData) {
-      setCurrentUserId(userData.id);
-      // console.log('현재 로그인된 유저 ==>', userData.id);
-    }
-  }, [userData]);
+  // useEffect(() => {
+  //   if (userData) {
+  //     setCurrentUserId(userData.id);
+  //     // console.log('현재 로그인된 유저 ==>', userData.id);
+  //   }
+  // }, [userData]);
 
   const { addMemoMutation } = useMemosQuery();
   const { mutate: addMemoMutate } = addMemoMutation;
@@ -41,7 +39,7 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
     const newMemo = {
       bookId: paramId!,
       content: memo,
-      uid: currentUserId,
+      uid: currentUser,
       isEditing: false,
       timeStamp: Date.now()
     };

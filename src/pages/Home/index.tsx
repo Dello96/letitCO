@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react'
-import Header from '../../components/Header'
+import React, { useEffect } from 'react';
+import Header from '../../components/Header';
 import {
   StMain,
   StMainSection1,
@@ -21,6 +21,50 @@ import { getBooks, getCurrentUser } from '../../api/supabaseData'
 import { useParams } from 'react-router-dom'
 
 export default function Home() {
+  // const circle = useRef(null);
+  // const box = useRef(null);
+  // const [con, setCon] = useState(null);
+  // const [cir, setCir] = useState(null);
+  // let h1 = useRef(null)
+  // const [num,setNum] = useState(null);
+
+  // useEffect(() => {
+  //   const conWidth = box.current.getBoundingClientRect().width;
+  //   setCon(conWidth);
+  //   const circleWidth = circle.current.getBoundingClientRect().width;
+  //   setCir(circleWidth);
+  // }, []);
+
+  // let isDragging = null;
+  // let originX = null;
+  // let originLeft = null;
+  // let result;
+
+  // const drag = (e) => {
+  //   isDragging = true;
+  //   originX = e.clientX;
+  //   originLeft = circle.current.offsetWidth;
+  // };
+  // const move = (e) => {
+  //   if (isDragging) {
+  //     const diffX = e.clientX - originX;
+  //     const endX = con - cir;
+  //     circle.current.style.width = `${Math.min(Math.max(0, originLeft + diffX),endX)}px`;
+  //   }
+  // };
+  // const stop = (e) => {
+  //   isDragging = false;
+  // };
+  // const getPercent = (e) => {
+  //   result = parseInt(circle.current.offsetWidth/3.49 );
+  //   setNum(result)
+  //   h1.current.innerText=result+"%"
+  // }
+
+  // const init = (e) => {
+  //   let endX = con - cir;
+  //   circle.current.style.width = `${Math.min(Math.max(0, e.clientX - e.currentTarget.offsetLeft),endX)}px`;
+  // }
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
@@ -46,7 +90,6 @@ export default function Home() {
   console.log("책 정보", book);
 
   // 읽은 페이지 표시
-  // const [page, setPage] = useState<number>(book?.readUpto);
   // const progressPercentage = book ? ((book.readUpto || 0) / (book.page)) * 100 : 0;
 
 
@@ -62,7 +105,7 @@ export default function Home() {
               <StBookcover><img src={book?.cover} alt="bookCover" /></StBookcover>
               <StBookProgressWrap>
                 <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint>{book?.readUpto} page / {book?.page}page</StBookProgressPoint>
+                <StBookProgressPoint>{book?.readUpto} page / {book?.page} page</StBookProgressPoint>
               </StBookProgressWrap>
             </StReadingBox>
         </StMainSection1>
@@ -83,12 +126,10 @@ export default function Home() {
                       </StBookDoneList>
                     </>;
                     }
-                    console.log("cover", item.cover);
-                    console.log("시작날짜",item.startDate);
                   }
                 })}
         </StMainSection2>
       </StMain>
     </>
-  )
+  );
 }

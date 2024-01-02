@@ -1,11 +1,12 @@
 import React from 'react';
-import Spinner1 from '../assets/spinner.gif';
+
+import Spinner from '../assets/Spinner-1s-200px.gif';
 import styled from 'styled-components';
 
 function Loading() {
   return (
     <StBackground>
-      <Spinner1 />
+      <Spinner />
     </StBackground>
   );
 }

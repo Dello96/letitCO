@@ -1,5 +1,5 @@
-import React from 'react'
-import Header from '../../components/Header'
+import React from 'react';
+// import Header from '../../components/Header';
 import {
   StMain,
   StMainSection1,
@@ -16,29 +16,29 @@ import {
   StReadingStar,
   StReadingMemo,
   StReadingMemoIndex
- } from './style'
+} from './style';
+import Nav from '../../components/Nav';
 
 export default function Home() {
   // const [currentPage, setCurrentPage] = React.useState<number>(0);
   // const totalPage = data?.length || 0;
   // const progressPercentage = ((currentPage + 1) / totalPage) * 100;
 
-
   return (
     <>
-      <Header />
+      <Nav />
       <StMain>
         <StMainSection1>
           <div>
             <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
           </div>
-            <StReadingBox>
-              <StBookcover>책 표지</StBookcover>
-              <StBookProgressWrap>
-                <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint></StBookProgressPoint>
-              </StBookProgressWrap>
-            </StReadingBox>
+          <StReadingBox>
+            <StBookcover>책 표지</StBookcover>
+            <StBookProgressWrap>
+              <StBookProgressMove></StBookProgressMove>
+              <StBookProgressPoint></StBookProgressPoint>
+            </StBookProgressWrap>
+          </StReadingBox>
         </StMainSection1>
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
@@ -56,5 +56,5 @@ export default function Home() {
         </StMainSection2>
       </StMain>
     </>
-  )
+  );
 }

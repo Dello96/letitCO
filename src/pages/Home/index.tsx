@@ -1,5 +1,5 @@
-import React from 'react'
-import Header from '../../components/Header'
+import React from 'react';
+import Header from '../../components/Header';
 import {
   StMain,
   StMainSection1,
@@ -16,13 +16,53 @@ import {
   StReadingStar,
   StReadingMemo,
   StReadingMemoIndex
- } from './style'
+} from './style';
 
 export default function Home() {
-  // const [currentPage, setCurrentPage] = React.useState<number>(0);
-  // const totalPage = data?.length || 0;
-  // const progressPercentage = ((currentPage + 1) / totalPage) * 100;
+  // const circle = useRef(null);
+  // const box = useRef(null);
+  // const [con, setCon] = useState(null);
+  // const [cir, setCir] = useState(null);
+  // let h1 = useRef(null)
+  // const [num,setNum] = useState(null);
 
+  // useEffect(() => {
+  //   const conWidth = box.current.getBoundingClientRect().width;
+  //   setCon(conWidth);
+  //   const circleWidth = circle.current.getBoundingClientRect().width;
+  //   setCir(circleWidth);
+  // }, []);
+
+  // let isDragging = null;
+  // let originX = null;
+  // let originLeft = null;
+  // let result;
+
+  // const drag = (e) => {
+  //   isDragging = true;
+  //   originX = e.clientX;
+  //   originLeft = circle.current.offsetWidth;
+  // };
+  // const move = (e) => {
+  //   if (isDragging) {
+  //     const diffX = e.clientX - originX;
+  //     const endX = con - cir;
+  //     circle.current.style.width = `${Math.min(Math.max(0, originLeft + diffX),endX)}px`;
+  //   }
+  // };
+  // const stop = (e) => {
+  //   isDragging = false;
+  // };
+  // const getPercent = (e) => {
+  //   result = parseInt(circle.current.offsetWidth/3.49 );
+  //   setNum(result)
+  //   h1.current.innerText=result+"%"
+  // }
+
+  // const init = (e) => {
+  //   let endX = con - cir;
+  //   circle.current.style.width = `${Math.min(Math.max(0, e.clientX - e.currentTarget.offsetLeft),endX)}px`;
+  // }
 
   return (
     <>
@@ -32,13 +72,13 @@ export default function Home() {
           <div>
             <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
           </div>
-            <StReadingBox>
-              <StBookcover>책 표지</StBookcover>
-              <StBookProgressWrap>
-                <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint></StBookProgressPoint>
-              </StBookProgressWrap>
-            </StReadingBox>
+          <StReadingBox>
+            <StBookcover>책 표지</StBookcover>
+            <StBookProgressWrap>
+              <StBookProgressMove></StBookProgressMove>
+              <StBookProgressPoint></StBookProgressPoint>
+            </StBookProgressWrap>
+          </StReadingBox>
         </StMainSection1>
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
@@ -56,5 +96,5 @@ export default function Home() {
         </StMainSection2>
       </StMain>
     </>
-  )
+  );
 }

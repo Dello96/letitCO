@@ -13,18 +13,14 @@ import { getCurrentUser } from '../api/supabaseData';
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser } from '../redux/userSlice';
 import { RootState } from '../redux/store';
-
-
 const Router = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector((state: RootState) => state.user)
-  console.log('currentUser', currentUser)
-
+  const currentUser = useSelector((state: RootState) => state.user);
+  console.log('currentUser', currentUser);
   const { data: userData } = useQuery({
     queryKey: [QUERY_KEYS.AUTH],
     queryFn: getCurrentUser
   });
-
   useEffect(() => {
     if (userData) {
       dispatch(setUser(userData));
@@ -53,5 +49,4 @@ const Router = () => {
     </BrowserRouter>
   );
 };
-
 export default Router;

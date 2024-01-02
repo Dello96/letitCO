@@ -57,6 +57,8 @@ textarea:focus, input:focus{
  outline: none;
 }
 
+div.swal2-icon { margin: 0 auto; } .swal2-popup { padding: 1.25em 0 1.25em }
+
 a {
  text-decoration: none;
 }

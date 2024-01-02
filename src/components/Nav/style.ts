@@ -1,3 +1,4 @@
+import ReactModal from 'react-modal';
 import styled from 'styled-components';
 
 export const StNavbar = styled.nav`
@@ -29,22 +30,28 @@ export const StTabListItem = styled.li`
   cursor: pointer;
 `;
 export const StNavMenuNone = styled.div`
-  display: none;
-  @media screen and (max-width: 200) {
-    display: flex;
-    flex-direction: column;
-    list-style: none;
-    align-items: center;
-    width: 80%;
-    padding-bottom: 10px;
-    gap: 5px;
-    li {
-      width: 100%;
-      text-align: center;
-    }
-    li:hover {
-    }
-  }
+  display: flex;
+  flex-direction: column;
 `;
 
-export const StNavMenu = styled.div``;
+export const StCustomModal: ReactModal.Styles = {
+  overlay: {
+    backgroundColor: 'transparent',
+    width: '100%',
+    height: '100%',
+    zIndex: '10',
+    position: 'fixed',
+    top: '0',
+    left: '0'
+  },
+  content: {
+    width: '200px',
+    height: '130px',
+    zIndex: '150',
+    position: 'absolute',
+    top: '70px',
+    left: '100%',
+    borderRadius: '3px',
+    justifyContent: 'center'
+  }
+};

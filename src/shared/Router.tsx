@@ -27,6 +27,7 @@ const Router = () => {
       dispatch(setUser(userData));
     }
   }, [userData, dispatch]);
+  console.log('커런드 유저다', currentUser);
   return (
     <BrowserRouter>
       <Routes>
@@ -40,7 +41,6 @@ const Router = () => {
               <Route path="/calendar" element={<Calendar />} />
               <Route path="/detail/:id" element={<Detail />} />
               <Route path="*" element={<Navigate to="/" replace />} />
-              <Route path="/login" element={<Login />} />
             </Route>
           </>
         ) : (

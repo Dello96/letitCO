@@ -27,11 +27,15 @@ function BookShelf() {
   //   }
   // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   const navigate = useNavigate();
-  const moveRegisterPage = (item: string) => {
+  const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
   };
   const buttonClicked = () => {
-    alert('버튼 클릭됨!');
+    memos?.map((item) => {
+      if (item.isMarked === true) {
+        return (item.isMarked = false);
+      }
+    });
   };
 
   console.log(data);
@@ -50,7 +54,7 @@ function BookShelf() {
                   if (item.isMarked === true) {
                     return (
                       <>
-                        <WrapingBook onClick={() => moveRegisterPage(item.id)}>
+                        <WrapingBook onClick={() => moveDetailPage(item.id)}>
                           <BookMarkBtn onClick={buttonClicked}>
                             <HiBookmark
                               style={{
@@ -58,7 +62,9 @@ function BookShelf() {
                               }}
                             />
                           </BookMarkBtn>
-                          <PlaningBook key={item.id} src={item.cover}></PlaningBook>
+                          <WrapBookCover>
+                            <PlaningBook key={item.id} src={item.cover}></PlaningBook>
+                          </WrapBookCover>
                         </WrapingBook>
                       </>
                     );
@@ -132,6 +138,13 @@ const WrapingBook = styled.button`
   display: flex;
 `;
 
+const WrapBookCover = styled.button`
+  border: 0px;
+  background-color: transparent;
+  display: flex;
+  background-color: beige;
+`;
+
 const WrapBookShelf = styled.div`
   width: 100%;
   height: 800px;
@@ -203,17 +216,17 @@ const Books = styled.div`
 `;
 
 const PlaningBook = styled.img`
-  width: 100%;
+  size: 100%;
   position: relative;
 `;
 
 const FinishedBook = styled.img`
-  width: 100%;
+  size: 100%;
   position: relative;
 `;
 
 const ReadingBook = styled.img`
-  width: 100%;
+  size: 100%;
   position: relative;
 
   /* &:hover {

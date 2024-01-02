@@ -10,7 +10,7 @@ const getCurrentUser = async () => {
     data: { user }
   } = await supabase.auth.getUser();
   console.log('현재 세션에 로그인된 유저', user!.id);
-  console.log("user ==>", user)
+  console.log('user ==>', user);
   return user;
 };
 
@@ -59,6 +59,12 @@ const upsertBook = async (newBook: Book) => {
     .select();
   console.log('data', data);
   console.log('error', error);
+};
+
+//책 대시보드정보 수정
+const dashUpdate = async ({ id, inOnDashboard }: Book) => {
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard: false });
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard }).eq('id', id);
 };
 
 //등록된 메모목록 가져오기
@@ -111,7 +117,7 @@ const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; sta
   if (startDate) {
     updateData.startDate = startDate;
     updateData.isReading = true;
-  } else if(startDate === null) {
+  } else if (startDate === null) {
     updateData.startDate = startDate;
     updateData.isReading = false;
   }
@@ -133,5 +139,6 @@ export {
   updateIsReading,
   updateReadingPeriod,
   getUidIsbnBook,
-  upsertBook
+  upsertBook,
+  dashUpdate
 };

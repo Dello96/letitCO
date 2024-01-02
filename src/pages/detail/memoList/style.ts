@@ -42,7 +42,7 @@ const TextArea = styled.textarea`
 const Buttons = styled.div`
   display: flex;
   gap: 10px;
-  margin-left: 88%;
+  margin-left: 85%;
   & p {
     background-color: transparent;
     color: grey;

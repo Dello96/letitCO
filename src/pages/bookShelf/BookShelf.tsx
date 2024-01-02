@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
 import { HiBookmark } from 'react-icons/hi';
+import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
 import { getCurrentUser } from '../../api/supabaseData';
@@ -51,7 +52,7 @@ function BookShelf() {
     navigate(`/detail/${item}`);
   };
 
-  const dashStateHandler = () => {
+  const dashAnswerHandler = () => {
     return Swal.fire({
       title: '완주목록에 추가',
       text: '대쉬보드에 추가하시겠습니까?',
@@ -61,6 +62,10 @@ function BookShelf() {
       confirmButtonText: '예'
     });
   };
+
+  // const dashStateHandler = () => {
+  //   memos?.filter((item) => item.inOnDashboard).map((item) => {});
+  // };
 
   const buttonClicked = () => {
     memos?.filter((item) => {
@@ -113,7 +118,13 @@ function BookShelf() {
                       <>
                         <WrapingBook>
                           <ButtonWrap>
-                            <DashBtn onClick={dashStateHandler}>🔥</DashBtn>
+                            <DashBtn onClick={dashAnswerHandler}>
+                              {item.inOnDashboard ? (
+                                <FaFire style={{ color: 'red' }} />
+                              ) : (
+                                <FaFire style={{ color: 'black' }} />
+                              )}
+                            </DashBtn>
                           </ButtonWrap>
 
                           <ReadingBook key={item.uid} src={item.cover} onClick={() => moveDetailPage(item.id)} />

@@ -87,7 +87,15 @@ const updateReadPages = async ({ id, page }: { id: string; page: number }) => {
 };
 
 //독서 상태 업데이트
-const updateIsReading = async ({ id, isReadingStatus, isDone }: { id: string; isReadingStatus: boolean; isDone: boolean }) => {
+const updateIsReading = async ({
+  id,
+  isReadingStatus,
+  isDone
+}: {
+  id: string;
+  isReadingStatus: boolean;
+  isDone: boolean;
+}) => {
   if (!id) {
     // id 값이 없으면 오류 처리
     console.error('ID is undefined!');
@@ -121,5 +129,4 @@ export {
   updateReadingPeriod,
   getUidIsbnBook,
   upsertBook
-
 };

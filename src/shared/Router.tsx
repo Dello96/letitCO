@@ -29,7 +29,7 @@ const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
-        {currentUser ? (
+        {currentUser.id ? (
           <>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
@@ -44,7 +44,7 @@ const Router = () => {
         ) : (
           <>
             <Route path="/login" element={<Login />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
+            <Route path="*" element={<Navigate to="/login" replace />} />
           </>
         )}
       </Routes>

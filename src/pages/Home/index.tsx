@@ -52,7 +52,7 @@ export default function Home() {
   const book = books?.find((book) => book.id === id);
   console.log("책 정보", book);
 
-
+//대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
   console.log('tt', title);

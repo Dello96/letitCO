@@ -49,14 +49,14 @@ const BookInfo = () => {
 
   const changeIsReading = () => {
     const isCompleted = book?.readUpto === book?.page;
-    const isReadingStatus = !!isCompleted;
+    const isReadingStatus = !isCompleted;
     const id = book?.id;
     if (!id) {
       console.error('책 ID가 없습니다');
       return;
     }
     updateIsreadingMutate(
-      { id, isReadingStatus },
+      { id, isReadingStatus, isDone: isCompleted },
       {
         onSuccess: () => {
           queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
@@ -105,7 +105,7 @@ const BookInfo = () => {
           <St.TextInfo>
             <St.TextInfoHeader>
               <h1>{book?.title}</h1>
-              <St.IsReading $isReading={book.isReading!}>{book.isReading ? '완독' : '읽는중'}</St.IsReading>
+              <St.IsReading $isReading={book.isReading!}>{book.isReading ? '읽는중' : '완독'}</St.IsReading>
             </St.TextInfoHeader>
             <h3>{book?.author}</h3>
             <St.PublishInfo>

@@ -7,87 +7,44 @@ import {
   StReadingBox,
   StBookcover,
   StBookProgressWrap,
-  StBookProgressMove,
-  StBookProgressPoint,
+  StBookProgress,
   StMainSection2,
   StBookDoneTitle,
   StBookDoneList,
   StReadingPeriod,
   StReadingStar,
-} from './style'
-import { useQuery} from 'react-query'
-import { QUERY_KEYS } from '../../query/keys'
-import { getBooks, getCurrentUser } from '../../api/supabaseData'
+} from './style';
+import { useQuery } from 'react-query';
+import { QUERY_KEYS } from '../../query/keys';
+import { getBooks getCurrentUser } from '../../api/supabaseData'
 import { useParams } from 'react-router-dom'
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
+import ProgressBar from './ProgressBar';
+import { supabase } from '../../supabaseClient';
 
 export default function Home() {
-  // const circle = useRef(null);
-  // const box = useRef(null);
-  // const [con, setCon] = useState(null);
-  // const [cir, setCir] = useState(null);
-  // let h1 = useRef(null)
-  // const [num,setNum] = useState(null);
+    // 현재 로그인된 유저 정보 가져오기
+    const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
-  // useEffect(() => {
-  //   const conWidth = box.current.getBoundingClientRect().width;
-  //   setCon(conWidth);
-  //   const circleWidth = circle.current.getBoundingClientRect().width;
-  //   setCir(circleWidth);
-  // }, []);
-
-  // let isDragging = null;
-  // let originX = null;
-  // let originLeft = null;
-  // let result;
-
-  // const drag = (e) => {
-  //   isDragging = true;
-  //   originX = e.clientX;
-  //   originLeft = circle.current.offsetWidth;
-  // };
-  // const move = (e) => {
-  //   if (isDragging) {
-  //     const diffX = e.clientX - originX;
-  //     const endX = con - cir;
-  //     circle.current.style.width = `${Math.min(Math.max(0, originLeft + diffX),endX)}px`;
-  //   }
-  // };
-  // const stop = (e) => {
-  //   isDragging = false;
-  // };
-  // const getPercent = (e) => {
-  //   result = parseInt(circle.current.offsetWidth/3.49 );
-  //   setNum(result)
-  //   h1.current.innerText=result+"%"
-  // }
-
-  // const init = (e) => {
-  //   let endX = con - cir;
-  //   circle.current.style.width = `${Math.min(Math.max(0, e.clientX - e.currentTarget.offsetLeft),endX)}px`;
-  // }
+    const { data: userData } = useQuery({
+      queryKey: [QUERY_KEYS.AUTH],
+      queryFn: getCurrentUser
+    });
   
-  // 현재 로그인된 유저 정보 가져오기
-  const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
+    useEffect(() => {
+      if (userData) {
+        setCurrentUserNickname(userData.user_metadata.nickname);
+        console.log('현재 로그인된 유저 ==>', userData.user_metadata.nickname);
+      }
+    }, [userData]);
+  
+    const currentUser = useSelector((state: RootState) => state.user)
+    console.log("현재유저", currentUser.id);
+  
+    // 책 정보 가져오기
 
-  const { data: userData } = useQuery({
-    queryKey: [QUERY_KEYS.AUTH],
-    queryFn: getCurrentUser
-  });
-
-  useEffect(() => {
-    if (userData) {
-      setCurrentUserNickname(userData.user_metadata.nickname);
-      console.log('현재 로그인된 유저 ==>', userData.user_metadata.nickname);
-    }
-  }, [userData]);
-
-  const currentUser = useSelector((state: RootState) => state.user)
-  console.log("현재유저", currentUser.id);
-
-  // 책 정보 가져오기
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -98,9 +55,19 @@ export default function Home() {
 
 
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
-  const { page, readUpto } = bookOnDashboard || {};
+  const { page, readUpto, title } = bookOnDashboard || {};
+  console.log('tt', title);
   const percentage = (readUpto! / page!) * 100;
   console.log(`${percentage | 0}%`);
+
+  const existUser = async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log('현재 세션에 로그인된 유저', user?.user_metadata.nickname);
+  };
+  existUser();
+
   return (
     <>
       <Header />
@@ -114,11 +81,12 @@ export default function Home() {
             </div>
             <StReadingBox>
               <StBookcover>
-                <img src={bookOnDashboard.cover} alt="" />
+                <StBookcoverimg src={bookOnDashboard.cover} alt="" />
               </StBookcover>
               <StBookProgressWrap>
-                <StBookProgressMove></StBookProgressMove>
-                <StBookProgressPoint></StBookProgressPoint>
+                <StBookProgress>
+                  <ProgressBar percentage={percentage} title={title} />
+                </StBookProgress>
               </StBookProgressWrap>
             </StReadingBox>
           </StMainSection1>

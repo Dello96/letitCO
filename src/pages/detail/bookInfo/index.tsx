@@ -3,16 +3,31 @@ import St from './style';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { QUERY_KEYS } from '../../../query/keys';
 import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
 
 const BookInfo = () => {
+  const navigate = useNavigate()
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
   const { id } = useParams();
+
+  useEffect(() => {
+    // 데이터 로딩이 완료되었고, books 배열이 존재할 때 검사를 수행합니다.
+    if (!isLoading && books) {
+      const bookExists = books.some((book) => book?.id === id);
+      console.log('있는 책인가요?', bookExists)
+  
+      if (!bookExists) {
+        // 일치하는 ID가 없으면 /booksearch 페이지로 리다이렉트합니다.
+        navigate('/booksearch');
+      }
+    }
+  }, [id, books, isLoading, navigate]);
+  
   const book: Book = books?.find((book) => book.id === id);
 
   const [pageSubmitMode, setPageSubmitMode] = useState(false);
@@ -98,14 +113,13 @@ const BookInfo = () => {
       ) : (
         <St.Wrapper key={book?.id}>
           <St.BookCover>
-            <p>북마크</p>
             <img src={book?.cover} alt="bookCover" />
           </St.BookCover>
 
           <St.TextInfo>
             <St.TextInfoHeader>
               <h1>{book?.title}</h1>
-              <St.IsReading $isReading={book.isReading!}>{book.isReading ? '읽는중' : '완독'}</St.IsReading>
+              <St.IsReading $isReading={book?.isReading ?? false}>{book?.isReading ? '읽는중' : '완독'}</St.IsReading>
             </St.TextInfoHeader>
             <h3>{book?.author}</h3>
             <St.PublishInfo>
@@ -138,7 +152,7 @@ const BookInfo = () => {
                 <St.StartAdnEnd onSubmit={onSubmitDate}>
                   <p>시작일</p>
                   <input
-                    defaultValue={book.startDate}
+                    defaultValue={book?.startDate}
                     onChange={(e) => {
                       onChangeStartDate(e);
                     }}
@@ -146,7 +160,7 @@ const BookInfo = () => {
                   />
                   <p>종료일</p>
                   <input
-                    defaultValue={book.endDate}
+                    defaultValue={book?.endDate}
                     onChange={(e) => {
                       onChangeEndDate(e);
                     }}

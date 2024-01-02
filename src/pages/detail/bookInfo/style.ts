@@ -30,11 +30,6 @@ const BookCover = styled.div`
     width: 100%;
     height: 100%;
   }
-  //북마크 이미지로 대체
-  & p {
-    position: absolute;
-    margin: 10px 0 0 230px;
-  }
 `;
 
 const TextInfo = styled.div`

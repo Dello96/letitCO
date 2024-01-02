@@ -12,24 +12,31 @@ function ModalBox() {
   const navigate = useNavigate();
 
   const signOutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    Swal.fire({
-      title: '정말 로그아웃 하시겠습니까?',
-      icon: 'warning',
-      showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Yes'
-    }).then((result) => {
-      if (result.isConfirmed) {
-        navigate('/login');
-        Swal.fire({
-          title: '로그아웃 완료!',
-          icon: 'success'
+    try {
+      const { error } = await supabase.auth.signOut();
+      console.log(error);
+
+      if (!error) {
+        const result = await Swal.fire({
+          title: '정말 로그아웃 하시겠습니까?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
         });
+
+        if (result.isConfirmed) {
+          navigate('/login');
+          Swal.fire({
+            title: '로그아웃 완료!',
+            icon: 'success'
+          });
+        }
       }
-    });
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <StModal>

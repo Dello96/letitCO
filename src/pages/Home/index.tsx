@@ -4,7 +4,7 @@ import {
   StMainSection1,
   StNotice,
   StReadingBox,
-  StAddBook,
+  StAddBookWrap,
   StBookcover,
   StBookcoverimg,
   StBookProgressWrap,
@@ -74,18 +74,20 @@ export default function Home() {
     );
   }
 
-  const book = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
+  const readingBook = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
+  // const DoneBook = books?.filter((item) => currentUser.id === item.uid && item)
+
   
-  console.log("잘 나오나 확인", book)
+  console.log("잘 나오나 확인", readingBook)
   return (
     <>
       <StMain>
-      {book ? (
+      {readingBook ? (
         <StMainSection1>
-          <StNotice>{currentUserNickname}님 ! 벌써 {book?.readUpto} 페이지 읽으셨네요!!</StNotice>
+          <StNotice>{currentUserNickname}님 ! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요!!</StNotice>
           <StReadingBox>
             <StBookcover>
-              <StBookcoverimg src={book?.cover} alt="" />
+              <StBookcoverimg src={readingBook?.cover} alt="" />
             </StBookcover>
             <StBookProgressWrap>
               <StBookProgress>
@@ -96,14 +98,13 @@ export default function Home() {
         </StMainSection1>
         ) : (
           <>
-            <StAddBook>책을 등록해주세요</StAddBook>
+            <StAddBookWrap></StAddBookWrap>
           </>
         )}
       <StMainSection2>
         <StBookDoneTitle>완주 목록</StBookDoneTitle>
-        {books ? (
-          books
-          ?.filter((item) => currentUser.id === item.uid)
+          {books
+          ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
           .map((item) => {
             if (item.isDone === true) {
               return (
@@ -123,8 +124,7 @@ export default function Home() {
                 </>
               );
             }
-          })
-        ) : <div>완독 힘내라</div>}
+          })}
       </StMainSection2>
       </StMain>
     </>

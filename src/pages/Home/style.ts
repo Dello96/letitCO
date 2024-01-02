@@ -19,10 +19,12 @@ export const StReadingBox = styled.div`
   display: flex;
 `;
 
-export const StAddBook = styled.div`
-  margin-top: 500px;
-  background-color: green;
-  font-size: 100px
+export const StAddBookWrap = styled.div`
+  height: 300px;
+  width: 1200px;
+  border: 1px solid lightgray;
+  border-radius: 10px;
+  margin: 180px 230px;
 `
 
 export const StBookcoverimg = styled.img`

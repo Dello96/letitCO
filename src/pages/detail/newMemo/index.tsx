@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import St from './style';
 import { QUERY_KEYS } from '../../../query/keys';
-import { getCurrentUser} from '../../../api/supabaseData';
+import { getCurrentUser } from '../../../api/supabaseData';
 import { useQuery, useQueryClient } from 'react-query';
 import useMemosQuery from '../../../query/useMemosQuery';
 import { useParams } from 'react-router-dom';
@@ -18,7 +18,6 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
 
-
   //현재 로그인된 유저 정보 가져오기
   const { data: userData } = useQuery({
     queryKey: [QUERY_KEYS.AUTH],
@@ -28,7 +27,7 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
   useEffect(() => {
     if (userData) {
       setCurrentUserId(userData.id);
-      console.log('현재 로그인된 유저 ==>', userData.id);
+      // console.log('현재 로그인된 유저 ==>', userData.id);
     }
   }, [userData]);
 
@@ -43,7 +42,8 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
       bookId: paramId!,
       content: memo,
       uid: currentUserId,
-      isEditing: false
+      isEditing: false,
+      timeStamp: Date.now()
     };
     addMemoMutate(newMemo, {
       onSuccess: () => {
@@ -52,13 +52,14 @@ const NewMemo = ({ currentUserId, setCurrentUserId }: NewMemoProps) => {
     });
     //위치?
     setMemo('');
+    setIsWritingMemo(false);
   };
 
   return (
     <St.Container>
       {/* '메모작성 아이콘' */}
       <St.AddMemoToggleBtn type="button" onClick={toggleAddMemoForm}>
-        메모 작성
+        {isWritingMemo ? '닫기' : '메모 작성'}
       </St.AddMemoToggleBtn>
       {isWritingMemo ? (
         <St.AddMemoForm onSubmit={handleOnSubmit}>

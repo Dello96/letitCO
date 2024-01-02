@@ -10,6 +10,7 @@ import Calendar from '../pages/calendar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
+
 const Router = () => {
   const currentUser = useSelector((state: RootState) => state.user);
   console.log('currentUser===>', currentUser.id);
@@ -21,7 +22,6 @@ const Router = () => {
           <>
             <Route element={<Layout />}>
               <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
               <Route path="/bookregister/:id" element={<BookRegister />} />
               <Route path="/booksearch" element={<BookSearch />} />
               <Route path="/bookshelf" element={<BookShelf />} />

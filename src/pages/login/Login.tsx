@@ -84,8 +84,8 @@ const Login: React.FC = () => {
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          showConfirmButton: false
+          // timer: 5000
         });
         navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
       }
@@ -94,12 +94,12 @@ const Login: React.FC = () => {
     }
   };
 
-  const signOutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    alert('로그아웃');
-    // console.log()
-  };
+  // const signOutHandler = async () => {
+  //   const { error } = await supabase.auth.signOut();
+  //   console.log(error);
+  //   alert('로그아웃');
+  //   // console.log()
+  // };
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
@@ -134,18 +134,17 @@ const Login: React.FC = () => {
         });
       } else {
         Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          // position: 'center',
+          // icon: 'success',
+          // title: '로그인에 성공하였습니다!',
+          // showConfirmButton: false,
+          // timer: 1500
         });
-
-        navigate('/homepage');
+        navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
         setTimeout(() => {
-          signOutHandler();
+          //   signOutHandler();
           // console.log('5초 뒤에 찍히나?');
         }, 60000);
       }

@@ -46,6 +46,7 @@ export default function Home() {
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
+
   const { id } = useParams();
   const book = books?.find((book) => book.id === id);
   console.log("책 정보", book);

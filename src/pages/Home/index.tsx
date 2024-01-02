@@ -22,6 +22,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
+import { supabase } from '../../supabaseClient';
 
 export default function Home() {
   // 현재 로그인된 유저 정보 가져오기
@@ -56,6 +57,14 @@ export default function Home() {
   console.log('tt', title);
   const percentage = (readUpto! / page!) * 100;
   console.log(`${percentage | 0}%`);
+
+  const existUser = async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log('현재 세션에 로그인된 유저', user?.user_metadata.nickname);
+  };
+  existUser();
 
   return (
     <>

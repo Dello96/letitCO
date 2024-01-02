@@ -101,7 +101,7 @@ export type Book = {
 export type Memo = {
   id?: string;
   content?: string;
-  uid?: User;
+  uid?: string;
   bookId?: string;
   isEditing?: boolean;
   editingText?: string;

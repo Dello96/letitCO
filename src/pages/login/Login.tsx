@@ -14,7 +14,7 @@ import {
   StInputWrapper,
   StLogo,
   StIntroductionTitle
-} from './index';
+} from './style';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
 import { FaUnlockAlt } from 'react-icons/fa';

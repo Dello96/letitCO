@@ -5,7 +5,7 @@ import Login from '../../src/pages/login/Login';
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/BookShelf';
-import Homepage from '../pages/login/Homepage';
+import Timer from '../pages/login/Timer';
 import Detail from '../pages/detail';
 import Calender from '../pages/calender';
 
@@ -14,7 +14,7 @@ const Router = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/homepage" element={<Homepage />} />
+        <Route path="/timer" element={<Timer />} />
 
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />

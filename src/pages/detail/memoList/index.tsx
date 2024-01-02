@@ -24,7 +24,7 @@ const MemoList = () => {
     queryKey: [QUERY_KEYS.MEMOS],
     queryFn: getMemos
   });
-  const filteredMemos = memos?.filter((memo) => memo.uid === currentUser && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
+  const filteredMemos = memos?.filter((memo) => memo.uid === currentUser.id && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
   
   useEffect(() => {
     if (!filteredMemos) {

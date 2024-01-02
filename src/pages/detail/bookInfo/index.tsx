@@ -16,13 +16,10 @@ const BookInfo = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    // 데이터 로딩이 완료되었고, books 배열이 존재할 때 검사를 수행합니다.
     if (!isLoading && books) {
       const bookExists = books.some((book) => book?.id === id);
       console.log('있는 책인가요?', bookExists)
-  
       if (!bookExists) {
-        // 일치하는 ID가 없으면 /booksearch 페이지로 리다이렉트합니다.
         navigate('/booksearch');
       }
     }

@@ -1,26 +1,30 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/BookShelf';
-import Timer from '../pages/login/Timer';
 import Detail from '../pages/detail';
-import Calender from '../pages/calender';
+// import Calendar from '../pages/calendar';
+
+// import { useQuery } from 'react-query';
+// import { QUERY_KEYS } from '../query/keys';
+// import { getCurrentUser } from '../api/supabaseData';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { setUser } from '../redux/userSlice';
+// import { RootState } from '../redux/store';
 
 const Router = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/timer" element={<Timer />} />
-
         <Route path="/login" element={<Login />} />
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
         <Route path="/bookshelf" element={<BookShelf />} />
-        <Route path="/bookcalender" element={<Calender />} />
+        {/* <Route path="/bookcalender" element={<Calender />} /> */}
 
         <Route path="/detail/:id" element={<Detail />} />
 

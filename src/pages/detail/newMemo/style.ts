@@ -11,15 +11,17 @@ const Container = styled.section`
 const AddMemoToggleBtn = styled.button`
   font-size: 16px;
   font-weight: 600;
-  color: white;
-  padding: 15px 46px;
-  border: none;
+  color:  #669674;
+  background-color: transparent;
+  padding: 15px 42px;
+  border: 2px solid  #669674;
   border-radius: 5px;
-  background-color: #669674;
   transition: 200ms;
+
   &:hover {
     cursor: pointer;
-    background-color: #295435;
+    background-color: #669674;
+    color: white;
     transition: 200ms;
   }
 `;
@@ -30,7 +32,6 @@ const AddMemoForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: 700px;
-  margin: 50px 0;
   gap: 20px;
   & textarea {
     resize: none;
@@ -49,35 +50,14 @@ const AddMemoForm = styled.form`
     border-radius: 5px;
     background-color: #669674;
     cursor: pointer;
+    transition: 200ms;
+    &:hover {
+      background-color: #295435;
+      transition: 200ms;
+    }
   }
 `;
 
-const Memo = styled.li`
-  margin: 10px;
-  background-color: #fcacac;
-  width: 700px;
-  height: 200px;
-`;
 
-const Content = styled.p`
-  font-size: 16px;
-  line-height: 1.7;
-  padding: 12px;
-  background-color: aqua;
-  border-radius: 10px;
-  height: 150px;
-`;
 
-const TextArea = styled.textarea`
-  font-size: 16px;
-  line-height: 1.7;
-  padding: 12px;
-  background-color: aqua;
-  border-radius: 10px;
-  height: 150px;
-  resize: none;
-`;
-
-const Buttons = styled.div``;
-
-export default { Container, AddMemoToggleBtn, AddMemoForm, Memo, Content, TextArea, Buttons };
+export default { Container, AddMemoToggleBtn, AddMemoForm };

@@ -3,14 +3,25 @@ import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getSearchData } from '../api/aldData';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { getCurrentUser } from '../api/supabaseData';
 // import { useDispatch } from 'react-redux';
 
 function BookSearch() {
-  const [search, setSearch] = useState('');
+  // 주소를 먼저 바꾸고 url에 있는 값을 가져와서 초깃값으로 넣어주기 useSearchParams
+  const [param] = useSearchParams();
+  const queryString = param.get('keyword');
+  const [search, setSearch] = useState(queryString!);
   const [keyword, setKeyword] = useState('');
   const navi = useNavigate();
+  console.log(param.get('keyword'));
+  console.log('search', search);
+  console.log('keyword=>', keyword);
 
+  const { data } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
+  console.log('유저정보다', data);
+
+  // 책 검색목록 가져오기
   const { data: searchData } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);
 
   // 검색
@@ -18,8 +29,8 @@ function BookSearch() {
     setKeyword(e.target.value);
   };
   const searchOnClickHandler = () => {
-    setSearch(keyword);
-    console.log(keyword);
+    navi(`/booksearch?keyword=${keyword}`);
+    setSearch(keyword!);
   };
 
   const moveRegisterPage = (item: string) => {

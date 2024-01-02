@@ -1,18 +1,12 @@
 import React from 'react';
-// import { ChangeEvent, useState } from 'react';
 import { StBookTitle, StCompletedPercent } from './style';
+
 interface ProgressBar {
   percentage: number;
   title?: string;
 }
 
 function ProgressBar({ percentage, title }: ProgressBar) {
-  //   const [inputValue, setInputValue] = useState<number>(0);
-  //   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-  //     const newValue = parseFloat(event.target.value);
-  //     setInputValue(newValue);
-  //   };
-
   const calculatePercentage = () => {
     const clampedValue = Math.min(100, Math.max(0, percentage));
     return clampedValue;

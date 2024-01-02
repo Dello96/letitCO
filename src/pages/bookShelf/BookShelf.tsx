@@ -26,6 +26,11 @@ function BookShelf() {
   //     fetchNextPage();
   //   }
   // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
+  const buttonClicked = () => {
+    return console.log('버튼클릭');
+  };
+  // const navigate = useNavigate();
+
   console.log(data);
   console.log(memos);
   console.log(memoIsReading);
@@ -43,14 +48,15 @@ function BookShelf() {
                     return (
                       <>
                         <WrapingBook>
-                          <HiBookmark
-                            style={{
-                              color: 'red',
-                              position: 'absolute',
-                              zIndex: '2'
-                            }}
-                          />
-                          <PlaningBook key={item.id} src={item.cover} />
+                          <BookMarkBtn onClick={buttonClicked}>
+                            <HiBookmark
+                              style={{
+                                zIndex: '3',
+                                color: item.isMarked ? 'black' : 'red'
+                              }}
+                            />
+                          </BookMarkBtn>
+                          <PlaningBook key={item.id} src={item.cover}></PlaningBook>
                         </WrapingBook>
                       </>
                     );
@@ -130,6 +136,15 @@ const WrapBookShelf = styled.div`
   margin-top: 100px;
 `;
 
+const BookMarkBtn = styled.button`
+  display: flex;
+  z-index: 3;
+  top: 5px;
+  background-color: transparent;
+  cursor: pointer;
+  border: 0px;
+`;
+
 const BookShelfs = styled.div`
   max-width: 1000px;
   width: 80%;
@@ -187,22 +202,16 @@ const Books = styled.div`
 
 const PlaningBook = styled.img`
   width: 100%;
-  border-radius: 3px 0.5px 0.5px 3px;
-  aspect-ratio: 115 / 180;
   position: relative;
 `;
 
 const FinishedBook = styled.img`
   width: 100%;
-  border-radius: 3px 0.5px 0.5px 3px;
-  aspect-ratio: 115 / 180;
   position: relative;
 `;
 
 const ReadingBook = styled.img`
   width: 100%;
-  border-radius: 3px 0.5px 0.5px 3px;
-  aspect-ratio: 115 / 180;
   position: relative;
 
   /* &:hover {

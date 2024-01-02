@@ -4,6 +4,7 @@ import {
   StMainSection1,
   StNotice,
   StReadingBox,
+  StAddBook,
   StBookcover,
   StBookcoverimg,
   StBookProgressWrap,
@@ -50,6 +51,7 @@ export default function Home() {
     queryFn: getBooks
   });
 
+//대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
   console.log('tt', title);
@@ -72,39 +74,35 @@ export default function Home() {
     );
   }
 
+  const book = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
+  
+  console.log("잘 나오나 확인", book)
   return (
     <>
       <StMain>
-      {books ? (
+      {book ? (
         <StMainSection1>
-          {books
-            ?.filter((item) => currentUser.id === item.uid)
-            .map((item) => {
-              if (item.inOnDashboard === true && item.isReading === true) {
-                return (
-                  <>
-                    <StNotice>{currentUserNickname}님 ! 벌써 {bookOnDashboard.readUpto} 페이지 읽으셨네요!!</StNotice>
-                    <StReadingBox>
-                      <StBookcover>
-                        <StBookcoverimg src={bookOnDashboard.cover} alt="" />
-                      </StBookcover>
-                      <StBookProgressWrap>
-                        <StBookProgress>
-                          <ProgressBar percentage={percentage} title={title} />
-                        </StBookProgress>
-                      </StBookProgressWrap>
-                    </StReadingBox>
-                  </>
-            );
-          }
-          })}
+          <StNotice>{currentUserNickname}님 ! 벌써 {book?.readUpto} 페이지 읽으셨네요!!</StNotice>
+          <StReadingBox>
+            <StBookcover>
+              <StBookcoverimg src={book?.cover} alt="" />
+            </StBookcover>
+            <StBookProgressWrap>
+              <StBookProgress>
+                <ProgressBar percentage={percentage} title={title} />
+              </StBookProgress>
+            </StBookProgressWrap>
+          </StReadingBox>
         </StMainSection1>
         ) : (
-          <div>책을 등록해주세요</div>
+          <>
+            <StAddBook>책을 등록해주세요</StAddBook>
+          </>
         )}
       <StMainSection2>
         <StBookDoneTitle>완주 목록</StBookDoneTitle>
-        {books
+        {books ? (
+          books
           ?.filter((item) => currentUser.id === item.uid)
           .map((item) => {
             if (item.isDone === true) {
@@ -125,7 +123,8 @@ export default function Home() {
                 </>
               );
             }
-          })}
+          })
+        ) : <div>완독 힘내라</div>}
       </StMainSection2>
       </StMain>
     </>

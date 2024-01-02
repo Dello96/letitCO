@@ -85,6 +85,7 @@ export type Book = {
   pubDate?: string;
   publisher?: string;
   isReading?: boolean;
+  isDone?: boolean;
   isMarked?: boolean;
   isbn?: string;
   isbn13?: string;

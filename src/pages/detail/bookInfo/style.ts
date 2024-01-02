@@ -30,11 +30,6 @@ const BookCover = styled.div`
     width: 100%;
     height: 100%;
   }
-  //북마크 이미지로 대체
-  & p {
-    position: absolute;
-    margin: 10px 0 0 230px;
-  }
 `;
 
 const TextInfo = styled.div`
@@ -65,13 +60,13 @@ const IsReading = styled.p<{ $isReading: boolean }>`
   ${(props) =>
     props.$isReading
       ? css`
+          border: 1px solid #2a6b3b;
+          color: #2a6b3b;
+        `
+      : css`
           border: none;
           background-color: #2a6b3b;
           color: white;
-        `
-      : css`
-          border: 1px solid #2a6b3b;
-          color: #2a6b3b;
         `}
   border-radius: 25px;
   font-weight: 500;
@@ -125,15 +120,15 @@ const Page = styled.div`
   & form {
     display: flex;
     align-items: center;
-     & p {
+    & p {
       margin-right: 25px;
-     }
+    }
   }
 `;
 const PageSubmit = styled.h3`
   position: absolute;
   cursor: pointer;
-  margin: 25px 120px;;
+  margin: 25px 120px;
   font-weight: 600;
   &:hover {
     text-decoration: underline;

@@ -3,9 +3,19 @@ import Fullcalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from '@fullcalendar/interaction';
+import { CustomHeaderCenter } from './header';
+import { useQuery } from 'react-query';
+import { QUERY_KEYS } from '../../query/keys';
+import { getBooks } from '../../api/supabaseData';
 
 
 const Calendar = () => {
+  export default function Home() {
+    const { data: books } = useQuery({
+      queryKey: [QUERY_KEYS.BOOKS],
+      queryFn: getBooks
+    });
+
   return (
     <div>
       <Fullcalendar plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]} 
@@ -15,6 +25,10 @@ const Calendar = () => {
         { title: '최후의 만찬', date: '2024-01-02' },
         { title: 'Check Chaek PT', date: '2024-01-03' },
       ]}
+      headerToolbar={{
+        start: "title",
+        center: <CustomHeaderCenter />,
+      }}
       />
     </div>
   );

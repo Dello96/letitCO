@@ -42,10 +42,8 @@ export default function Home() {
     }, [userData]);
   
     const currentUser = useSelector((state: RootState) => state.user)
-    console.log("현재유저", currentUser.id);
   
-    // 책 정보 가져오기
-
+  // 책 정보 가져오기
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -78,7 +76,7 @@ export default function Home() {
         ) : (
           <StMainSection1>
             <div>
-            <StNotice>{currentUserNickname}님 ! 벌써 {book?.readUpto} 페이지 읽으셨네요!!</StNotice>
+            <StNotice>{currentUserNickname}님 ! 벌써 {bookOnDashboard.readUpto} 페이지 읽으셨네요!!</StNotice>
             </div>
             <StReadingBox>
               <StBookcover>

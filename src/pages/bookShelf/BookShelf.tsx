@@ -43,11 +43,9 @@ function BookShelf() {
       title: '대시보드에 추가하시겠습니까?',
 
       cancelButtonText: '취소',
-      showCancelButton: true,
-      didOpen: () => {
-        dashUpdate(currentUser);
-      }
+      showCancelButton: true
     });
+    dashUpdate(currentUser);
   };
 
   // const { ref, inView } = useInView({

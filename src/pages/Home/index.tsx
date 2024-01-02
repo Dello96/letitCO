@@ -26,11 +26,11 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-import { useParams } from 'react-router-dom';
 import { supabase } from '../../supabaseClient';
 import Loading from '../../components/Loading';
-import { FaSearchPlus } from 'react-icons/fa';
+import { FaSearchPlus } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+
 
 export default function Home() {
   const navigate = useNavigate();
@@ -71,10 +71,6 @@ export default function Home() {
     queryFn: getBooks
   });
 
-  const { id } = useParams();
-  const book = books?.find((book) => book.id === id);
-  console.log('책 정보', book);
-
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
@@ -96,22 +92,20 @@ export default function Home() {
   return (
     <>
       <StMain>
-        {readingBook ? (
-          <StMainSection1>
-            <StNotice>
-              {currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥
-            </StNotice>
-            <StReadingBox>
-              <StBookcover>
-                <StBookcoverimg src={readingBook?.cover} alt="" />
-              </StBookcover>
-              <StBookProgressWrap>
-                <StBookProgress>
-                  <ProgressBar percentage={percentage} title={title} />
-                </StBookProgress>
-              </StBookProgressWrap>
-            </StReadingBox>
-          </StMainSection1>
+      {readingBook ? (
+        <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
+          <StNotice>{currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥</StNotice>
+          <StReadingBox>
+            <StBookcover>
+              <StBookcoverimg src={readingBook?.cover} alt="" />
+            </StBookcover>
+            <StBookProgressWrap>
+              <StBookProgress>
+                <ProgressBar percentage={percentage} title={title} />
+              </StBookProgress>
+            </StBookProgressWrap>
+          </StReadingBox>
+        </StMainSection1>
         ) : (
           <StAddBookWrap onClick={() => navigate('/booksearch')}>
             <StAddIcon>
@@ -123,30 +117,28 @@ export default function Home() {
         <StMainSection2>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
-            ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
-            .map((item) => {
-              if (item.isDone === true) {
-                return (
-                  <>
-                    <StBookDoneList key={item?.id}>
-                      <StBookcover>
-                        <StBookcoverimg src={item?.cover} alt="bookCover" />
-                      </StBookcover>
-                      <div>
-                        <StBookInfo>
-                          <StBookTitle>✅ {item.title}</StBookTitle>
-                          <StBookAuthor>{item.author}</StBookAuthor>
-                        </StBookInfo>
-                        <StReadingPeriod>
-                          {item?.startDate} ~ {item?.endDate}
-                        </StReadingPeriod>
-                      </div>
-                    </StBookDoneList>
-                  </>
-                );
-              }
-            })}
-        </StMainSection2>
+          ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
+          .map((item) => {
+            if (item.isDone === true) {
+              return (
+                <>
+                  <StBookDoneList key={item?.id} onClick={() => navigate(`/detail/${item.id}`)}>
+                  <StBookcover>
+                    <StBookcoverimg src={item?.cover} alt="bookCover" />
+                  </StBookcover>
+                  <div>
+                    <StBookInfo>
+                      <StBookTitle>✅ {item.title}</StBookTitle>
+                      <StBookAuthor>{item.author}</StBookAuthor>
+                    </StBookInfo>
+                    <StReadingPeriod>{item?.startDate} ~ {item?.endDate}</StReadingPeriod>
+                  </div>
+                  </StBookDoneList>
+                </>
+              );
+            }
+          })}
+      </StMainSection2>
       </StMain>
     </>
   );

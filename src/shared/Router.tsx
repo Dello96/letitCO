@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
@@ -13,28 +13,12 @@ import Layout from '../components/Layout';
 
 
 const Router = () => {
-  const [user, setUser] = useState('')
-  useEffect(() => {
     const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
-  if (authTokenStr) {
-    //제이슨으로 바꾸기
-    const authToken = JSON.parse(authTokenStr);
-    console.log('authToken=========>', authToken)
-    const userId: string = authToken.user.id;
-    console.log('사용자 ID:', userId);
-    setUser(userId)
-
-  } else {
-    console.log('Auth 토큰을 찾을 수 없습니다.');
-  }
-}, [])
- 
-
 
   return (
     <BrowserRouter>
       <Routes>
-        {user ? (
+        {authTokenStr ? (
         <>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -47,12 +31,12 @@ const Router = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </>
-         ) : ( 
+         ) : (  
         <>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
-         )} 
+          )}  
       </Routes>
     </BrowserRouter>
   );

@@ -10,6 +10,7 @@ export const StWrapper = styled.div`
 export const StWelcomeSection = styled.div`
   background-image: url(${loginBgImg});
   display: flex;
+  justify-content: center;
   flex-direction: column;
   flex-wrap: nowrap;
   background-size: cover;
@@ -33,13 +34,14 @@ export const StFormWrapper = styled.form`
 
 export const StIntroductionTitle = styled.h1`
   font-weight: 550;
+  font-size: 20px;
   color: #0e411d;
 `;
 
 export const StIntroduction = styled.div`
   margin-left: 20px;
   margin-right: 20px;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 1.6;
 `;
 

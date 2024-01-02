@@ -19,13 +19,14 @@ export default function BookRegister() {
   const { data: user } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
 
   // 해당 isbn의 book 정보 가져오기
-  const { data: detailData } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
+  const { data: detailData, isLoading: BookLoading } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
 
   // supabase/ uid,isbn13에 맞는 Book data 가져오기
   const newData = {
     uid: user?.id,
     isbn13: detailData?.isbn13
   };
+
   const { data: uidIsbn13BookData, isLoading } = useQuery([QUERY_KEYS.BOOKS, newData], () => getUidIsbnBook(newData));
   console.log('uid와 isbn13에 맞는 데이터 정보다', uidIsbn13BookData);
 
@@ -45,6 +46,7 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isMarked,
+      isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isDone,
       isbn13: detailData?.isbn13,
       category: detailData?.categoryName
     };
@@ -63,102 +65,144 @@ export default function BookRegister() {
       pubDate: detailData?.pubDate,
       isReading: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isReading,
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
+      isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isDone,
       isbn13: detailData?.isbn13,
       category: detailData?.categoryName
     };
     upsertBookMutation(newMarkerBook);
   };
 
+  if (BookLoading) {
+    return <Loading />;
+  }
+
   if (isLoading) {
-    return (
-      <div>
-        <Loading />;
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <StBody>
-      {detailData && (
+      {
         <StBookBox>
           <StImgBox>
-            <img src={detailData.cover} />
+            <img src={detailData?.cover} />
           </StImgBox>
           <StTextWrapper>
             <StBtnBox>
+              <h1>{detailData?.title}</h1>
               {/* uidIsbn13BookData가 없다면 빈마크
          있다면 그중 isReading의 여부가 true면 채워진 마크 false라면 빈 마크  */}
               {/* 북마크 */}
-              {uidIsbn13BookData?.length === 0 ? (
-                <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
-              ) : uidIsbn13BookData && uidIsbn13BookData[0].isMarked === true ? (
-                <PiBookmarkSimpleFill size={60} color="red" onClick={upSertBookMarkerOnclickHandler} />
-              ) : (
-                <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
-              )}
-              {/* 저장 */}
-              {uidIsbn13BookData?.length === 0 ? (
-                <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
-              ) : uidIsbn13BookData && uidIsbn13BookData[0].isReading ? (
-                <BsFileCheckFill size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
-              ) : (
-                <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
-              )}
+              <div>
+                {uidIsbn13BookData?.length === 0 ? (
+                  <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+                ) : uidIsbn13BookData && uidIsbn13BookData[0].isMarked === true ? (
+                  <PiBookmarkSimpleFill size={60} color="red" onClick={upSertBookMarkerOnclickHandler} />
+                ) : (
+                  <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+                )}
+                {/* 저장 */}
+                {uidIsbn13BookData?.length === 0 ? (
+                  <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                ) : uidIsbn13BookData && uidIsbn13BookData[0].isReading ? (
+                  <BsFileCheckFill size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                ) : (
+                  <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                )}
+              </div>
             </StBtnBox>
+            <h3>{detailData?.author} </h3>
+            <StPublishInpo>
+              <p>{detailData?.publisher} </p>
+              <span>{detailData?.pubDate}</span>
+            </StPublishInpo>
             <StTextBox>
-              <h2>책 제목:{detailData.title}</h2>
-              <br />
-              <p>작가: {detailData.author} </p>
-              <p>출판사: {detailData.publisher} </p>
-              <p>페이지 수: {detailData.subInfo?.itemPage} </p>
-              <p>카테고리: {detailData.categoryName} </p>
-              <p>평점: {detailData.customerReviewRank} </p>
-              <p>내용: {detailData.description}</p>
+              <p>{detailData?.categoryName} </p>
+              <p> 평점 {detailData?.customerReviewRank} </p>
             </StTextBox>
+            <p> {detailData?.description}</p>
           </StTextWrapper>
         </StBookBox>
-      )}
+      }
     </StBody>
   );
 }
 
 const StBody = styled.div`
-  width: 1200px;
-  margin: 0 auto;
+  width: 100%;
+  margin-top: 50px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
   align-items: center;
 `;
 
 const StBookBox = styled.div`
-  height: 600px;
-  width: 60%;
-  background-color: azure;
+  height: 500px;
+  width: 1000px;
+
   display: flex;
-  margin: 50px;
   padding: 50px;
+  margin-top: 50px;
+  & h3 {
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 15px;
+  }
 `;
 
-const StTextBox = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
 const StTextWrapper = styled.div`
   height: 100%;
   margin: 30px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: #55a5eb;
+  & p {
+    line-height: 1.5;
+  }
+`;
+
+const StTextBox = styled.div`
+  width: 550px;
+  display: flex;
+  flex-direction: column;
+  & p {
+    margin: 7px;
+  }
+`;
+
+const StPublishInpo = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: grey;
+  & span {
+    padding-left: 10px;
+    margin-left: 10px;
+    border-left: 1px solid grey;
+  }
 `;
 
 const StBtnBox = styled.div`
   display: flex;
-  justify-content: flex-end;
-  & BsFilePlus {
-    margin-top: 10px;
+  justify-content: space-between;
+  align-items: center;
+  & div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  & h1 {
+    font-size: 32px;
+    font-weight: 700;
   }
 `;
 const StImgBox = styled.div`
-  margin-top: 30px;
+  position: relative;
+  width: 300px;
+  height: 450px;
+  box-shadow: 1px 1px 20px 5px rgba(0, 0, 0, 0.1);
+  & img {
+    width: 300px;
+    height: 100%;
+  }
 `;

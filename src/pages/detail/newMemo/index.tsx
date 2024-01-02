@@ -7,27 +7,14 @@ import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
-
 const NewMemo = () => {
   const queryClient = useQueryClient();
   const { id: paramId } = useParams();
 
-  // 상태관리
   const [memo, setMemo] = useState('');
   const [isWritingMemo, setIsWritingMemo] = useState(false);
-  const currentUser = useSelector((state: RootState) => state.user)
-  // //현재 로그인된 유저 정보 가져오기
-  // const { data: userData } = useQuery({
-  //   queryKey: [QUERY_KEYS.AUTH],
-  //   queryFn: getCurrentUser
-  // });
-
-  // useEffect(() => {
-  //   if (userData) {
-  //     setCurrentUserId(userData.id);
-  //     // console.log('현재 로그인된 유저 ==>', userData.id);
-  //   }
-  // }, [userData]);
+  const currentUser = useSelector((state: RootState) => state.user);
+  console.log('detail페이지 로그인유저 uid===>', currentUser.id);
 
   const { addMemoMutation } = useMemosQuery();
   const { mutate: addMemoMutate } = addMemoMutation;
@@ -48,7 +35,6 @@ const NewMemo = () => {
         queryClient.invalidateQueries(QUERY_KEYS.MEMOS);
       }
     });
-    //위치?
     setMemo('');
     setIsWritingMemo(false);
   };

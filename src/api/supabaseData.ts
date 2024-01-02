@@ -51,7 +51,8 @@ const upsertBook = async (newBook: Book) => {
         pubDate: newBook.pubDate,
         isReading: newBook.isReading,
         isMarked: newBook.isMarked,
-        isbn13: newBook.isbn13
+        isbn13: newBook.isbn13,
+        isDone: newBook.isDone
       },
       { onConflict: 'uid,isbn13' }
     )
@@ -106,9 +107,13 @@ const updateIsReading = async ({
 
 //독서 기간 업데이트
 const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; startDate: string; endDate: string }) => {
-  const updateData: { startDate?: string; endDate?: string } = {};
+  const updateData: { startDate?: string; endDate?: string; isReading?: boolean } = {};
   if (startDate) {
     updateData.startDate = startDate;
+    updateData.isReading = true;
+  } else if(startDate === null) {
+    updateData.startDate = startDate;
+    updateData.isReading = false;
   }
   if (endDate) {
     updateData.endDate = endDate;

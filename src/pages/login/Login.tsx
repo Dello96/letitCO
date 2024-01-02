@@ -14,7 +14,6 @@ import {
   StInputWrapper,
   StLogo,
   StIntroductionTitle
-  // Stegg
 } from './style';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
@@ -23,6 +22,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 export type Inputs = {
   userEmail: string;
@@ -32,6 +33,7 @@ export type Inputs = {
 };
 
 const Login: React.FC = () => {
+  const dispatch = useDispatch();
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
   const {
@@ -42,17 +44,11 @@ const Login: React.FC = () => {
     formState: { errors }
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  console.log('errors', errors);
-
-  // useMemo, useCallback 사용하기
-  // ant design 사용하기
-
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
 
   // 회원가입
   const signUpHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     console.log(inputs);
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -64,48 +60,57 @@ const Login: React.FC = () => {
           }
         }
       });
-      console.log('data', data); // 불러오기 성공
+      console.log('data', data);
       setValue('userEmail', '');
       setValue('userPassword', '');
       setValue('userPasswordCheck', '');
       setValue('userNickname', '');
       if (error) {
         console.error(error);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: '회원가입 양식을 다시 확인해주세요'
-        // });
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '회원가입 양식을 다시 확인해주세요'
+        });
       } else {
         Swal.fire({
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          showConfirmButton: false
+          // timer: 5000
         });
-        navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
     }
   };
 
-  const signOutHandler = async () => {
-    const { error } = await supabase.auth.signOut();
-    console.log(error);
-    alert('로그아웃');
-    // console.log()
-  };
+  // const signOutHandler = async () => {
+  //   const { error } = await supabase.auth.signOut();
+  //   console.log(error);
+  //   alert('로그아웃');
+  //   // console.log()
+  // };
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: inputs.userEmail,
         password: inputs.userPassword
       });
+      if (data && data.user) {
+        const id = data.user.id;
+        const user = {
+          id: id
+        };
+        dispatch(setUser(user));
+      } else {
+        console.log('id 값이 없습니다.');
+      }
+
       console.log('userData', data);
       console.log('만료', data.session?.expires_in);
 
@@ -121,19 +126,19 @@ const Login: React.FC = () => {
         });
       } else {
         Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          // position: 'center',
+          // icon: 'success',
+          // title: '로그인에 성공하였습니다!',
+          // showConfirmButton: false,
+          // timer: 1500
         });
-        navigate('/homepage');
+        navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
-        setTimeout(() => {
-          signOutHandler();
-          // console.log('5초 뒤에 찍히나?');
-        }, 60000);
+        // setTimeout(() => {
+        //   signOutHandler();
+        //   console.log('5초 뒤에 찍히나?');
+        // }, 60000);
       }
       // setInterval n초 간격으로 실행!!!
     } catch (error) {
@@ -147,6 +152,7 @@ const Login: React.FC = () => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+
         options: {
           queryParams: {
             access_type: 'offline',
@@ -159,15 +165,15 @@ const Login: React.FC = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        navigate('/homepage');
+        navigate('/');
       }
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: '로그인에 성공하였습니다!',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (error) {
       console.error(error);
     }

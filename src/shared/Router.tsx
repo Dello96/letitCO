@@ -4,11 +4,9 @@ import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
-
 import BookShelf from '../pages/bookShelf/BookShelf';
-
 import Detail from '../pages/detail';
-import Calender from '../pages/calender';
+import Calendar from '../pages/calendar';
 
 const Router = () => {
   return (
@@ -19,9 +17,8 @@ const Router = () => {
         <Route path="/bookregister/:id" element={<BookRegister />} />
         <Route path="/booksearch" element={<BookSearch />} />
         <Route path="/bookshelf" element={<BookShelf />} />
-        <Route path="/bookcalender" element={<Calender />} />
+        <Route path="/calendar" element={<Calendar />} />
         <Route path="/detail/:id" element={<Detail />} />
-
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>

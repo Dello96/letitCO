@@ -1,7 +1,10 @@
 import styled from 'styled-components';
-const PlaceHolder = styled.div`
 
-`
+const Container = styled.section`
+  margin-top: 50px;
+`;
+
+const PlaceHolder = styled.div``;
 
 const Memo = styled.li`
   margin: 10px;
@@ -31,11 +34,28 @@ const TextArea = styled.textarea`
   /* background-color: aqua; */
   border: none;
   border-radius: 10px;
-  height: 130px;
+  height: 127px;
   resize: none;
   width: 100%;
 `;
 
-const Buttons = styled.div``;
+const Buttons = styled.div`
+  display: flex;
+  gap: 10px;
+  margin-left: 88%;
+  & p {
+    background-color: transparent;
+    color: grey;
+    &:hover {
+      color: #669674;
+      cursor: pointer;
+      font-weight: 600;
+    }
+  }
+  & .leftBtn {
+    border-right: 1px solid lightgrey;
+    padding-right: 8px;
+  }
+`;
 
-export default { PlaceHolder, Memo, Content, TextArea, Buttons };
+export default { Container, PlaceHolder, Memo, Content, TextArea, Buttons };

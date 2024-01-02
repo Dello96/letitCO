@@ -33,6 +33,7 @@ const Router = () => {
           <>
             <Route path="/" element={<Home />} />
             <Route path="/bookregister/:id" element={<BookRegister />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/booksearch" element={<BookSearch />} />
             <Route path="/bookshelf" element={<BookShelf />} />
             <Route path="/calendar" element={<Calendar />} />

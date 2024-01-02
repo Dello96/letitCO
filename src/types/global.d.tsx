@@ -68,6 +68,8 @@ export type AldDetail = {
     originalTitle: string;
     itemPage: number;
   };
+  startDate?: string;
+  DoneDate?: string;
 };
 
 export type Book = {
@@ -84,14 +86,18 @@ export type Book = {
   isbn?: string;
   isbn13?: string;
   createdAt?: string;
+  updatedPages?: number;
+  readUpto?: number;
+  category?: string;
 };
 
 export type Memo = {
-  id: string;
-  content: string;
-  createdAt: string;
-  uid: string;
-  bookId: string;
-  isEditing: boolean;
-  editingText: string;
-}
+  id?: string;
+  content?: string;
+  uid?: string;
+  bookId?: string;
+  isEditing?: boolean;
+  editingText?: string;
+  timeStamp?: number;
+};
+ 

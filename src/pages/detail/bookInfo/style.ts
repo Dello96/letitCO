@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const BookInfoSection = styled.section`
   margin-top: 50px;
@@ -14,14 +14,10 @@ const Wrapper = styled.div`
   /* background-color: plum; */
   display: flex;
   justify-content: center;
-  /* align-items: center; */
   padding: 20px;
   gap: 50px;
   width: 1000px;
   height: 500px;
-  /* .description {
-    white-space: pre-wrap;
-  } */
 `;
 
 const BookCover = styled.div`
@@ -43,7 +39,7 @@ const BookCover = styled.div`
 
 const TextInfo = styled.div`
   /* background-color: cadetblue; */
-  width: 500px;
+  width: 550px;
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
@@ -53,6 +49,9 @@ const TextInfo = styled.div`
     font-size: 32px;
     font-weight: 700;
   }
+  & .category {
+    color: grey;
+  }
 `;
 
 const TextInfoHeader = styled.div`
@@ -61,12 +60,20 @@ const TextInfoHeader = styled.div`
   align-items: flex-start;
 `;
 
-
-const IsReading = styled.p`
+const IsReading = styled.p<{ $isReading: boolean }>`
   padding: 10px 15px;
-  border: 1px solid #2a6b3b;
+  ${(props) =>
+    props.$isReading
+      ? css`
+          border: none;
+          background-color: #2a6b3b;
+          color: white;
+        `
+      : css`
+          border: 1px solid #2a6b3b;
+          color: #2a6b3b;
+        `}
   border-radius: 20px;
-  color: #2a6b3b;
   font-weight: 500;
 `;
 
@@ -82,10 +89,70 @@ const PublishInfo = styled.div`
   }
 `;
 
-const Description = styled.p`
+const Description = styled.h3`
   line-height: 1.7;
 `;
 
+const UserReadingInfo = styled.div`
+  display: flex;
+`;
+
+const Page = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  & input {
+    width: 80px;
+  }
+  & button {
+    margin-left: 20px;
+    border: none;
+    border-radius: 3px;
+    color: white;
+    background-color: #669674;
+    padding: 5px 7px;
+    font-size: 14px;
+    transition: 200ms;
+    &:hover {
+      background-color: #295435;
+      transition: 200ms;
+      cursor: pointer;
+    }
+  }
+  & form {
+    display: flex;
+    align-items: center;
+  }
+`;
+const PageSubmit = styled.h3`
+  cursor: pointer;
+  margin: 25px 0;
+  font-weight: 600;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const PageNumber = styled.span`
+  font-weight: 600;
+`;
+
+const Timeline = styled.div`
+  /* background-color: red; */
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin: 27px 0 0 50px;
+    & h3 {
+      font-weight: 600;
+    }
+`;
+const StartAdnEnd = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* flex-direction: column; */
+`;
 export default {
   BookInfoSection,
   Wrapper,
@@ -94,5 +161,11 @@ export default {
   IsReading,
   TextInfoHeader,
   PublishInfo,
-  Description
+  Description,
+  PageSubmit,
+  Page,
+  PageNumber,
+  UserReadingInfo,
+  StartAdnEnd,
+  Timeline
 };

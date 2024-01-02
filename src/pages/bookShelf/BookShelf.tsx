@@ -51,7 +51,7 @@ function BookShelf() {
                           <BookMarkBtn onClick={buttonClicked}>
                             <HiBookmark
                               style={{
-                                zIndex: '3',
+                                zIndex: '2',
                                 color: item.isMarked ? 'black' : 'red'
                               }}
                             />
@@ -139,7 +139,8 @@ const WrapBookShelf = styled.div`
 const BookMarkBtn = styled.button`
   display: flex;
   z-index: 3;
-  top: 5px;
+  top: 0px;
+  left: 5px;
   background-color: transparent;
   cursor: pointer;
   border: 0px;

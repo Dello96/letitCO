@@ -31,7 +31,7 @@ export const StProgressBookTitle = styled.div`
   font-weight: 700;
   color: #0e411d;
   margin-top: 10px;
-`
+`;
 export const StAddBookWrap = styled.div`
   height: 250px;
   width: 1200px;
@@ -39,7 +39,7 @@ export const StAddBookWrap = styled.div`
   border-radius: 10px;
   margin-top: 180px;
   cursor: pointer;
-`
+`;
 
 export const StAddIcon = styled.div`
   color: #0e411d;
@@ -110,7 +110,7 @@ export const StBookDoneList = styled.div`
 export const StBookInfo = styled.div`
   display: flex;
   margin-top: 100px;
-`
+`;
 
 export const StBookTitle = styled.h2`
   color: #0e411d;
@@ -122,7 +122,7 @@ export const StBookTitle = styled.h2`
 export const StBookAuthor = styled.div`
   font-size: 15px;
   margin: 7px 0 0 20px;
-`
+`;
 
 export const StReadingPeriod = styled.p`
   margin: 10px 0 0 20px;

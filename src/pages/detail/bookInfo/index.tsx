@@ -99,7 +99,7 @@ const BookInfo = () => {
   };
 
   useEffect(() => {
-    changeIsReading();
+    // changeIsReading();
     // console.log('isReading 상태 ==>', book?.isReading, '/  읽은 페이지수 ==>', book?.readUpto);
   }, [book]);
 

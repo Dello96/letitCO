@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
@@ -7,19 +7,34 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
 
+
 const Router = () => {
-  const currentUser = useSelector((state: RootState) => state.user);
-  console.log('currentUser===>', currentUser.id);
+  const [user, setUser] = useState('')
+  useEffect(() => {
+    const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+  if (authTokenStr) {
+    //제이슨으로 바꾸기
+    const authToken = JSON.parse(authTokenStr);
+    console.log('authToken=========>', authToken)
+    const userId: string = authToken.user.id;
+    console.log('사용자 ID:', userId);
+    setUser(userId)
+
+  } else {
+    console.log('Auth 토큰을 찾을 수 없습니다.');
+  }
+}, [])
+ 
+
 
   return (
     <BrowserRouter>
       <Routes>
-        {/* {currentUser.id ? ( */}
+        {user ? (
         <>
           <Route element={<Layout />}>
             <Route path="/" element={<Home />} />
@@ -32,12 +47,12 @@ const Router = () => {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
         </>
-        {/* ) : ( */}
+         ) : ( 
         <>
           <Route path="/login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </>
-        {/* )} */}
+         )} 
       </Routes>
     </BrowserRouter>
   );

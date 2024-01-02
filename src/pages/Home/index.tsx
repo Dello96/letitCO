@@ -18,13 +18,11 @@ import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
 import { useParams } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-// import { loginUser } from '../../redux/userSlice';
-import { useSelector } from 'react-redux';
-// import { supabase } from '../../supabaseClient';
+import { supabase } from '../../supabaseClient';
 
 export default function Home() {
   // 현재 로그인된 유저 정보 가져오기
@@ -35,12 +33,25 @@ export default function Home() {
     queryFn: getCurrentUser
   });
 
+  // 유저 닉네임 (구글 로그인 or 이메일 로그인 따라 변경)
   useEffect(() => {
     if (userData) {
-      setCurrentUserNickname(userData.user_metadata.nickname);
-      console.log('현재 로그인된 유저 ==>', userData.user_metadata.nickname);
+      const nickname = userData.user_metadata.nickname;
+      const name = userData.user_metadata.name;
+      const provider = userData?.app_metadata?.provider;
+
+      setCurrentUserNickname(provider === 'google' ? name : nickname);
+      console.log('현재 로그인된 유저 ==>', provider === 'google' ? name : nickname);
     }
   }, [userData]);
+
+  const existUser = async () => {
+    const {
+      data: { user }
+    } = await supabase.auth.getUser();
+    console.log('현재 세션에 로그인된 유저', user);
+  };
+  existUser();
 
   const currentUser = useSelector((state: RootState) => state.user);
 
@@ -53,6 +64,7 @@ export default function Home() {
   const book = books?.find((book) => book.id === id);
   console.log('책 정보', book);
 
+  //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
   const percentage = (readUpto! / page!) * 100;

@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 // import { supabase } from '../supabaseClient';
 
 export type User = {
-  id: string;
+  id: string | undefined;
 };
 
 const initialState: User = {

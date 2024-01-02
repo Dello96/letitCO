@@ -73,6 +73,7 @@ export type AldDetail = {
 };
 
 export type Book = {
+  uid?: string;
   id?: string;
   title?: string;
   author?: string;
@@ -102,4 +103,3 @@ export type Memo = {
   editingText?: string;
   timeStamp?: number;
 };
- 

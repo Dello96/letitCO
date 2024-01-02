@@ -17,6 +17,10 @@ import {
   StReadingMemo,
   StReadingMemoIndex
 } from './style';
+import { useQuery } from 'react-query';
+import { QUERY_KEYS } from '../../query/keys';
+import { getBooks } from '../../api/supabaseData';
+import { Book } from '../../types/global.d';
 
 export default function Home() {
   // const circle = useRef(null);
@@ -64,22 +68,36 @@ export default function Home() {
   //   circle.current.style.width = `${Math.min(Math.max(0, e.clientX - e.currentTarget.offsetLeft),endX)}px`;
   // }
 
+  const { isLoading, data: books } = useQuery({
+    queryKey: [QUERY_KEYS.BOOKS],
+    queryFn: getBooks
+  });
+
+  const bookOnDashboard: Book = books?.find( b => !!b.inOnDashboard)
+  const {page, readUpto} = bookOnDashboard
+  const percentage = (readUpto! / page!) * 100;
+  console.log(`${percentage | 0}%`)
   return (
     <>
       <Header />
       <StMain>
-        <StMainSection1>
-          <div>
-            <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
-          </div>
-          <StReadingBox>
-            <StBookcover>책 표지</StBookcover>
-            <StBookProgressWrap>
-              <StBookProgressMove></StBookProgressMove>
-              <StBookProgressPoint></StBookProgressPoint>
-            </StBookProgressWrap>
-          </StReadingBox>
-        </StMainSection1>
+        {isLoading ? (
+          <p>로딩중</p>
+        ) : (
+          <StMainSection1>
+            <div>
+              <StNotice>000님 ! 벌써 00 페이지 읽으셨네요!!</StNotice>
+            </div>
+            <StReadingBox>
+              <StBookcover>{bookOnDashboard.cover}</StBookcover>
+              <StBookProgressWrap>
+                <StBookProgressMove></StBookProgressMove>
+                <StBookProgressPoint></StBookProgressPoint>
+              </StBookProgressWrap>
+            </StReadingBox>
+          </StMainSection1>
+        )}
+
         <StMainSection2>
           <StBookDoneTitle>완주 목록</StBookDoneTitle>
           <StBookDoneList>

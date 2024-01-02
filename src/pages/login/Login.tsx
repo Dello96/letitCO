@@ -77,8 +77,8 @@ const Login: React.FC = () => {
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          showConfirmButton: false
+          // timer: 5000
         });
         navigate('/');
       }
@@ -126,14 +126,13 @@ const Login: React.FC = () => {
         });
       } else {
         Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
+          // position: 'center',
+          // icon: 'success',
+          // title: '로그인에 성공하였습니다!',
+          // showConfirmButton: false,
+          // timer: 1500
         });
-
-        navigate('/homepage');
+        navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
         // setTimeout(() => {

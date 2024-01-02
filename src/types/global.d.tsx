@@ -1,3 +1,5 @@
+import { User } from "../redux/userSlice";
+
 export type AldBook = {
   adult?: boolean;
   author: string;
@@ -90,12 +92,14 @@ export type Book = {
   updatedPages?: number;
   readUpto?: number;
   category?: string;
+  startDate?: string;
+  endDate?: string;
 };
 
 export type Memo = {
   id?: string;
   content?: string;
-  uid?: string;
+  uid?: User;
   bookId?: string;
   isEditing?: boolean;
   editingText?: string;

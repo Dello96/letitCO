@@ -4,7 +4,7 @@ const BookInfoSection = styled.section`
   margin-top: 50px;
   /* background-color: #d3f2db; */
   width: 100%;
-  height: 500px;
+  height: 600px;
   display: flex;
   justify-content: center;
   border-bottom: 1px solid #d9d9d9;
@@ -43,7 +43,7 @@ const TextInfo = styled.div`
   display: flex;
   flex-direction: column;
   /* justify-content: center; */
-  gap: 20px;
+  gap: 18px;
   & h1 {
     width: 410px;
     font-size: 32px;
@@ -61,7 +61,7 @@ const TextInfoHeader = styled.div`
 `;
 
 const IsReading = styled.p<{ $isReading: boolean }>`
-  padding: 10px 15px;
+  padding: 15px 20px;
   ${(props) =>
     props.$isReading
       ? css`
@@ -73,7 +73,7 @@ const IsReading = styled.p<{ $isReading: boolean }>`
           border: 1px solid #2a6b3b;
           color: #2a6b3b;
         `}
-  border-radius: 20px;
+  border-radius: 25px;
   font-weight: 500;
 `;
 
@@ -95,22 +95,25 @@ const Description = styled.h3`
 
 const UserReadingInfo = styled.div`
   display: flex;
+  flex-direction: column;
 `;
 
 const Page = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  position: relative;
+  /* flex-direction: column; */
+  /* justify-content: center; */
   & input {
-    width: 80px;
+    width: 50px;
   }
   & button {
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+    padding: 5px 10px;
     border: none;
     border-radius: 3px;
     color: white;
     background-color: #669674;
-    padding: 5px 7px;
+    /* padding: 2px 4px; */
     font-size: 14px;
     transition: 200ms;
     &:hover {
@@ -122,11 +125,15 @@ const Page = styled.div`
   & form {
     display: flex;
     align-items: center;
+     & p {
+      margin-right: 25px;
+     }
   }
 `;
 const PageSubmit = styled.h3`
+  position: absolute;
   cursor: pointer;
-  margin: 25px 0;
+  margin: 25px 120px;;
   font-weight: 600;
   &:hover {
     text-decoration: underline;
@@ -141,13 +148,9 @@ const Timeline = styled.div`
   /* background-color: red; */
   display: flex;
   flex-direction: column;
-  gap: 22px;
-  margin: 27px 0 0 50px;
-    & h3 {
-      font-weight: 600;
-    }
+  margin: 27px 0 0 0;
 `;
-const StartAdnEnd = styled.div`
+const StartAdnEnd = styled.form`
   display: flex;
   align-items: center;
   gap: 10px;

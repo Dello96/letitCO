@@ -96,6 +96,19 @@ const updateIsReading = async ({ id, isReadingStatus }: { id: string; isReadingS
   await supabase.from(QUERY_KEYS.BOOKS).update({ isReading: isReadingStatus }).eq('id', id);
 };
 
+//독서 상태 업데이트
+const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; startDate: string; endDate: string }) => {
+  const updateData: { startDate?: string; endDate?: string } = {};
+  if (startDate) {
+    updateData.startDate = startDate;
+  }
+  if (endDate) {
+    updateData.endDate = endDate;
+  }
+
+  await supabase.from(QUERY_KEYS.BOOKS).update(updateData).eq('id', id);
+};
+
 export {
   getCurrentUser,
   getBooks,
@@ -106,6 +119,8 @@ export {
   deleteMemo,
   updateReadPages,
   updateIsReading,
+  updateReadingPeriod,
   getUidIsbnBook,
   upsertBook
+
 };

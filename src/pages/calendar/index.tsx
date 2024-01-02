@@ -1,50 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks } from '../../api/supabaseData';
-import { EventContentArg } from '@fullcalendar/core';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 
-const Calendar = () => {
+const Calendar: React.FC = () => {
   const currentUser = useSelector((state: RootState) => state.user);
   const { data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
 
-  // 현재 사용자의 책만 필터링
-  const filtered = books?.filter((book: Book) => book.endDate && book.uid === currentUser.id)
-    .map((book: Book) => ({
-      title: book.title,
-      date: book.endDate,
-      image: book.cover
-    }));
-    console.log('filtered ===>', filtered)
+  const [events, setEvents] = useState<{ title: string; date: string }[]>([]);
 
-    const renderEventContent = (eventInfo: EventContentArg) => {
-      return (
-        <div style={{ width: '100%', height: '100%' }}>
-          <img 
-            src={eventInfo.event.extendedProps.image} 
-            alt={eventInfo.event.title} 
-            style={{ 
-              width: '50px', 
-              height: '50px', 
-              objectFit: 'contain' // 'cover'로 설정하면 이미지가 칸을 넘지 않으면서 꽉 차게 조절됩니다.
-            }} 
-          />
-          {/* 이미지 위에 텍스트가 오도록 설정할 수 있습니다. */}
-        </div>
-      );
-    };
-    
-    
-    
+  useEffect(() => {
+    if (books) {
+
+      const filteredEvents: { title: string; date: string }[] = books
+        .filter((book: Book) => book.endDate && book.uid === currentUser.id)
+        .map((book: Book) => ({
+          title: book.title || '', 
+          date: book.endDate || '', 
+        }));
+      setEvents(filteredEvents);
+    }
+  }, [books, currentUser]);
 
   return (
     <div>
@@ -52,12 +37,7 @@ const Calendar = () => {
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView={'dayGridMonth'}
         weekends={true}
-        eventContent={renderEventContent}
-        events={[
-          { title: '최후의 만찬', date: '2024-01-02' },
-          { title: 'Check Chaek PT', date: '2024-01-03' }
-          // ... 기타 이벤트 ...
-        ]}
+        events={events} 
       />
     </div>
   );

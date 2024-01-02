@@ -7,15 +7,29 @@ import BookSearch from '../pages/BookSearch';
 import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
-
-import { useSelector } from 'react-redux';
-import { RootState } from '../redux/store';
+// import { useSelector, useDispatch } from 'react-redux';
+// import { RootState } from '../redux/store';
 import Layout from '../components/Layout';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../redux/userSlice';
 
 const Router = () => {
-  const currentUser = useSelector((state: RootState) => state.user);
-  console.log('currentUser===>', currentUser.id);
-  
+  const dispatch = useDispatch();
+
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+
+  if (authTokenStr) {
+    //제이슨으로 바꾸기
+    const authToken = JSON.parse(authTokenStr);
+    const userId: string = authToken.user.id;
+    const user = {
+      id: userId
+    }
+    console.log('사용자 ID:', userId);
+    dispatch(setUser(user));
+  } else {
+    console.log('Auth 토큰을 찾을 수 없습니다.');
+  }
 
   return (
     <BrowserRouter>

@@ -64,7 +64,11 @@ function BookShelf() {
   };
 
   // const dashStateHandler = () => {
-  //   memos?.filter((item) => item.inOnDashboard).map((item) => {});
+  //   memos?.filter((item) => {
+  //     if(item.isOnDashboard) {
+
+  //     }
+  //   })
   // };
 
   const buttonClicked = () => {

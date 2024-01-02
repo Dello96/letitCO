@@ -7,7 +7,7 @@ import { HiBookmark } from 'react-icons/hi';
 import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
-import { getCurrentUser } from '../../api/supabaseData';
+import { getCurrentUser, dashUpdate } from '../../api/supabaseData';
 import { getBooks } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
@@ -43,7 +43,10 @@ function BookShelf() {
       title: '대시보드에 추가하시겠습니까?',
 
       cancelButtonText: '취소',
-      showCancelButton: true
+      showCancelButton: true,
+      didOpen: () => {
+        dashUpdate(currentUser);
+      }
     });
   };
 

@@ -5,31 +5,43 @@ import interactionPlugin from '@fullcalendar/interaction';
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks } from '../../api/supabaseData';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 
 const Calendar: React.FC = () => {
-  const currentUser = useSelector((state: RootState) => state.user);
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+  
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authTokenStr) {
+      const authToken = JSON.parse(authTokenStr);
+      const userId = authToken.user.id;
+      setUser(userId);
+      console.log('사용자 ID:', userId);
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+      setUser(null);
+    }
+  }, [authTokenStr]);
+
   const { data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
-    queryFn: getBooks
+    queryFn: getBooks,
   });
 
   const [events, setEvents] = useState<{ title: string; date: string }[]>([]);
 
   useEffect(() => {
-    if (books) {
-
+    if (books && user) {
       const filteredEvents: { title: string; date: string }[] = books
-        .filter((book: Book) => book.endDate && book.uid === currentUser.id)
+        .filter((book: Book) => book.endDate && book.uid === user)
         .map((book: Book) => ({
-          title: book.title || '', 
-          date: book.endDate || '', 
+          title: book.title || '',
+          date: book.endDate || '',
         }));
       setEvents(filteredEvents);
     }
-  }, [books, currentUser]);
+  }, [books, user]);
 
   return (
     <div>
@@ -37,7 +49,7 @@ const Calendar: React.FC = () => {
         plugins={[dayGridPlugin, interactionPlugin]}
         initialView={'dayGridMonth'}
         weekends={true}
-        events={events} 
+        events={events}
       />
     </div>
   );

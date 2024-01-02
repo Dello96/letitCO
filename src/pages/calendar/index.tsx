@@ -31,7 +31,7 @@ const Calendar = () => {
         ]}
         headerToolbar={{
           start: 'title',
-          center: '',
+          center: ''
         }}
       />
     </div>

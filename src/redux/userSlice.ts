@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
+// import { supabase } from '../supabaseClient';
 
 export type User = {
-  id: string | undefined ,
-}
+  id: string | undefined;
+};
 
 const initialState: User = {
-  id: '',
+  id: ''
 };
 
 export const userSlice = createSlice({
@@ -19,8 +19,19 @@ export const userSlice = createSlice({
     // 사용자 정보 초기화
     clearUser: (state) => {
       state.id = '';
-    },
-  },
+    }
+    // loginUser: async (state) => {
+    //   try {
+    //     const { data } = await supabase.auth.getUser();
+    //     const user = data?.user;
+    //     if (user) {
+    //       state.id = user.id;
+    //     }
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
+  }
 });
 
 export const { setUser, clearUser } = userSlice.actions;

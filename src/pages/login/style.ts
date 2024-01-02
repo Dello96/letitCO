@@ -54,6 +54,11 @@ export const StToggleBtn = styled.button`
   background-color: #0e411d;
   color: white;
   font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+  }
 `;
 
 export const StLogo = styled.div`
@@ -83,6 +88,11 @@ export const StSignUpButton = styled.button`
   width: 200px;
   background-color: white;
   font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+  }
 `;
 
 export const StLoginButton = styled.button`
@@ -93,6 +103,11 @@ export const StLoginButton = styled.button`
   width: 200px;
   background-color: white;
   font-size: 12px;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.1);
+    transition: all 0.2s;
+  }
 `;
 
 export const StInputWrapper = styled.div`

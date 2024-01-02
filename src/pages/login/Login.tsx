@@ -14,7 +14,6 @@ import {
   StInputWrapper,
   StLogo,
   StIntroductionTitle
-  // Stegg
 } from './style';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';
@@ -45,17 +44,11 @@ const Login: React.FC = () => {
     formState: { errors }
   } = useForm<Inputs>({ mode: 'onChange' });
 
-  console.log('errors', errors);
-
-  // useMemo, useCallback 사용하기
-  // ant design 사용하기
-
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
 
   // 회원가입
   const signUpHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     console.log(inputs);
     try {
       const { data, error } = await supabase.auth.signUp({
@@ -67,18 +60,18 @@ const Login: React.FC = () => {
           }
         }
       });
-      console.log('data', data); // 불러오기 성공
+      console.log('data', data);
       setValue('userEmail', '');
       setValue('userPassword', '');
       setValue('userPasswordCheck', '');
       setValue('userNickname', '');
       if (error) {
         console.error(error);
-        // Swal.fire({
-        //   icon: 'error',
-        //   title: 'Oops...',
-        //   text: '회원가입 양식을 다시 확인해주세요'
-        // });
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: '회원가입 양식을 다시 확인해주세요'
+        });
       } else {
         Swal.fire({
           position: 'center',
@@ -87,7 +80,7 @@ const Login: React.FC = () => {
           showConfirmButton: false
           // timer: 5000
         });
-        navigate('/homepage'); // 아....;; 로그인하는 곳으로 이동해야함;;; ****
+        navigate('/');
       }
     } catch (error) {
       console.error(error);
@@ -103,7 +96,6 @@ const Login: React.FC = () => {
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
-    // e.preventDefault();
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: inputs.userEmail,
@@ -143,10 +135,10 @@ const Login: React.FC = () => {
         navigate('/');
         // 로그인이 된 후에 실행이 되어야 함
         // 비동기 처리??...
-        setTimeout(() => {
-          //   signOutHandler();
-          // console.log('5초 뒤에 찍히나?');
-        }, 60000);
+        // setTimeout(() => {
+        //   signOutHandler();
+        //   console.log('5초 뒤에 찍히나?');
+        // }, 60000);
       }
       // setInterval n초 간격으로 실행!!!
     } catch (error) {
@@ -160,6 +152,7 @@ const Login: React.FC = () => {
     try {
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
+
         options: {
           queryParams: {
             access_type: 'offline',
@@ -172,15 +165,15 @@ const Login: React.FC = () => {
         console.error(error);
         alert('일치하지 않습니다');
       } else {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        navigate('/homepage');
+        navigate('/');
       }
+      Swal.fire({
+        position: 'center',
+        icon: 'success',
+        title: '로그인에 성공하였습니다!',
+        showConfirmButton: false,
+        timer: 1500
+      });
     } catch (error) {
       console.error(error);
     }

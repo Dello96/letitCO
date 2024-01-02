@@ -8,6 +8,7 @@ import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
 import { getBooks } from '../../api/supabaseData';
 import './style.css';
+import Swal from 'sweetalert2';
 
 function BookShelf() {
   const { id } = useParams();
@@ -30,11 +31,21 @@ function BookShelf() {
   const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
   };
+
+  const dashStateHandler = () => {
+    return Swal.fire({
+      title: '완주목록에 추가',
+      text: '대쉬보드에 추가하시겠습니까?',
+      icon: 'question',
+      showCancelButton: true,
+      cancelButtonText: '아니오',
+      confirmButtonText: '예'
+    });
+  };
+
   const buttonClicked = () => {
-    memos?.map((item) => {
-      if (item.isMarked === true) {
-        return (item.isMarked = false);
-      }
+    memos?.filter((item) => {
+      return item.isMarked != item.isMarked;
     });
   };
 
@@ -50,11 +61,12 @@ function BookShelf() {
             <Btns>읽고 싶은 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isMarked === true) {
+                {memos
+                  ?.filter((item) => item.isMarked === true && item.userId === id)
+                  .map((item) => {
                     return (
                       <>
-                        <WrapingBook onClick={() => moveDetailPage(item.id)}>
+                        <WrapingBook>
                           <BookMarkBtn onClick={buttonClicked}>
                             <HiBookmark
                               style={{
@@ -62,14 +74,13 @@ function BookShelf() {
                               }}
                             />
                           </BookMarkBtn>
-                          <WrapBookCover>
+                          <WrapBookCover onClick={() => moveDetailPage(item.id)}>
                             <PlaningBook key={item.id} src={item.cover}></PlaningBook>
                           </WrapBookCover>
                         </WrapingBook>
                       </>
                     );
-                  }
-                })}
+                  })}
               </Books>
             </BookShelfs>
           </BtnAndShelf>
@@ -77,11 +88,23 @@ function BookShelf() {
             <Btns>읽고 있는 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isReading === true) {
-                    return <ReadingBook key={item.id} src={item.cover} />;
-                  }
-                })}
+                {memos
+                  ?.filter((item) => item.isReading === true && item.userId === id)
+                  .map((item) => {
+                    return (
+                      <>
+                        <WrapingBook>
+                          <ButtonWrap>
+                            <DashBtn onClick={dashStateHandler}>🔥</DashBtn>
+                          </ButtonWrap>
+
+                          <WrapBookCover onClick={() => moveDetailPage(item.id)}>
+                            <ReadingBook key={item.id} src={item.cover} />
+                          </WrapBookCover>
+                        </WrapingBook>
+                      </>
+                    );
+                  })}
                 <ReadingBook />
               </Books>
             </BookShelfs>
@@ -90,13 +113,19 @@ function BookShelf() {
             <Btns>다 읽은 책</Btns>
             <BookShelfs>
               <Books>
-                {memos?.map((item) => {
-                  if (item.isReading === false) {
-                    if (item.isMarked === false) {
-                      return <FinishedBook key={item.id} src={item.cover} />;
-                    }
-                  }
-                })}
+                {memos
+                  ?.filter((item) => item.isDone === true && item.userId === id)
+                  .map((item) => {
+                    return (
+                      <>
+                        <WrapingBook>
+                          <WrapBookCover onClick={() => moveDetailPage(item.id)}>
+                            <FinishedBook key={item.id} src={item.cover} />
+                          </WrapBookCover>
+                        </WrapingBook>
+                      </>
+                    );
+                  })}
                 <FinishedBook />
               </Books>
             </BookShelfs>
@@ -132,7 +161,7 @@ const Btns = styled.div`
   font-weight: 800;
 `;
 
-const WrapingBook = styled.button`
+const WrapingBook = styled.div`
   border: 0px;
   background-color: transparent;
   display: flex;
@@ -145,6 +174,19 @@ const WrapBookCover = styled.button`
   background-color: beige;
 `;
 
+const ButtonWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+`;
+
+const DashBtn = styled.button`
+  display: flex;
+  border: 0px;
+  background-color: transparent;
+  cursor: pointer;
+`;
+
 const WrapBookShelf = styled.div`
   width: 100%;
   height: 800px;
@@ -155,6 +197,8 @@ const WrapBookShelf = styled.div`
 
 const BookMarkBtn = styled.button`
   display: flex;
+  justify-content: center;
+  align-items: center;
   top: 0px;
   left: 5px;
   background-color: transparent;

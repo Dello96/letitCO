@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,17 +7,32 @@ import { HiBookmark } from 'react-icons/hi';
 import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
-import { getCurrentUser, dashUpdate } from '../../api/supabaseData';
+import { getCurrentUser } from '../../api/supabaseData';
 import { getBooks } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../redux/store';
 
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authTokenStr) {
+      const authToken = JSON.parse(authTokenStr);
+      const userId = authToken.user.id;
+      setUser(userId);
+      console.log('사용자 ID:', userId);
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+      setUser(null);
+    }
+  }, [authTokenStr]);
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -35,10 +50,8 @@ function BookShelf() {
     }
   }, [userData]);
 
-  const currentUser = useSelector((state: RootState) => state.user);
-
   const filteredBooks = memos
-    ?.filter((item) => item.uid === currentUser.id)
+    ?.filter((item) => item.uid === user)
     .filter((book) => {
       return book.inOnDashboard;
     });
@@ -51,7 +64,7 @@ function BookShelf() {
       showCancelButton: true
     });
 
-    dashUpdate(currentUser);
+    // dashUpdate(undefined);
   };
 
   const bookMarkHandler = () => {
@@ -81,9 +94,10 @@ function BookShelf() {
   console.log(data);
   console.log(memos);
   console.log(memoIsReading);
-  console.log(currentUser);
+  console.log(user);
   console.log(currentUserNickname);
   console.log(filteredBooks);
+  console.log(user);
   return (
     <>
       <MainContainer>
@@ -93,7 +107,7 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isMarked === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isMarked === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>
@@ -118,7 +132,7 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isReading === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isReading === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>
@@ -146,7 +160,7 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isDone === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isDone === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>

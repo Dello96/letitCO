@@ -23,18 +23,23 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
 import { supabase } from '../../supabaseClient';
 import Loading from '../../components/Loading';
-import { FaSearchPlus } from "react-icons/fa";
+import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
+import { loginUser } from '../../redux/userSlice';
 
 export default function Home() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(loginUser());
+  }, [dispatch]);
 
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
@@ -93,20 +98,22 @@ export default function Home() {
   return (
     <>
       <StMain>
-      {readingBook ? (
-        <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
-          <StNotice>{currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥</StNotice>
-          <StReadingBox>
-            <StBookcover>
-              <StBookcoverimg src={readingBook?.cover} alt="" />
-            </StBookcover>
-            <StBookProgressWrap>
-              <StBookProgress>
-                <ProgressBar percentage={percentage} title={title} />
-              </StBookProgress>
-            </StBookProgressWrap>
-          </StReadingBox>
-        </StMainSection1>
+        {readingBook ? (
+          <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
+            <StNotice>
+              {currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥
+            </StNotice>
+            <StReadingBox>
+              <StBookcover>
+                <StBookcoverimg src={readingBook?.cover} alt="" />
+              </StBookcover>
+              <StBookProgressWrap>
+                <StBookProgress>
+                  <ProgressBar percentage={percentage} title={title} />
+                </StBookProgress>
+              </StBookProgressWrap>
+            </StReadingBox>
+          </StMainSection1>
         ) : (
           <StMainSection2>
             <StAddBookWrap onClick={() => navigate('/booksearch')}>
@@ -120,28 +127,30 @@ export default function Home() {
         <StMainSection3>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
-          ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
-          .map((item) => {
-            if (item.isDone === true) {
-              return (
-                <>
-                  <StBookDoneList key={item?.id} onClick={() => navigate(`/detail/${item.id}`)}>
-                  <StBookcover>
-                    <StBookcoverimg src={item?.cover} alt="bookCover" />
-                  </StBookcover>
-                  <div>
-                    <StBookInfo>
-                      <StBookTitle>✅ {item.title}</StBookTitle>
-                      <StBookAuthor>{item.author}</StBookAuthor>
-                    </StBookInfo>
-                    <StReadingPeriod>{item?.startDate} ~ {item?.endDate}</StReadingPeriod>
-                  </div>
-                  </StBookDoneList>
-                </>
-              );
-            }
-          })}
-      </StMainSection3>
+            ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
+            .map((item) => {
+              if (item.isDone === true) {
+                return (
+                  <>
+                    <StBookDoneList key={item?.id} onClick={() => navigate(`/detail/${item.id}`)}>
+                      <StBookcover>
+                        <StBookcoverimg src={item?.cover} alt="bookCover" />
+                      </StBookcover>
+                      <div>
+                        <StBookInfo>
+                          <StBookTitle>✅ {item.title}</StBookTitle>
+                          <StBookAuthor>{item.author}</StBookAuthor>
+                        </StBookInfo>
+                        <StReadingPeriod>
+                          {item?.startDate} ~ {item?.endDate}
+                        </StReadingPeriod>
+                      </div>
+                    </StBookDoneList>
+                  </>
+                );
+              }
+            })}
+        </StMainSection3>
       </StMain>
     </>
   );

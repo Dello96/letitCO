@@ -77,8 +77,8 @@ const Login: React.FC = () => {
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false
-          // timer: 5000
+          showConfirmButton: false,
+          timer: 1500
         });
         navigate('/');
       }
@@ -86,13 +86,6 @@ const Login: React.FC = () => {
       console.error(error);
     }
   };
-
-  // const signOutHandler = async () => {
-  //   const { error } = await supabase.auth.signOut();
-  //   console.log(error);
-  //   alert('로그아웃');
-  //   // console.log()
-  // };
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
@@ -131,21 +124,13 @@ const Login: React.FC = () => {
           timer: 1500
         });
         navigate('/');
-        // 로그인이 된 후에 실행이 되어야 함
-        // 비동기 처리??...
-        // setTimeout(() => {
-        //   signOutHandler();
-        //   console.log('5초 뒤에 찍히나?');
-        // }, 60000);
       }
-      // setInterval n초 간격으로 실행!!!
     } catch (error) {
       console.error(error);
     }
   };
 
   // 구글 로그인
-
   const signInGoogle = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -159,7 +144,7 @@ const Login: React.FC = () => {
           }
         }
       });
-      console.log('구글로그인 resp', data)
+      console.log('구글로그인 resp', data);
       if (error) {
         console.error(error);
         alert('일치하지 않습니다');
@@ -268,15 +253,6 @@ const Login: React.FC = () => {
           <>
             <StLoginButton type="submit">로그인</StLoginButton>
             <StLoginButton onClick={signInGoogle}>google로 로그인</StLoginButton>
-            {/* <button onClick={signOutHandler}>로그아웃</button> */}
-            {/* <br />
-            <button
-              onClick={() => {
-                navigate('/homepage');
-              }}
-            >
-              Home
-            </button> */}
           </>
         ) : (
           <StSignUpButton type="submit">Register</StSignUpButton>

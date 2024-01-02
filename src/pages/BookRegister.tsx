@@ -10,7 +10,6 @@ import { BsFilePlus } from 'react-icons/bs';
 import { BsFileCheckFill } from 'react-icons/bs';
 import { PiBookmarkSimpleFill } from 'react-icons/pi';
 import { PiBookmarkSimpleLight } from 'react-icons/pi';
-// import { Book } from '../types/global.d';
 
 export default function BookRegister() {
   const { id } = useParams();
@@ -26,12 +25,11 @@ export default function BookRegister() {
     uid: user?.id,
     isbn13: detailData?.isbn13
   };
-  const { data: uidIsbn13BookData } = useQuery([QUERY_KEYS.BOOKS, newData], () => getUidIsbnBook(newData));
+  const { data: uidIsbn13BookData, isLoading } = useQuery([QUERY_KEYS.BOOKS, newData], () => getUidIsbnBook(newData));
   console.log('uid와 isbn13에 맞는 데이터 정보다', uidIsbn13BookData);
 
   // upsert Mutation
   const { upsertBookMutation } = useBookQuery();
-  // const queryClient = useQueryClient();
 
   // 책 정보 저장, isReading값 변경
   const addBookAndIsRedingUpdateOnclickHandler = () => {
@@ -67,6 +65,10 @@ export default function BookRegister() {
     };
     upsertBookMutation(newMarkerBook);
   };
+
+  if (isLoading) {
+    return <h1>로딩중..</h1>;
+  }
 
   return (
     <StBody>

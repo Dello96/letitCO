@@ -31,7 +31,7 @@ import { supabase } from '../../supabaseClient';
 
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 
 export default function Home() {

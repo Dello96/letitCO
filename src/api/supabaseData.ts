@@ -61,6 +61,12 @@ const upsertBook = async (newBook: Book) => {
   console.log('error', error);
 };
 
+//책 대시보드정보 수정
+const dashUpdate = async ({ id, isOnDashboard }: Book) => {
+  await supabase.from(QUERY_KEYS.BOOKS).update({ isOnDashboard: false });
+  await supabase.from(QUERY_KEYS.BOOKS).update({ isOnDashboard }).eq('id', id);
+};
+
 //등록된 메모목록 가져오기
 const getMemos = async () => {
   const { data } = await supabase.from(QUERY_KEYS.MEMOS).select();
@@ -111,7 +117,7 @@ const updateReadingPeriod = async ({ id, startDate, endDate }: { id: string; sta
   if (startDate) {
     updateData.startDate = startDate;
     updateData.isReading = true;
-  } else if(startDate === null) {
+  } else if (startDate === null) {
     updateData.startDate = startDate;
     updateData.isReading = false;
   }
@@ -133,5 +139,6 @@ export {
   updateIsReading,
   updateReadingPeriod,
   getUidIsbnBook,
-  upsertBook
+  upsertBook,
+  dashUpdate
 };

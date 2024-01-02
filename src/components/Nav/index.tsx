@@ -3,16 +3,35 @@ import { useNavigate } from 'react-router-dom';
 import { StLogo, StNavbar, StTabList, StTabListItem } from './style';
 import logoWhite from '../../assets/logo.white.png';
 import { supabase } from '../../supabaseClient';
-
+import Swal from 'sweetalert2';
 // import ReactModal from 'react-modal';
 // import { StCustomModal } from './style';
 function Nav() {
   const navigate = useNavigate();
   const signOutHandler = async () => {
-    const data = await supabase.auth.signOut();
-    console.log('로그아웃 후 데이터', data);
-    navigate('/login');
-    alert('로그아웃 되었습니다.');
+    try {
+      const { error } = await supabase.auth.signOut();
+      console.log(error);
+      if (!error) {
+        const result = await Swal.fire({
+          title: '정말 로그아웃 하시겠습니까?',
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085D6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'Yes'
+        });
+        if (result.isConfirmed) {
+          navigate('/login');
+          Swal.fire({
+            title: '로그아웃 완료!',
+            icon: 'success'
+          });
+        }
+      }
+    } catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>
@@ -28,5 +47,4 @@ function Nav() {
     </>
   );
 }
-
 export default Nav;

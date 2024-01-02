@@ -17,8 +17,8 @@ import { RootState } from '../../redux/store';
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
-  const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
+  const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -38,6 +38,15 @@ function BookShelf() {
 
   const currentUser = useSelector((state: RootState) => state.user);
 
+  const dashBoardHandler = () => {
+    Swal.fire({
+      title: '대시보드에 추가하시겠습니까?',
+
+      cancelButtonText: '취소',
+      showCancelButton: true
+    });
+  };
+
   // const { ref, inView } = useInView({
   //   threshold: 0.3
   // });
@@ -50,31 +59,6 @@ function BookShelf() {
   const navigate = useNavigate();
   const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
-  };
-
-  const dashAnswerHandler = () => {
-    return Swal.fire({
-      title: '완주목록에 추가',
-      text: '대쉬보드에 추가하시겠습니까?',
-      icon: 'question',
-      showCancelButton: true,
-      cancelButtonText: '아니오',
-      confirmButtonText: '예'
-    });
-  };
-
-  // const dashStateHandler = () => {
-  //   memos?.filter((item) => {
-  //     if(item.isOnDashboard) {
-
-  //     }
-  //   })
-  // };
-
-  const buttonClicked = () => {
-    memos?.filter((item) => {
-      return item.isMarked != item.isMarked;
-    });
   };
 
   console.log(data);
@@ -96,7 +80,7 @@ function BookShelf() {
                     return (
                       <>
                         <WrapingBook>
-                          <BookMarkBtn onClick={buttonClicked}>
+                          <BookMarkBtn onClick={() => {}}>
                             <HiBookmark
                               style={{
                                 color: item.isMarked ? 'black' : 'red'
@@ -122,7 +106,7 @@ function BookShelf() {
                       <>
                         <WrapingBook>
                           <ButtonWrap>
-                            <DashBtn onClick={dashAnswerHandler}>
+                            <DashBtn onClick={dashBoardHandler}>
                               {item.inOnDashboard ? (
                                 <FaFire style={{ color: 'red' }} />
                               ) : (

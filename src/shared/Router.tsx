@@ -4,7 +4,7 @@ import Home from '../pages/Home';
 import Login from '../../src/pages/login/Login';
 import BookRegister from '../pages/BookRegister';
 import BookSearch from '../pages/BookSearch';
-import BookShelf from '../pages/BookShelf';
+import BookShelf from '../pages/bookShelf/BookShelf';
 import Detail from '../pages/detail';
 import Calendar from '../pages/calendar';
 import { useQuery } from 'react-query';
@@ -34,6 +34,7 @@ const Router = () => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/bookregister/:id" element={<BookRegister />} />
+            <Route path="/login" element={<Login />} />
             <Route path="/booksearch" element={<BookSearch />} />
             <Route path="/bookshelf" element={<BookShelf />} />
             <Route path="/calendar" element={<Calendar />} />

@@ -14,6 +14,7 @@ import {
   StInputWrapper,
   StLogo,
   StIntroductionTitle
+  // Stegg
 } from './style';
 import { useNavigate } from 'react-router-dom';
 import { FaRegUser } from 'react-icons/fa';

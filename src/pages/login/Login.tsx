@@ -126,11 +126,10 @@ const Login: React.FC = () => {
         });
       } else {
         Swal.fire({
-          // position: 'center',
-          // icon: 'success',
-          // title: '로그인에 성공하였습니다!',
-          // showConfirmButton: false,
-          // timer: 1500
+          position: 'center',
+          icon: 'success',
+          title: '로그인에 성공하였습니다!',
+          showConfirmButton: false
         });
         navigate('/');
         // 로그인이 된 후에 실행이 되어야 함

@@ -95,19 +95,19 @@ export default function BookRegister() {
               {/* 북마크 */}
               <div>
                 {uidIsbn13BookData?.length === 0 ? (
-                  <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+                  <PiBookmarkSimpleLight size={60} color="#0e411d" onClick={upSertBookMarkerOnclickHandler} />
                 ) : uidIsbn13BookData && uidIsbn13BookData[0].isMarked === true ? (
                   <PiBookmarkSimpleFill size={60} color="red" onClick={upSertBookMarkerOnclickHandler} />
                 ) : (
-                  <PiBookmarkSimpleLight size={60} onClick={upSertBookMarkerOnclickHandler} />
+                  <PiBookmarkSimpleLight size={60} color="#0e411d" onClick={upSertBookMarkerOnclickHandler} />
                 )}
                 {/* 저장 */}
                 {uidIsbn13BookData?.length === 0 ? (
-                  <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                  <BsFilePlus size={50} color="#0e411d" onClick={addBookAndIsRedingUpdateOnclickHandler} />
                 ) : uidIsbn13BookData && uidIsbn13BookData[0].isReading ? (
-                  <BsFileCheckFill size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                  <BsFileCheckFill size={50} color="#0e411d" onClick={addBookAndIsRedingUpdateOnclickHandler} />
                 ) : (
-                  <BsFilePlus size={50} onClick={addBookAndIsRedingUpdateOnclickHandler} />
+                  <BsFilePlus size={50} color="#0e411d" onClick={addBookAndIsRedingUpdateOnclickHandler} />
                 )}
               </div>
             </StBtnBox>

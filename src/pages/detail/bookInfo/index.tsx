@@ -5,9 +5,10 @@ import { QUERY_KEYS } from '../../../query/keys';
 import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
+import Loading from '../../../components/Loading';
 
 const BookInfo = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
@@ -18,13 +19,13 @@ const BookInfo = () => {
   useEffect(() => {
     if (!isLoading && books) {
       const bookExists = books.some((book) => book?.id === id);
-      console.log('있는 책인가요?', bookExists)
+      console.log('있는 책인가요?', bookExists);
       if (!bookExists) {
         navigate('/booksearch');
       }
     }
-  }, [id, books, isLoading, navigate]);
-  
+  }, []);
+
   const book: Book = books?.find((book) => book.id === id);
 
   const [pageSubmitMode, setPageSubmitMode] = useState(false);
@@ -106,7 +107,7 @@ const BookInfo = () => {
   return (
     <St.BookInfoSection>
       {isLoading ? (
-        <p>데이터 오는중</p>
+        <Loading />
       ) : (
         <St.Wrapper key={book?.id}>
           <St.BookCover>

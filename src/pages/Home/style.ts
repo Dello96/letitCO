@@ -5,7 +5,7 @@ export const StMain = styled.div``;
 export const StMainSection1 = styled.section``;
 
 export const StNotice = styled.div`
-    width: 719px;
+    width: 740px;
     font-size: 40px;
     margin: 150px 450px 50px 450px;
 `
@@ -19,6 +19,12 @@ export const StReadingBox = styled.div`
   display: flex;
 `;
 
+export const StProgressBookTitle = styled.div`
+  font-size: 25px;
+  font-weight: 700;
+  color: #0e411d;
+  margin-top: 10px;
+`
 export const StAddBookWrap = styled.div`
   height: 250px;
   width: 1200px;

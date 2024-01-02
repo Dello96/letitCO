@@ -72,16 +72,13 @@ export default function Home() {
   }
 
   const readingBook = books?.find((item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true);
-  // const DoneBook = books?.filter((item) => currentUser.id === item.uid && item)
 
-  
-  console.log("잘 나오나 확인", readingBook)
   return (
     <>
       <StMain>
       {readingBook ? (
         <StMainSection1>
-          <StNotice>{currentUserNickname}님 ! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요!!</StNotice>
+          <StNotice>{currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥</StNotice>
           <StReadingBox>
             <StBookcover>
               <StBookcoverimg src={readingBook?.cover} alt="" />
@@ -102,7 +99,7 @@ export default function Home() {
         </StAddBookWrap>
         )}
       <StMainSection2>
-        <StBookDoneTitle>완주 목록</StBookDoneTitle>
+        <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
           ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
           .map((item) => {
@@ -115,7 +112,7 @@ export default function Home() {
                   </StBookcover>
                   <div>
                     <StBookInfo>
-                      <StBookTitle>{item.title}</StBookTitle>
+                      <StBookTitle>✅ {item.title}</StBookTitle>
                       <StBookAuthor>{item.author}</StBookAuthor>
                     </StBookInfo>
                     <StReadingPeriod>{item?.startDate} ~ {item?.endDate}</StReadingPeriod>

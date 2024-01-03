@@ -60,11 +60,10 @@ export default function Home() {
     queryFn: getBooks
   });
 
-  //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const readingBook = books?.find(
     (item) => currenUserId === item.uid && item.isReading === true
   );
-  const percentage = (readingBook.readUpto! / readingBook.page!) * 100;
+  const percentage = (readingBook.readUpto / readingBook.page) * 100;
 
 
   if (isLoading) {

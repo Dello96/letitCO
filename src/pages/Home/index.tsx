@@ -101,8 +101,6 @@ export default function Home() {
                       </StBookcover>
                       <div>
                         <StBookInfo>
-                          <StBookTitle>:흰색_확인_표시: {item.title}</StBookTitle>
-
                           <StBookTitle>✅ {item.title}</StBookTitle>
 
                           <StBookAuthor>{item.author}</StBookAuthor>

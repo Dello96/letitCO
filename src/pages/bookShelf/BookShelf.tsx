@@ -1,23 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 // import { useInView } from 'react-intersection-observer';
 import { HiBookmark } from 'react-icons/hi';
+import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
 import { getCurrentUser } from '../../api/supabaseData';
 import { getBooks } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+// import { useSelector } from 'react-redux';
+// import { RootState } from '../../redux/store';
 
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
 
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authTokenStr) {
+      const authToken = JSON.parse(authTokenStr);
+      const userId = authToken.user.id;
+      setUser(userId);
+      console.log('사용자 ID:', userId);
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+      setUser(null);
+    }
+  }, [authTokenStr]);
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -35,7 +50,32 @@ function BookShelf() {
     }
   }, [userData]);
 
-  const currentUser = useSelector((state: RootState) => state.user);
+  const filteredBooks = memos
+    ?.filter((item) => item.uid === user)
+    .filter((book) => {
+      return book.inOnDashboard;
+    });
+
+  const dashBoardHandler = () => {
+    Swal.fire({
+      title: '대시보드에 추가하시겠습니까?',
+
+      cancelButtonText: '취소',
+      showCancelButton: true
+    });
+
+    // dashUpdate(undefined);
+  };
+
+  const bookMarkHandler = () => {
+    Swal.fire({
+      title: '북마크를 해제하시겠습니까?',
+
+      cancelButtonText: '취소',
+      showCancelButton: true,
+      didOpen: () => {}
+    });
+  };
 
   // const { ref, inView } = useInView({
   //   threshold: 0.3
@@ -51,28 +91,13 @@ function BookShelf() {
     navigate(`/detail/${item}`);
   };
 
-  const dashStateHandler = () => {
-    return Swal.fire({
-      title: '완주목록에 추가',
-      text: '대쉬보드에 추가하시겠습니까?',
-      icon: 'question',
-      showCancelButton: true,
-      cancelButtonText: '아니오',
-      confirmButtonText: '예'
-    });
-  };
-
-  const buttonClicked = () => {
-    memos?.filter((item) => {
-      return item.isMarked != item.isMarked;
-    });
-  };
-
   console.log(data);
   console.log(memos);
   console.log(memoIsReading);
-  console.log(currentUser);
+  console.log(user);
   console.log(currentUserNickname);
+  console.log(filteredBooks);
+  console.log(user);
   return (
     <>
       <MainContainer>
@@ -82,12 +107,12 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isMarked === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isMarked === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>
                         <WrapingBook>
-                          <BookMarkBtn onClick={buttonClicked}>
+                          <BookMarkBtn onClick={bookMarkHandler}>
                             <HiBookmark
                               style={{
                                 color: item.isMarked ? 'black' : 'red'
@@ -107,13 +132,19 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isReading === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isReading === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>
                         <WrapingBook>
                           <ButtonWrap>
-                            <DashBtn onClick={dashStateHandler}>🔥</DashBtn>
+                            <DashBtn onClick={dashBoardHandler}>
+                              {item.inOnDashboard ? (
+                                <FaFire style={{ color: 'red' }} />
+                              ) : (
+                                <FaFire style={{ color: 'black' }} />
+                              )}
+                            </DashBtn>
                           </ButtonWrap>
 
                           <ReadingBook key={item.uid} src={item.cover} onClick={() => moveDetailPage(item.id)} />
@@ -129,7 +160,7 @@ function BookShelf() {
             <BookShelfs>
               <Books>
                 {memos
-                  ?.filter((item) => item.isDone === true && item.uid === currentUser.id)
+                  ?.filter((item) => item.isDone === true && item.uid === user)
                   .map((item) => {
                     return (
                       <>

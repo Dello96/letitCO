@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { QUERY_KEYS } from '../query/keys';
 import { getSearchData } from '../api/aldData';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { getCurrentUser } from '../api/supabaseData';
 import Loading from '../components/Loading';
 
 function BookSearch() {
@@ -13,9 +12,6 @@ function BookSearch() {
   const [search, setSearch] = useState(queryString!);
   const [keyword, setKeyword] = useState('');
   const navi = useNavigate();
-
-  const { data } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
-  console.log('유저정보다', data);
 
   // 검색한 책 목록 가져오기
   const { data: searchData, isLoading } = useQuery([QUERY_KEYS.SEARCH, search], getSearchData);

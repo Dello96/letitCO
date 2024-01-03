@@ -15,7 +15,6 @@ const NewMemo = () => {
   const [isWritingMemo, setIsWritingMemo] = useState(false);
   
   const currentUser = useSelector((state: RootState) => state.user) as { id: string };
-  console.log('detail페이지 로그인유저 uid===>', currentUser.id);
 
   const { addMemoMutation } = useMemosQuery();
   const { mutate: addMemoMutate } = addMemoMutation;
@@ -42,7 +41,6 @@ const NewMemo = () => {
 
   return (
     <St.Container>
-      {/* '메모작성 아이콘' */}
       <St.AddMemoToggleBtn type="button" onClick={toggleAddMemoForm}>
         {isWritingMemo ? '닫기' : '메모 작성'}
       </St.AddMemoToggleBtn>

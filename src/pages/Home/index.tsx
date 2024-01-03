@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import {
   StMain,
   StMainSection1,
@@ -22,33 +22,20 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
-  
-  const [user, setUser] = useState<string | null>(null);
+  const currenUserId = useSelector((state: RootState) => state.user.id)
 
-  useEffect(() => {
-    if (authTokenStr) {
-      const authToken = JSON.parse(authTokenStr);
-      const userId = authToken.user.id;
-      setUser(userId);
-      console.log('사용자 ID:', userId);
-    } else {
-      console.log('Auth 토큰을 찾을 수 없습니다.');
-      setUser(null);
-    }
-  }, [authTokenStr]);
-
-  // 현재 로그인된 유저 정보 가져오기
+  // 유저 닉네임 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
 
   const { data: userData } = useQuery({
@@ -62,9 +49,7 @@ export default function Home() {
       const nickname = userData.user_metadata.nickname;
       const name = userData.user_metadata.name;
       const provider = userData?.app_metadata?.provider;
-
       setCurrentUserNickname(provider === 'google' ? name : nickname);
-      console.log('현재 로그인된 유저 ==>', provider === 'google' ? name : nickname);
     }
   }, [userData]);
 
@@ -76,10 +61,11 @@ export default function Home() {
   });
 
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
-  const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
-  const { page, readUpto, title } = bookOnDashboard || {};
-  const percentage = (readUpto! / page!) * 100;
-  console.log(`${percentage | 0}%`);
+  const readingBook = books?.find(
+    (item) => currenUserId === item.uid && item.isReading === true
+  );
+  const percentage = (readingBook.readUpto! / readingBook.page!) * 100;
+
 
   if (isLoading) {
     return (
@@ -89,9 +75,6 @@ export default function Home() {
     );
   }
 
-  const readingBook = books?.find(
-    (item) => user === item.uid && item.isReading === true
-  );
 
   return (
     <>
@@ -105,7 +88,7 @@ export default function Home() {
             </StBookcover>
             <StBookProgressWrap>
               <StBookProgress>
-                <ProgressBar percentage={percentage} title={title} />
+                <ProgressBar percentage={percentage} title={readingBook?.title} />
               </StBookProgress>
             </StBookProgressWrap>
           </StReadingBox>
@@ -121,7 +104,7 @@ export default function Home() {
         <StMainSection2>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
-          ?.filter((item) => user === item.uid && item.isDone === true)
+          ?.filter((item) => currenUserId === item.uid && item.isDone === true)
           .map((item) => {
             if (item.isDone === true) {
               return (

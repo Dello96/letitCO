@@ -11,7 +11,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
 const MemoList = () => {
-  const currentUser = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.id);
+  
   const queryClient = useQueryClient();
   const { id: paramId } = useParams();
 
@@ -24,7 +25,7 @@ const MemoList = () => {
     queryFn: getMemos
   });
   const filteredMemos = memos
-    ?.filter((memo) => memo.uid === currentUser.id && paramId === memo.bookId)
+    ?.filter((memo) => memo.uid === user && paramId === memo.bookId)
     .sort((a, b) => b.timeStamp - a.timeStamp);
 
   useEffect(() => {
@@ -82,7 +83,6 @@ const MemoList = () => {
       }
       return memo;
     });
-
     setEditableMemos(updatedMemos);
     updateMemoMutate(
       { id, editingText },
@@ -96,7 +96,6 @@ const MemoList = () => {
       }
     );
     updateMemoMutate({ id, editingText });
-    console.log('updateMemo로 보낼 놈 ==> id:', id, '클릭된 메모 정보', editingText);
   };
 
   return (

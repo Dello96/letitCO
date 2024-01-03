@@ -66,7 +66,7 @@ export default function Home() {
         {readingBook ? (
           <StMainSection1 onClick={() => navigate(`/detail/${readingBook.id}`)}>
             <StNotice>
-              {currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 :불:
+              {currentUserNickname}님! 벌써 {readingBook?.readUpto} 페이지 읽으셨네요 🔥
             </StNotice>
             <StReadingBox>
               <StBookcover>
@@ -88,7 +88,7 @@ export default function Home() {
           </StAddBookWrap>
         )}
         <StMainSection2>
-          <StBookDoneTitle>:책: 완주 목록</StBookDoneTitle>
+          <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
             ?.filter((item) => currenUserId === item.uid && item.isDone === true)
             .map((item) => {
@@ -102,6 +102,9 @@ export default function Home() {
                       <div>
                         <StBookInfo>
                           <StBookTitle>:흰색_확인_표시: {item.title}</StBookTitle>
+
+                          <StBookTitle>✅ {item.title}</StBookTitle>
+
                           <StBookAuthor>{item.author}</StBookAuthor>
                         </StBookInfo>
                         <StReadingPeriod>

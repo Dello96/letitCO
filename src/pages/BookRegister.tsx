@@ -21,14 +21,13 @@ export default function BookRegister() {
   // 해당 isbn의 book 정보 가져오기
   const { data: detailData, isLoading: BookLoading } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
 
-  // supabase/ uid,isbn13에 맞는 Book data 가져오기
+  // supabase / uid,isbn13에 맞는 Book data 가져오기
   const newData = {
     uid: user?.id,
     isbn13: detailData?.isbn13
   };
 
   const { data: uidIsbn13BookData, isLoading } = useQuery([QUERY_KEYS.BOOKS, newData], () => getUidIsbnBook(newData));
-  console.log('uid와 isbn13에 맞는 데이터 정보다', uidIsbn13BookData);
 
   // upsert Mutation
   const { upsertBookMutation } = useBookQuery();
@@ -67,7 +66,7 @@ export default function BookRegister() {
       isMarked: uidIsbn13BookData?.length === 0 ? true : !uidIsbn13BookData![0].isMarked,
       isDone: uidIsbn13BookData?.length === 0 ? false : uidIsbn13BookData![0].isDone,
       isbn13: detailData?.isbn13,
-      category: detailData?.categoryName,
+      category: detailData?.categoryName
     };
     upsertBookMutation(newMarkerBook);
   };
@@ -90,8 +89,6 @@ export default function BookRegister() {
           <StTextWrapper>
             <StBtnBox>
               <h1>{detailData?.title}</h1>
-              {/* uidIsbn13BookData가 없다면 빈마크
-         있다면 그중 isReading의 여부가 true면 채워진 마크 false라면 빈 마크  */}
               {/* 북마크 */}
               <div>
                 {uidIsbn13BookData?.length === 0 ? (

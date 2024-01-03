@@ -55,6 +55,7 @@ In the project directory, you can run: yarn start
 ## 사용한 외부 API 및 도구
 
 - 알라딘 API(https://blog.aladin.co.kr/openapi/popup/6695306)
+- fullcalendar.api
 - Supabase
 - 디자인 및 협업 도구: Figma, Notion
 
@@ -66,7 +67,6 @@ yarn start
 
 ## 요구사항(상,중,하 각각 활용 가능한 것들 뽑아옴)
 
-- 좋아요 또는 북마크 기능에 리액트쿼리 Optimistic Update 적용
 - form 유효성검사에 react-hook-form 라이브러리 적용
 - Supabase 적용
 - react-query 로 서버 상태 관리하기

@@ -63,7 +63,7 @@ export default function Home() {
   const readingBook = books?.find(
     (item) => currenUserId === item.uid && item.isReading === true
   );
-  const percentage = (readingBook.readUpto / readingBook.page) * 100;
+  const percentage = (readingBook?.readUpto / readingBook?.page) * 100;
 
 
   if (isLoading) {

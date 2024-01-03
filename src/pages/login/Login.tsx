@@ -22,6 +22,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 export type Inputs = {
   userEmail: string;
@@ -33,6 +35,7 @@ export type Inputs = {
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -46,7 +49,6 @@ const Login: React.FC = () => {
 
   // 회원가입
   const signUpHandler: SubmitHandler<Inputs> = async (inputs) => {
-    console.log(inputs);
     try {
       const { data, error } = await supabase.auth.signUp({
         email: inputs.userEmail,
@@ -92,7 +94,6 @@ const Login: React.FC = () => {
         password: inputs.userPassword
       });
       console.log('userData', data);
-      console.log('만료', data.session?.expires_in);
       setValue('userEmail', '');
       setValue('userPassword', '');
 
@@ -111,7 +112,7 @@ const Login: React.FC = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/');
+        dispatch(setUser({ id: data.user.id }));
       }
     } catch (error) {
       console.error(error);
@@ -119,37 +120,37 @@ const Login: React.FC = () => {
   };
 
   // 구글 로그인
-  const signInGoogle = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
 
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
-      console.log('구글로그인 resp', data);
-      if (error) {
-        console.error(error);
-        alert('일치하지 않습니다');
-      } else {
-        Swal.fire({
-          position: 'center',
-          icon: 'success',
-          title: '로그인에 성공하였습니다!',
-          showConfirmButton: false,
-          timer: 1500
-        });
-        navigate('/');
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const signInGoogle = async () => {
+  //   try {
+  //     const { data, error } = await supabase.auth.signInWithOAuth({
+  //       provider: 'google',
+
+  //       options: {
+  //         queryParams: {
+  //           access_type: 'offline',
+  //           prompt: 'consent'
+  //         }
+  //       }
+  //     });
+  //     console.log('구글로그인 resp', data);
+  //     if (error) {
+  //       console.error(error);
+  //       alert('일치하지 않습니다');
+  //     } else {
+  //       navigate('/');
+  //     }
+  //     Swal.fire({
+  //       position: 'center',
+  //       icon: 'success',
+  //       title: '로그인에 성공하였습니다!',
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <StWrapper>
@@ -169,7 +170,6 @@ const Login: React.FC = () => {
       </StWelcomeSection>
 
       <StFormWrapper onSubmit={isLogin ? handleSubmit(signInHandler) : handleSubmit(signUpHandler)}>
-        {/* <StFormWrapper> */}
         <div>
           <StLogo />
         </div>
@@ -240,7 +240,6 @@ const Login: React.FC = () => {
         {isLogin ? (
           <>
             <StLoginButton type="submit">로그인</StLoginButton>
-            <StLoginButton onClick={signInGoogle}>google로 로그인</StLoginButton>
           </>
         ) : (
           <StSignUpButton type="submit">Register</StSignUpButton>

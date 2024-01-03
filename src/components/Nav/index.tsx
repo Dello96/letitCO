@@ -4,10 +4,13 @@ import { StLogo, StNavbar, StTabList, StTabListItem } from './style';
 import logoWhite from '../../assets/logo.white.png';
 import { supabase } from '../../supabaseClient';
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { clearUser } from '../../redux/userSlice';
 // import ReactModal from 'react-modal';
 // import { StCustomModal } from './style';
 function Nav() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const signOutHandler = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -29,6 +32,7 @@ function Nav() {
           navigate('/login');
         }
       }
+      dispatch(clearUser());
     } catch (error) {
       console.error(error);
     }
@@ -47,5 +51,4 @@ function Nav() {
     </>
   );
 }
-
 export default Nav;

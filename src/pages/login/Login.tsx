@@ -24,7 +24,6 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice';
-import { getCurrentUser } from '../../api/supabaseData';
 
 export type Inputs = {
   userEmail: string;
@@ -122,38 +121,38 @@ const Login: React.FC = () => {
 
   // 구글 로그인
 
-  const signInGoogle = async () => {
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
-      console.log('구글로그인 resp', data);
-      const user = await getCurrentUser();
-      localStorage.setItem('googleUser', JSON.stringify(user));
-      if (error) {
-        console.error(error);
-        alert('일치하지 않습니다');
-      } else {
-        // console.log()
-        // dispatch(setUser({ id: data.provider }));
-      }
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: '로그인에 성공하였습니다!',
-        showConfirmButton: false,
-        timer: 1500
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  // const signInGoogle = async () => {
+  //   try {
+  //     const { data, error } = await supabase.auth.signInWithOAuth({
+  //       provider: 'google',
+  //       options: {
+  //         queryParams: {
+  //           access_type: 'offline',
+  //           prompt: 'consent'
+  //         }
+  //       }
+  //     });
+  //     console.log('구글로그인 resp', data);
+  //     const user = await getCurrentUser();
+  //     localStorage.setItem('googleUser', JSON.stringify(user));
+  //     if (error) {
+  //       console.error(error);
+  //       alert('일치하지 않습니다');
+  //     } else {
+  //       // console.log()
+  //       // dispatch(setUser({ id: data.provider }));
+  //     }
+  //     Swal.fire({
+  //       position: 'center',
+  //       icon: 'success',
+  //       title: '로그인에 성공하였습니다!',
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <StWrapper>
@@ -243,9 +242,9 @@ const Login: React.FC = () => {
         {isLogin ? (
           <>
             <StLoginButton type="submit">로그인</StLoginButton>
-            <StLoginButton onClick={signInGoogle} type="button">
+            {/* <StLoginButton onClick={signInGoogle} type="button">
               구글
-            </StLoginButton>
+            </StLoginButton> */}
           </>
         ) : (
           <StSignUpButton type="submit">Register</StSignUpButton>

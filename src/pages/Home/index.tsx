@@ -52,7 +52,7 @@ export default function Home() {
     queryFn: getBooks
   });
   const readingBook = books?.find((item) => currenUserId === item.uid && item.isReading === true);
-  const percentage = readingBook ? (readingBook.readUpto! / readingBook.page!) * 100 : 0;
+  const percentage = (readingBook?.readUpto / readingBook?.page) * 100;
   if (isLoading) {
     return (
       <div>

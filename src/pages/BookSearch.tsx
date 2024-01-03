@@ -6,18 +6,13 @@ import { getSearchData } from '../api/aldData';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { getCurrentUser } from '../api/supabaseData';
 import Loading from '../components/Loading';
-// import { useDispatch } from 'react-redux';
 
 function BookSearch() {
-  // search값이 없으면 검색하지 않도록 하기
   const [param] = useSearchParams();
   const queryString = param.get('keyword');
   const [search, setSearch] = useState(queryString!);
   const [keyword, setKeyword] = useState('');
   const navi = useNavigate();
-  console.log(param.get('keyword'));
-  console.log('search', search);
-  console.log('keyword=>', keyword);
 
   const { data } = useQuery([QUERY_KEYS.AUTH], getCurrentUser);
   console.log('유저정보다', data);

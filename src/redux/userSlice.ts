@@ -7,7 +7,9 @@ export type User = {
 };
 
 const initialState: User = {
-  id: ''
+  id: localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token')
+    ? JSON.parse(localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token')!).user.id
+    : ''
   // id: localStorage.getItem('user.id') || null
 };
 

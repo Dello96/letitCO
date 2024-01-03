@@ -37,7 +37,7 @@ const getUidIsbnBook = async (bookData: Book) => {
 
 // 책 등록 & 업데이트
 const upsertBook = async (newBook: Book) => {
-  const { data, error } = await supabase
+  await supabase
     .from(QUERY_KEYS.BOOKS)
     .upsert(
       {
@@ -57,14 +57,17 @@ const upsertBook = async (newBook: Book) => {
       { onConflict: 'uid,isbn13' }
     )
     .select();
-  console.log('data', data);
-  console.log('error', error);
 };
 
 //책 대시보드정보 수정
-const dashUpdate = async ({ id, inOnDashboard }: Book) => {
-  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard: false });
-  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard }).eq('id', id);
+const dashUpdate = async (bookId: string) => {
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token'); //
+  const authToken = JSON.parse(authTokenStr!);
+  const userId = authToken.user.id;
+  console.log(bookId);
+  console.log(userId);
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard: false }).eq('uid', userId);
+  await supabase.from(QUERY_KEYS.BOOKS).update({ inOnDashboard: true }).eq('id', bookId);
 };
 
 //등록된 메모목록 가져오기

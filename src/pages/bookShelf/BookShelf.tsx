@@ -1,38 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-// import { useInView } from 'react-intersection-observer';
 import { HiBookmark } from 'react-icons/hi';
 import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
 import { getCurrentUser } from '../../api/supabaseData';
-import { getBooks } from '../../api/supabaseData';
+import { getBooks, dashUpdate } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../redux/store';
+
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
-  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+  const user = useSelector((state: RootState) => state.user.id);
 
-  const [user, setUser] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authTokenStr) {
-      const authToken = JSON.parse(authTokenStr);
-      const userId = authToken.user.id;
-      setUser(userId);
-      console.log('사용자 ID:', userId);
-    } else {
-      console.log('Auth 토큰을 찾을 수 없습니다.');
-      setUser(null);
-    }
-  }, [authTokenStr]);
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
@@ -56,15 +43,20 @@ function BookShelf() {
       return book.inOnDashboard;
     });
 
-  const dashBoardHandler = () => {
+  const dashBoardHandler = (id: string) => {
     Swal.fire({
-      title: '대시보드에 추가하시겠습니까?',
-
-      cancelButtonText: '취소',
-      showCancelButton: true
+      title: '대시보드에 등록하시겠습니까?',
+      text: '확인을 누르시면 대시보드에 등록됩니다(1건만 적용)',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '예'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        return dashUpdate(id);
+      }
     });
-
-    // dashUpdate(undefined);
   };
 
   const bookMarkHandler = () => {
@@ -77,15 +69,6 @@ function BookShelf() {
     });
   };
 
-  // const { ref, inView } = useInView({
-  //   threshold: 0.3
-  // });
-
-  // useEffect(() => {
-  //   if (inView && hasNextPage && !isFetchingNextPage) {
-  //     fetchNextPage();
-  //   }
-  // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   const navigate = useNavigate();
   const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
@@ -138,7 +121,11 @@ function BookShelf() {
                       <>
                         <WrapingBook>
                           <ButtonWrap>
-                            <DashBtn onClick={dashBoardHandler}>
+                            <DashBtn
+                              onClick={() => {
+                                dashBoardHandler(item.id);
+                              }}
+                            >
                               {item.inOnDashboard ? (
                                 <FaFire style={{ color: 'red' }} />
                               ) : (
@@ -306,55 +293,6 @@ const ReadingBook = styled.img`
   width: 80px;
   height: 120px;
   position: relative;
-
-  /* &:hover {
-    &::before,
-    &::after {
-      transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    &::before {
-      transform: translate(0, -70px) skew(3deg, -3deg) scale(1.35);
-    }
-
-    &::after {
-      transform: translate(0, -70px) skew(3deg, -3deg) scale(1.275);
-    }
-
-    &:nth-of-type(even) {
-      &::before {
-        transform: translate(0, -70px) skew(-3deg, 3deg) scale(1.35);
-      }
-
-      &::after {
-        transform: translate(0, -70px) skew(-3deg, 3deg) scale(1.275);
-      }
-    }
-  }
-
-  &::before,
-  &::after {
-    position: absolute;
-    width: 100%;
-    display: block;
-    content: ' ';
-    transition: all 300ms ease-out;
-    background: var(--bg-image) center center/cover no-repeat, #f3f3f3;
-  }
-
-  &::before {
-    height: 100%;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25), inset 2px 0px 2px 1px rgba(29, 27, 27, 0.2);
-  }
-
-  &::after {
-    height: 102%;
-    filter: blur(10px);
-    z-index: -1;
-    opacity: 1;
-  } */
 `;
-
-// const ReadingPlan = styled.
 
 export default BookShelf;

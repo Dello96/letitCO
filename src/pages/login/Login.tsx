@@ -22,6 +22,8 @@ import { IoCheckmarkSharp } from 'react-icons/io5';
 import Swal from 'sweetalert2';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { RiEmotionHappyLine } from 'react-icons/ri';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 
 export type Inputs = {
   userEmail: string;
@@ -33,6 +35,7 @@ export type Inputs = {
 const Login: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -46,7 +49,6 @@ const Login: React.FC = () => {
 
   // 회원가입
   const signUpHandler: SubmitHandler<Inputs> = async (inputs) => {
-    console.log(inputs);
     try {
       const { data, error } = await supabase.auth.signUp({
         email: inputs.userEmail,
@@ -74,8 +76,8 @@ const Login: React.FC = () => {
           position: 'center',
           icon: 'success',
           title: '회원가입에 성공하였습니다!',
-          showConfirmButton: false
-          // timer: 5000
+          showConfirmButton: false,
+          timer: 1500
         });
         navigate('/');
       }
@@ -83,13 +85,6 @@ const Login: React.FC = () => {
       console.error(error);
     }
   };
-
-  // const signOutHandler = async () => {
-  //   const { error } = await supabase.auth.signOut();
-  //   console.log(error);
-  //   alert('로그아웃');
-  //   // console.log()
-  // };
 
   // 이메일 로그인
   const signInHandler: SubmitHandler<Inputs> = async (inputs) => {
@@ -99,7 +94,6 @@ const Login: React.FC = () => {
         password: inputs.userPassword
       });
       console.log('userData', data);
-      console.log('만료', data.session?.expires_in);
       setValue('userEmail', '');
       setValue('userPassword', '');
 
@@ -118,15 +112,8 @@ const Login: React.FC = () => {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/');
-        // 로그인이 된 후에 실행이 되어야 함
-        // 비동기 처리??...
-        // setTimeout(() => {
-        //   signOutHandler();
-        //   console.log('5초 뒤에 찍히나?');
-        // }, 60000);
+        dispatch(setUser({ id: data.user.id }));
       }
-      // setInterval n초 간격으로 실행!!!
     } catch (error) {
       console.error(error);
     }
@@ -134,37 +121,36 @@ const Login: React.FC = () => {
 
   // 구글 로그인
 
-  const signInGoogle = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
+  // const signInGoogle = async () => {
+  //   try {
+  //     const { data, error } = await supabase.auth.signInWithOAuth({
+  //       provider: 'google',
 
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent'
-          }
-        }
-      });
-      console.log('구글로그인 resp', data)
-      if (error) {
-        console.error(error);
-        alert('일치하지 않습니다');
-      } else {
-        navigate('/');
-      }
-      Swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: '로그인에 성공하였습니다!',
-        showConfirmButton: false,
-        timer: 1500
-      });
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  //       options: {
+  //         queryParams: {
+  //           access_type: 'offline',
+  //           prompt: 'consent'
+  //         }
+  //       }
+  //     });
+  //     console.log('구글로그인 resp', data);
+  //     if (error) {
+  //       console.error(error);
+  //       alert('일치하지 않습니다');
+  //     } else {
+  //       navigate('/');
+  //     }
+  //     Swal.fire({
+  //       position: 'center',
+  //       icon: 'success',
+  //       title: '로그인에 성공하였습니다!',
+  //       showConfirmButton: false,
+  //       timer: 1500
+  //     });
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // };
 
   return (
     <StWrapper>
@@ -184,7 +170,6 @@ const Login: React.FC = () => {
       </StWelcomeSection>
 
       <StFormWrapper onSubmit={isLogin ? handleSubmit(signInHandler) : handleSubmit(signUpHandler)}>
-        {/* <StFormWrapper> */}
         <div>
           <StLogo />
         </div>
@@ -255,16 +240,6 @@ const Login: React.FC = () => {
         {isLogin ? (
           <>
             <StLoginButton type="submit">로그인</StLoginButton>
-            <StLoginButton onClick={signInGoogle}>google로 로그인</StLoginButton>
-            {/* <button onClick={signOutHandler}>로그아웃</button> */}
-            {/* <br />
-            <button
-              onClick={() => {
-                navigate('/homepage');
-              }}
-            >
-              Home
-            </button> */}
           </>
         ) : (
           <StSignUpButton type="submit">Register</StSignUpButton>

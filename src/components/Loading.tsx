@@ -11,16 +11,15 @@ function Loading() {
 }
 const StBackground = styled.div`
   position: absolute;
-  width: 100vw;
-  height: 100vh;
-  top: 0;
-  left: 0;
-  background: transparent;
+  width: 100%;
+  height: 100%;
+  background: none;
   z-index: 999;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  pointer-events: stroke;
 `;
 
 export default Loading;

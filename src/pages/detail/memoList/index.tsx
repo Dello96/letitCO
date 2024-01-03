@@ -11,21 +11,23 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../redux/store';
 
 const MemoList = () => {
-  const currentUser = useSelector((state: RootState) => state.user)
+  const user = useSelector((state: RootState) => state.user.id);
+  
   const queryClient = useQueryClient();
   const { id: paramId } = useParams();
 
   const [editingText, setEditingText] = useState<string>('');
   const [editableMemos, setEditableMemos] = useState<Memo[]>([]);
 
-
   // 메모목록 가져오기
   const { isLoading: memoIsLoading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.MEMOS],
     queryFn: getMemos
   });
-  const filteredMemos = memos?.filter((memo) => memo.uid === currentUser.id && paramId === memo.bookId).sort((a, b) => b.timeStamp - a.timeStamp)
-  
+  const filteredMemos = memos
+    ?.filter((memo) => memo.uid === user && paramId === memo.bookId)
+    .sort((a, b) => b.timeStamp - a.timeStamp);
+
   useEffect(() => {
     if (!filteredMemos) {
       return;
@@ -81,7 +83,6 @@ const MemoList = () => {
       }
       return memo;
     });
-
     setEditableMemos(updatedMemos);
     updateMemoMutate(
       { id, editingText },
@@ -95,14 +96,13 @@ const MemoList = () => {
       }
     );
     updateMemoMutate({ id, editingText });
-    console.log('updateMemo로 보낼 놈 ==> id:', id, '클릭된 메모 정보', editingText);
   };
 
   return (
     <St.Container>
       <ul>
         {memoIsLoading ? (
-          <St.PlaceHolder>메모 가져오는중</St.PlaceHolder>
+          <></>
         ) : (
           editableMemos?.map((memo) => {
             return (
@@ -112,24 +112,20 @@ const MemoList = () => {
                   <>
                     <St.TextArea defaultValue={memo.content} onChange={onEditingText} autoFocus />
                     <St.Buttons>
-                      <p className='leftBtn' onClick={() => onEditCancel(memo.id!)}>
+                      <p className="leftBtn" onClick={() => onEditCancel(memo.id!)}>
                         취소
                       </p>
-                      <p onClick={() => onEditDone(memo.id!)}>
-                        완료
-                      </p>
+                      <p onClick={() => onEditDone(memo.id!)}>완료</p>
                     </St.Buttons>
                   </>
                 ) : (
                   <>
                     <St.Content>{memo.content}</St.Content>
                     <St.Buttons>
-                      <p className='leftBtn' onClick={() => openEditField(memo.id!)}>
+                      <p className="leftBtn" onClick={() => openEditField(memo.id!)}>
                         수정
                       </p>
-                      <p onClick={() => deleteMemo(memo.id!)} >
-                        삭제
-                      </p>
+                      <p onClick={() => deleteMemo(memo.id!)}>삭제</p>
                     </St.Buttons>
                   </>
                 )}

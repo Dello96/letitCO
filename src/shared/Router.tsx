@@ -13,10 +13,6 @@ import { RootState } from '../redux/store';
 
 const Router = () => {
   const userID = useSelector((state: RootState) => state.user.id);
-  // user를 사용하진 않지만 상태변화로 렌더링 일으킴
-
-  // const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
-  // 전역상태로 관리 필요
   return (
     <BrowserRouter>
       <Routes>

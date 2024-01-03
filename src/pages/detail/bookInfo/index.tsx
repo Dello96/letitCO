@@ -19,7 +19,6 @@ const BookInfo = () => {
   useEffect(() => {
     if (!isLoading && books) {
       const bookExists = books.some((book) => book?.id === id);
-      console.log('있는 책인가요?', bookExists);
       if (!bookExists) {
         navigate('/booksearch');
       }
@@ -73,6 +72,9 @@ const BookInfo = () => {
       {
         onSuccess: () => {
           queryClient.invalidateQueries([QUERY_KEYS.BOOKS]);
+        },
+        onError: (error) => {
+          console.error('업데이트 중 오류 발생:', error);
         }
       }
     );

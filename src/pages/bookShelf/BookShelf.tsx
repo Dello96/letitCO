@@ -69,15 +69,6 @@ function BookShelf() {
     });
   };
 
-  // const { ref, inView } = useInView({
-  //   threshold: 0.3
-  // });
-
-  // useEffect(() => {
-  //   if (inView && hasNextPage && !isFetchingNextPage) {
-  //     fetchNextPage();
-  //   }
-  // }, [inView, hasNextPage, isFetchingNextPage, fetchNextPage]);
   const navigate = useNavigate();
   const moveDetailPage = (item: string) => {
     navigate(`/detail/${item}`);
@@ -302,55 +293,6 @@ const ReadingBook = styled.img`
   width: 80px;
   height: 120px;
   position: relative;
-
-  /* &:hover {
-    &::before,
-    &::after {
-      transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1), opacity 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    &::before {
-      transform: translate(0, -70px) skew(3deg, -3deg) scale(1.35);
-    }
-
-    &::after {
-      transform: translate(0, -70px) skew(3deg, -3deg) scale(1.275);
-    }
-
-    &:nth-of-type(even) {
-      &::before {
-        transform: translate(0, -70px) skew(-3deg, 3deg) scale(1.35);
-      }
-
-      &::after {
-        transform: translate(0, -70px) skew(-3deg, 3deg) scale(1.275);
-      }
-    }
-  }
-
-  &::before,
-  &::after {
-    position: absolute;
-    width: 100%;
-    display: block;
-    content: ' ';
-    transition: all 300ms ease-out;
-    background: var(--bg-image) center center/cover no-repeat, #f3f3f3;
-  }
-
-  &::before {
-    height: 100%;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.25), inset 2px 0px 2px 1px rgba(29, 27, 27, 0.2);
-  }
-
-  &::after {
-    height: 102%;
-    filter: blur(10px);
-    z-index: -1;
-    opacity: 1;
-  } */
 `;
-
-// const ReadingPlan = styled.
 
 export default BookShelf;

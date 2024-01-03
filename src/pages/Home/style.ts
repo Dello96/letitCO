@@ -46,7 +46,7 @@ export const StAddBookWrap = styled.div`
   width: 1200px;
   border: 1px solid lightgray;
   border-radius: 10px;
-  margin-top: 180px;
+  margin: 180px auto 0;
   cursor: pointer;
   display: flex;
   flex-direction: column;

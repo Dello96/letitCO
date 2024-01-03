@@ -8,9 +8,10 @@ import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
 import { getItemData } from '../../api/aldData';
 import { getCurrentUser } from '../../api/supabaseData';
-import { getBooks } from '../../api/supabaseData';
+import { getBooks, dashUpdate } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
+
 // import { useSelector } from 'react-redux';
 // import { RootState } from '../../redux/store';
 
@@ -56,15 +57,20 @@ function BookShelf() {
       return book.inOnDashboard;
     });
 
-  const dashBoardHandler = () => {
+  const dashBoardHandler = (id: string) => {
     Swal.fire({
-      title: '대시보드에 추가하시겠습니까?',
-
-      cancelButtonText: '취소',
-      showCancelButton: true
+      title: '대시보드에 등록하시겠습니까?',
+      text: '확인을 누르시면 대시보드에 등록됩니다(1건만 적용)',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '예'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        return dashUpdate(id);
+      }
     });
-
-    // dashUpdate(undefined);
   };
 
   const bookMarkHandler = () => {
@@ -138,7 +144,11 @@ function BookShelf() {
                       <>
                         <WrapingBook>
                           <ButtonWrap>
-                            <DashBtn onClick={dashBoardHandler}>
+                            <DashBtn
+                              onClick={() => {
+                                dashBoardHandler(item.id);
+                              }}
+                            >
                               {item.inOnDashboard ? (
                                 <FaFire style={{ color: 'red' }} />
                               ) : (

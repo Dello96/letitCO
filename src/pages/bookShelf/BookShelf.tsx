@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-// import { useInView } from 'react-intersection-observer';
 import { HiBookmark } from 'react-icons/hi';
 import { FaFire } from 'react-icons/fa';
 import { QUERY_KEYS } from '../../query/keys';
@@ -12,28 +11,15 @@ import { getBooks, dashUpdate } from '../../api/supabaseData';
 import './style.css';
 import Swal from 'sweetalert2';
 
-// import { useSelector } from 'react-redux';
-// import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 function BookShelf() {
   const { id } = useParams();
   const { data } = useQuery([QUERY_KEYS.DETAIL, id], () => getItemData(id!));
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
-  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+  const user = useSelector((state: RootState) => state.user.id);
 
-  const [user, setUser] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (authTokenStr) {
-      const authToken = JSON.parse(authTokenStr);
-      const userId = authToken.user.id;
-      setUser(userId);
-      console.log('사용자 ID:', userId);
-    } else {
-      console.log('Auth 토큰을 찾을 수 없습니다.');
-      setUser(null);
-    }
-  }, [authTokenStr]);
   const { isLoading: memoIsReading, data: memos } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks

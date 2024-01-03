@@ -5,6 +5,7 @@ import { QUERY_KEYS } from '../../../query/keys';
 import { getBooks, updateIsReading, updateReadPages, updateReadingPeriod } from '../../../api/supabaseData';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Book } from '../../../types/global.d';
+import Loading from '../../../components/Loading';
 
 const BookInfo = () => {
   const navigate = useNavigate();
@@ -105,7 +106,7 @@ const BookInfo = () => {
   return (
     <St.BookInfoSection>
       {isLoading ? (
-        <p>데이터 오는중</p>
+        <Loading />
       ) : (
         <St.Wrapper key={book?.id}>
           <St.BookCover>

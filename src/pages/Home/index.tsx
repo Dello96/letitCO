@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StMain,
   StMainSection1,
@@ -23,60 +23,59 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../redux/store';
+
 import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
-import { supabase } from '../../supabaseClient';
+
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
-
 export default function Home() {
   const navigate = useNavigate();
 
+  const authTokenStr = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+
+  const [user, setUser] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (authTokenStr) {
+      const authToken = JSON.parse(authTokenStr);
+      const userId = authToken.user.id;
+      setUser(userId);
+      console.log('사용자 ID:', userId);
+    } else {
+      console.log('Auth 토큰을 찾을 수 없습니다.');
+      setUser(null);
+    }
+  }, [authTokenStr]);
+
   // 현재 로그인된 유저 정보 가져오기
   const [currentUserNickname, setCurrentUserNickname] = React.useState<string>('');
-
   const { data: userData } = useQuery({
     queryKey: [QUERY_KEYS.AUTH],
     queryFn: getCurrentUser
   });
-
   // 유저 닉네임 (구글 로그인 or 이메일 로그인 따라 변경)
   useEffect(() => {
     if (userData) {
       const nickname = userData.user_metadata.nickname;
       const name = userData.user_metadata.name;
       const provider = userData?.app_metadata?.provider;
-
       setCurrentUserNickname(provider === 'google' ? name : nickname);
       console.log('현재 로그인된 유저 ==>', provider === 'google' ? name : nickname);
     }
   }, [userData]);
-
-  const existUser = async () => {
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
-    console.log('현재 세션에 로그인된 유저', user);
-  };
-  existUser();
-
-  const currentUser = useSelector((state: RootState) => state.user);
 
   // 책 정보 가져오기
   const { isLoading, data: books } = useQuery({
     queryKey: [QUERY_KEYS.BOOKS],
     queryFn: getBooks
   });
-
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
   const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
   const { page, readUpto, title } = bookOnDashboard || {};
   const percentage = (readUpto! / page!) * 100;
   console.log(`${percentage | 0}%`);
-
   if (isLoading) {
     return (
       <div>
@@ -85,9 +84,7 @@ export default function Home() {
     );
   }
 
-  const readingBook = books?.find(
-    (item) => currentUser.id === item.uid && item.inOnDashboard === true && item.isReading === true
-  );
+  const readingBook = books?.find((item) => user === item.uid && item.isReading === true);
 
   return (
     <>
@@ -121,7 +118,7 @@ export default function Home() {
         <StMainSection3>
           <StBookDoneTitle>📚 완주 목록</StBookDoneTitle>
           {books
-            ?.filter((item) => currentUser.id === item.uid && item.isDone === true)
+            ?.filter((item) => user === item.uid && item.isDone === true)
             .map((item) => {
               if (item.isDone === true) {
                 return (

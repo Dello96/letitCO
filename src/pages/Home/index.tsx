@@ -102,7 +102,6 @@ export default function Home() {
                       <div>
                         <StBookInfo>
                           <StBookTitle>✅ {item.title}</StBookTitle>
-
                           <StBookAuthor>{item.author}</StBookAuthor>
                         </StBookInfo>
                         <StReadingPeriod>

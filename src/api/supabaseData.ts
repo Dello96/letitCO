@@ -37,7 +37,7 @@ const getUidIsbnBook = async (bookData: Book) => {
 
 // 책 등록 & 업데이트
 const upsertBook = async (newBook: Book) => {
-  const { data, error } = await supabase
+  await supabase
     .from(QUERY_KEYS.BOOKS)
     .upsert(
       {
@@ -57,8 +57,6 @@ const upsertBook = async (newBook: Book) => {
       { onConflict: 'uid,isbn13' }
     )
     .select();
-  console.log('data', data);
-  console.log('error', error);
 };
 
 //책 대시보드정보 수정

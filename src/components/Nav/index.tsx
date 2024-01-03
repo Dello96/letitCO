@@ -14,7 +14,6 @@ function Nav() {
   const signOutHandler = async () => {
     try {
       const { error } = await supabase.auth.signOut();
-      console.log(error);
       if (!error) {
         const result = await Swal.fire({
           title: '정말 로그아웃 하시겠습니까?',

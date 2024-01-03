@@ -29,6 +29,7 @@ function Nav() {
             title: '로그아웃 완료!',
             icon: 'success'
           });
+          navigate('/login');
         }
       }
       dispatch(clearUser());

@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-// import { supabase } from '../supabaseClient';
 
 export type User = {
-  // id: string | undefined;
   id: string | undefined;
 };
 
@@ -25,14 +23,9 @@ export const userSlice = createSlice({
       state.id = '';
     }
 
-    // loginUser: (state, action: PayloadAction<User>) => {
-    //   const { id } = action.payload;
-    //   console.log('이거!!', id);
-    //   if (!id) {
-    //     throw new Error('no id');
-    //   }
-    //   localStorage.setItem('user.id', id);
-    //   state.id = id;
+    // loginUser: (state) => {
+    //   const storedId = localStorage.getItem('sb-bsnozctogedtgqvbhqby-auth-token');
+    //   state.id = storedId || '';
     // }
   }
 });

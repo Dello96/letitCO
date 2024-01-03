@@ -83,13 +83,14 @@ const StBody = styled.div`
 const StInputWraper = styled.div`
   display: flex;
   align-items: center;
-  margin: 20px;
+  margin: 50px;
   width: 550px;
 
   & input {
     width: 500px;
     height: 50px;
     font-size: 18px;
+    border-radius: 10px 0px 0px 10px;
   }
   & button {
     height: 50px;
@@ -97,7 +98,7 @@ const StInputWraper = styled.div`
     font-weight: bold;
     background-color: #0e411d;
     color: white;
-    border-radius: 0 8px 8px 0;
+    border-radius: 0 10px 10px 0;
     border: 2px solid #0e411d;
     cursor: pointer;
     &:active {

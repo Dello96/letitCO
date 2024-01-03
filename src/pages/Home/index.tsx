@@ -22,7 +22,6 @@ import {
 import { useQuery } from 'react-query';
 import { QUERY_KEYS } from '../../query/keys';
 import { getBooks, getCurrentUser } from '../../api/supabaseData';
-import { Book } from '../../types/global.d';
 import ProgressBar from './ProgressBar';
 import Loading from '../../components/Loading';
 import { FaSearchPlus } from "react-icons/fa";
@@ -33,7 +32,7 @@ import { RootState } from '../../redux/store';
 
 export default function Home() {
   const navigate = useNavigate();
- 
+
   const currenUserId = useSelector((state: RootState) => state.user.id)
 
   // 유저 닉네임 가져오기
@@ -62,10 +61,11 @@ export default function Home() {
   });
 
   //대시보드 북 find 반환 조건에 uid 일치여부 추가해야함
-  const bookOnDashboard: Book = books?.find((b) => !!b.inOnDashboard);
-  const { page, readUpto, title } = bookOnDashboard || {};
-  const percentage = (readUpto! / page!) * 100;
-  console.log(`${percentage | 0}%`);
+  const readingBook = books?.find(
+    (item) => currenUserId === item.uid && item.isReading === true
+  );
+  const percentage = (readingBook.readUpto! / readingBook.page!) * 100;
+
 
   if (isLoading) {
     return (
@@ -75,9 +75,6 @@ export default function Home() {
     );
   }
 
-  const readingBook = books?.find(
-    (item) => currenUserId === item.uid && item.isReading === true
-  );
 
   return (
     <>
@@ -91,7 +88,7 @@ export default function Home() {
             </StBookcover>
             <StBookProgressWrap>
               <StBookProgress>
-                <ProgressBar percentage={percentage} title={title} />
+                <ProgressBar percentage={percentage} title={readingBook?.title} />
               </StBookProgress>
             </StBookProgressWrap>
           </StReadingBox>

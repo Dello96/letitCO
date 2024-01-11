@@ -41,8 +41,10 @@ const Login: React.FC = () => {
     handleSubmit,
     setValue,
     getValues,
+    watch,
     formState: { errors }
   } = useForm<Inputs>({ mode: 'onChange' });
+  console.log('watch', watch());
 
   const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
   const passwordRegex = /(?=.*\d)(?=.*[a-zA-ZS]).{8,}/;
